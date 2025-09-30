@@ -34,11 +34,11 @@
         <image src="../../static/gift.png" mode="widthFix" class="gift-image"></image>
       </view>
       <view class="opt-list" v-if="moreOpen">
-        <view class="opt-item">
+        <view class="opt-item" @click="sendMsgImage">
           <image src="../../static/card-pic.png" mode="heightFix"></image>
           <view>图片</view>
         </view>
-        <view class="opt-item">
+        <view class="opt-item" @click="sendMsgVideo">
           <image src="../../static/card-photo.png" mode="heightFix"></image>
           <view>拍摄</view>
         </view>
@@ -82,6 +82,25 @@
           title: this.inputValue,
         });
         this.inputValue = ''
+      },
+      sendMsgImage () {
+        uni.chooseImage({
+          count: 1,
+          sourceType: ['album'],
+          sizeType: ['original', 'compressed'],
+          success: (res) => {
+            console.log(res)
+          }
+        })
+      },
+      sendMsgVideo () {
+        uni.chooseVideo({
+          sourceType: ['camera'],
+          maxDuration: 60,
+          success: (res) => {
+            console.log(res)
+          }
+        })
       }
 		}
 	}
@@ -149,7 +168,7 @@
       justify-content: flex-end;
     }
   }
-  
+
   .chat-bottom{
     position: absolute;
     bottom: 0;
