@@ -5,14 +5,11 @@
     </view>
     <view class="info-name">
       <view class="name-level">
-        <view>易烊千玺</view>
+        <view style="margin-right: 10rpx;">易烊千玺</view>
         <image src="../../static/avatar-level.png" style="width: 60rpx;height: 30rpx;" mode="widthFix"></image>
       </view>
       <view class="name-desc">中国内地演员，歌手</view>
     </view>
-    <!-- <view class="page-top-left"></view>
-    <view class="page-top-right"></view>
-    <view class="status_bar"></view> -->
   </view>
 </template>
 <script>
@@ -35,11 +32,12 @@ export default {
 </script>
 <style lang="scss">
 .star-info{
+  width: 338rpx;
+  box-sizing: border-box;
   background: #47474740;
   backdrop-filter: blur(40rpx);
   border-radius: 100rpx;
   padding: 12rpx;
-  width: fit-content;
   display: flex;
   align-items: center;
   .info-avatar{

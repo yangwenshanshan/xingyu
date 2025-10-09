@@ -9,28 +9,23 @@
 				<image src="../../static/home-search.png" alt="" />
 			</view>
 			<scroll-view class="people-list" scroll-y>
-				<view class="people-item" v-for="item in 5">
-					<view class="item-content"></view>
+				<view class="people-item" v-for="item in 5" @click="goChat">
+					<view class="item-content">
+						<StarInfo></StarInfo>
+					</view>
 				</view>
 			</scroll-view>
 		</BasePage>
 	</view>
 </template>
 
-<script>
-	export default {
-		data() {
-			return {
-				title: 'Hello'
-			}
-		},
-		onLoad() {
-
-		},
-		methods: {
-
-		}
-	}
+<script setup>
+function goChat () {
+	console.log(111)
+	uni.navigateTo({
+		url: '/pages/chat/chat'
+	})
+}
 </script>
 
 <style lang="scss">
@@ -74,8 +69,10 @@
 				background: #FFD0D0;
 				width: 708rpx;
 				height: 710rpx;
-				border-radius: 72px;
+				border-radius: 72rpx;
 				margin: 0 auto;
+				padding: 20rpx;
+				box-sizing: border-box;
 			}
 		}
 	}

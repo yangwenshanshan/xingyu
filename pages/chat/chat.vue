@@ -2,7 +2,7 @@
 	<view class="chat">
     <view class="status_bar"></view>
     <view class="chat-star">
-      <view class="star-back">
+      <view class="star-back" @click="goBack">
         <image style="width: 14rpx;height: 14rpx;" src="../../static/bar-back.png"></image>
       </view>
       <StarInfo></StarInfo>
@@ -16,19 +16,25 @@
     </scroll-view>
     <view class="chat-bottom" :style="moreOpen ? 'bottom: 0' : 'bottom: -155rpx'">
       <view class="bottom-tip" :style="moreOpen ? 'margin-top: 74rpx' : 'margin-top: 148rpx'">
-        <image class="tip-image" src="../../static/card-small-1.png" mode="heightFix"></image>
-        <image class="tip-image" src="../../static/card-small-2.png" mode="heightFix"></image>
-        <image class="tip-image" src="../../static/card-small-3.png" mode="heightFix" @click="giftVisible = true"></image>
+        <template v-if="!longPressing">
+          <image class="tip-image" src="../../static/card-small-1.png" mode="heightFix"></image>
+          <image class="tip-image" src="../../static/card-small-2.png" mode="heightFix"></image>
+          <image class="tip-image" src="../../static/card-small-3.png" mode="heightFix" @click="giftVisible = true"></image>
+        </template>
       </view>
       <view class="bottom-input">
-        <image @click="inputVisible = false" v-if="inputVisible" class="input-image" src="../../static/chat-audio.png"></image>
-        <image @click="inputVisible = true" v-else class="input-image" src="../../static/chat-input.png"></image>
+        <template v-if="!longPressing">
+          <image @click="inputVisible = false" v-if="inputVisible" class="input-image" src="../../static/chat-audio.png"></image>
+          <image @click="inputVisible = true" v-else class="input-image" src="../../static/chat-input.png"></image>
+        </template>
         <view class="input-main">
           <input v-model="inputValue" @confirm="sendMessage" :cursor-spacing="20" v-if="inputVisible" confirm-type="send" placeholder="发消息..." placeholder-style="color: #ffffff"></input>
-          <view v-else>按住说话</view>
+          <view @touchstart="handleTouchStart" @touchend="handleTouchEnd" class="main-speak" v-else>按住说话</view>
         </view>
-        <image v-if="!moreOpen" class="input-image" src="../../static/chat-more.png" @click="moreOpen = true"></image>
-        <image v-else class="input-image" src="../../static/chat-more-open.png" @click="moreOpen = false"></image>
+        <template v-if="!longPressing">
+          <image v-if="!moreOpen" class="input-image" src="../../static/chat-more.png" @click="moreOpen = true"></image>
+          <image v-else class="input-image" src="../../static/chat-more-open.png" @click="moreOpen = false"></image>
+        </template>
       </view>
       <view class="opt-gift" v-if="giftVisible" @click="giftVisible = false">
         <image src="../../static/gift.png" mode="widthFix" class="gift-image"></image>
@@ -55,36 +61,45 @@
 	</view>
 </template>
 
-<script>
-	export default {
-		data() {
-			return {
-        inputValue: '',
-        giftVisible: false,
-        inputVisible: true,
-        moreOpen: false
-			}
-		},
-		onLoad() {
-		},
-    onUnload () {
-    },
-		methods: {
-      goVideo () {
-        uni.showToast({
-          icon: 'none',
-          title: '敬请期待',
-        });
-      },
-      sendMessage () {
-        uni.showToast({
-          icon: 'none',
-          title: this.inputValue,
-        });
-        this.inputValue = ''
-      }
-		}
-	}
+<script setup>
+import { onLoad } from '@dcloudio/uni-app'
+import { ref } from 'vue'
+
+const inputValue = ref('')
+const giftVisible = ref(false)
+const inputVisible = ref(true)
+const moreOpen = ref(false)
+const longPressing = ref(false)
+
+function goVideo () {
+  uni.showToast({
+    icon: 'none',
+    title: '敬请期待',
+  });
+}
+function sendMessage () {
+  uni.showToast({
+    icon: 'none',
+    title: inputValue.value,
+  });
+  inputValue.value = ''
+}
+
+function goBack () {
+	uni.navigateBack()
+}
+function handleTouchStart() {
+  onLongPress();
+}
+function handleTouchEnd() {
+  longPressing.value = false
+}
+function onLongPress() {
+  longPressing.value = true
+}
+onLoad(() => {
+  console.log(111)
+})
 </script>
 
 <style lang="scss">
@@ -194,7 +209,19 @@
         font-size: 26rpx;
         text-align: center;
         color: #ffffff;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .main-speak{
+          width: 100%;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
         input{
+          width: 100%;
           color: #ffffff;
           font-size: 26rpx;
           text-align: left;
@@ -203,6 +230,7 @@
     }
     .bottom-tip{
       padding-left: 20rpx;
+      height: 60rpx;
       .tip-image{
         height: 50rpx;
         margin-right: 25rpx;
