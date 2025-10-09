@@ -40,11 +40,11 @@
         <image src="../../static/gift.png" mode="widthFix" class="gift-image"></image>
       </view>
       <view class="opt-list" v-if="moreOpen">
-        <view class="opt-item">
+        <view class="opt-item" @click="sendMsgImage">
           <image src="../../static/card-pic.png" mode="heightFix"></image>
           <view>图片</view>
         </view>
-        <view class="opt-item">
+        <view class="opt-item" @click="sendMsgVideo">
           <image src="../../static/card-photo.png" mode="heightFix"></image>
           <view>拍摄</view>
         </view>
@@ -164,7 +164,7 @@ onLoad(() => {
       justify-content: flex-end;
     }
   }
-  
+
   .chat-bottom{
     position: absolute;
     bottom: 0;
