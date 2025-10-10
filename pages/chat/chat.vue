@@ -3,22 +3,25 @@
     <view class="status_bar"></view>
     <view class="chat-star">
       <view class="star-back" @click="goBack">
-        <image style="width: 14rpx;height: 14rpx;" src="../../static/bar-back.png"></image>
+        <image style="width: 14rpx;" mode="widthFix" src="../../static/bar-back.png"></image>
       </view>
-      <!-- <StarInfo></StarInfo> -->
+      <StarInfo></StarInfo>
     </view>
     <scroll-view class="info-list" scroll-y :style="moreOpen ? 'height: calc(100vh - 550rpx - 135rpx - var(--status-bar-height))' : 'height: calc(100vh - 395rpx - 135rpx - var(--status-bar-height))'">
-      <!-- <view class="list-item" v-for="item in 20" :class="item % 2 === 0 ? 'self-parent' : 'star-parent'">
+      <view class="list-item" v-for="item in 20" :class="item % 2 === 0 ? 'self-parent' : 'star-parent'">
         <view class="item-content" :class="item % 2 === 0 ? 'self' : 'star'">
           asdas大苏时d{{ item }}
         </view>
-      </view> -->
+      </view>
     </scroll-view>
     <view class="chat-bottom" :style="moreOpen ? 'bottom: 0' : 'bottom: -155rpx'">
       <view class="bottom-tip" :style="moreOpen ? 'margin-top: 74rpx' : 'margin-top: 148rpx'">
         <template v-if="!longPressing">
-          <image class="tip-image" src="../../static/card-small-1.png" mode="heightFix"></image>
-          <image class="tip-image" src="../../static/card-small-2.png" mode="heightFix"></image>
+          <image class="tip-image" src="../../static/card-small-1.png" mode="heightFix" @click="goCard"></image>
+          <view class="image-parent">
+            <image class="tip-image" src="../../static/card-small-2.png" mode="heightFix"></image>
+            <image class="tip-image-tip" src="../../static/expectations.png" mode="heightFix"></image>
+          </view>
           <image class="tip-image" src="../../static/card-small-3.png" mode="heightFix" @click="giftVisible = true"></image>
         </template>
       </view>
@@ -28,7 +31,7 @@
         <image @click="inputVisibleClick(true)" v-else class="input-image" src="../../static/chat-input.png"></image>
         <view class="input-main">
           <input v-model="inputValue" @confirm="sendMessage" :cursor-spacing="20" v-if="inputVisible" confirm-type="send" placeholder="发消息..." placeholder-style="color: #ffffff"></input>
-          <view data-id="abcd" class="main-speak" v-else>按住说话</view>
+          <view class="main-speak" v-else>按住说话</view>
         </view>
         <image v-if="!moreOpen" class="input-image" src="../../static/chat-more.png" @click="moreOpenClick(true)"></image>
         <image v-else class="input-image" src="../../static/chat-more-open.png" @click="moreOpenClick(false)"></image>
@@ -81,7 +84,30 @@ function sendMessage () {
   });
   inputValue.value = ''
 }
-
+function goCard () {
+  uni.navigateTo({
+		url: '/pages/card/card'
+	})
+}
+function sendMsgImage () {
+  uni.chooseImage({
+    count: 1,
+    sourceType: ['album'],
+    sizeType: ['original', 'compressed'],
+    success: (res) => {
+      console.log(res)
+    }
+  })
+}
+function sendMsgVideo () {
+  uni.chooseVideo({
+    sourceType: ['camera'],
+    maxDuration: 60,
+    success: (res) => {
+      console.log(res)
+    }
+  })
+}
 function goBack () {
 	uni.navigateBack()
 }
@@ -119,7 +145,7 @@ onLoad(() => {
 .chat{
   width: 100vw;
   height: 100vh;
-  // background-image: url('../../static/chat-bg.png');
+  background-image: url('../../static/chat-bg.png');
   background-size: 100% auto;
   position: relative;
   overflow: hidden;
@@ -248,9 +274,19 @@ onLoad(() => {
     .bottom-tip{
       padding-left: 20rpx;
       height: 60rpx;
+      display: flex;
       .tip-image{
         height: 50rpx;
         margin-right: 25rpx;
+      }
+      .image-parent{
+        position: relative;
+        .tip-image-tip{
+          height: 58rpx;
+          position: absolute;
+          top: -60rpx;
+          left: 52rpx;
+        }
       }
     }
     .opt-list{
