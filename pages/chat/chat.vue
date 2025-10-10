@@ -5,14 +5,14 @@
       <view class="star-back" @click="goBack">
         <image style="width: 14rpx;height: 14rpx;" src="../../static/bar-back.png"></image>
       </view>
-      <StarInfo></StarInfo>
+      <!-- <StarInfo></StarInfo> -->
     </view>
     <scroll-view class="info-list" scroll-y :style="moreOpen ? 'height: calc(100vh - 550rpx - 135rpx - var(--status-bar-height))' : 'height: calc(100vh - 395rpx - 135rpx - var(--status-bar-height))'">
-      <view class="list-item" v-for="item in 20" :class="item % 2 === 0 ? 'self-parent' : 'star-parent'">
+      <!-- <view class="list-item" v-for="item in 20" :class="item % 2 === 0 ? 'self-parent' : 'star-parent'">
         <view class="item-content" :class="item % 2 === 0 ? 'self' : 'star'">
           asdas大苏时d{{ item }}
         </view>
-      </view>
+      </view> -->
     </scroll-view>
     <view class="chat-bottom" :style="moreOpen ? 'bottom: 0' : 'bottom: -155rpx'">
       <view class="bottom-tip" :style="moreOpen ? 'margin-top: 74rpx' : 'margin-top: 148rpx'">
@@ -22,24 +22,21 @@
           <image class="tip-image" src="../../static/card-small-3.png" mode="heightFix" @click="giftVisible = true"></image>
         </template>
       </view>
-      <view class="bottom-input">
-        <template v-if="!longPressing">
-          <image @click="inputVisible = false" v-if="inputVisible" class="input-image" src="../../static/chat-audio.png"></image>
-          <image @click="inputVisible = true" v-else class="input-image" src="../../static/chat-input.png"></image>
-        </template>
+      <!-- :class="longPressing ? 'longPressing' : 'input-main'"  -->
+      <view class="bottom-input" data-id="nhf" @touchstart="handleTouchStart" @touchend="handleTouchEnd">
+        <image @click="inputVisibleClick(false)" v-if="inputVisible" class="input-image" src="../../static/chat-audio.png"></image>
+        <image @click="inputVisibleClick(true)" v-else class="input-image" src="../../static/chat-input.png"></image>
         <view class="input-main">
           <input v-model="inputValue" @confirm="sendMessage" :cursor-spacing="20" v-if="inputVisible" confirm-type="send" placeholder="发消息..." placeholder-style="color: #ffffff"></input>
-          <view @touchstart="handleTouchStart" @touchend="handleTouchEnd" class="main-speak" v-else>按住说话</view>
+          <view data-id="abcd" class="main-speak" v-else>按住说话</view>
         </view>
-        <template v-if="!longPressing">
-          <image v-if="!moreOpen" class="input-image" src="../../static/chat-more.png" @click="moreOpen = true"></image>
-          <image v-else class="input-image" src="../../static/chat-more-open.png" @click="moreOpen = false"></image>
-        </template>
+        <image v-if="!moreOpen" class="input-image" src="../../static/chat-more.png" @click="moreOpenClick(true)"></image>
+        <image v-else class="input-image" src="../../static/chat-more-open.png" @click="moreOpenClick(false)"></image>
       </view>
       <view class="opt-gift" v-if="giftVisible" @click="giftVisible = false">
         <image src="../../static/gift.png" mode="widthFix" class="gift-image"></image>
       </view>
-      <view class="opt-list" v-if="moreOpen">
+      <view class="opt-list" v-if="moreOpen && inputVisible">
         <view class="opt-item" @click="sendMsgImage">
           <image src="../../static/card-pic.png" mode="heightFix"></image>
           <view>图片</view>
@@ -88,7 +85,23 @@ function sendMessage () {
 function goBack () {
 	uni.navigateBack()
 }
-function handleTouchStart() {
+function inputVisibleClick (flag) {
+  inputVisible.value = flag
+  if (flag === false) {
+    moreOpen.value = false
+  }
+}
+function moreOpenClick (flag) {
+  moreOpen.value = flag
+  if (flag === true) {
+    inputVisible.value = true
+  }
+}
+function handleTouchStart(e) {
+  console.log(e)
+  if (inputVisible.value === false) {
+    return
+  }
   onLongPress();
 }
 function handleTouchEnd() {
@@ -106,7 +119,7 @@ onLoad(() => {
 .chat{
   width: 100vw;
   height: 100vh;
-  background-image: url('../../static/chat-bg.png');
+  // background-image: url('../../static/chat-bg.png');
   background-size: 100% auto;
   position: relative;
   overflow: hidden;
@@ -219,6 +232,10 @@ onLoad(() => {
           display: flex;
           align-items: center;
           justify-content: center;
+        }
+        .longPressing{
+          background: url('../../static/speaking-bg.png') center center no-repeat;
+          background-size: 100% auto;
         }
         input{
           width: 100%;
