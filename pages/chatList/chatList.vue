@@ -6,12 +6,20 @@
 				<p>Starrice</p>
 			</view>
 			<view class="home-search">
-				<image style="width: 696rpx;margin-top: 109rpx;" src="../../static/chat-list-title.png" mode="widthFix" />
+				<image src="../../static/chat-list-title.png" mode="widthFix" />
 			</view>
 			<scroll-view class="people-list" scroll-y>
 				<view class="people-item" v-for="item in 10">
 					<view class="item-content" @click="goChat">
-						<image style="height: 92rpx;" mode="heightFix" src="../../static/chat-list-1.png"></image>
+						<view class="item-avatar">
+							<image mode="widthFix" src="../../static/default-icon.png"></image>
+							<view class="avatar-count" :class="item * 20 < 99 ? 'round' : 'auto-round'">{{ item * 20 }}</view>
+						</view>
+						<view class="item-info">
+							<view class="info-name">易烊千玺</view>
+							<view class="info-text">刚刚结束拍摄刚刚结束拍摄刚刚结束拍摄刚刚结束拍摄刚刚结束拍摄刚刚结束拍摄刚刚结束拍摄刚刚结束拍摄刚刚结束拍摄</view>
+						</view>
+						<view class="item-time">10:19</view>
 					</view>
 				</view>
 			</scroll-view>
@@ -61,16 +69,79 @@ function goBack () {
 			position: absolute;
 			width: 29rpx;
 			height: 29rpx;
-			left: 62rpx;
+			left: 34rpx;
 			top: 0;
 			bottom: 0;
 			margin: auto 0;
 		}
 	}
+	.home-search{
+		width: 696rpx;
+		height: 114rpx;
+		margin: 109rpx auto 0 auto;
+		image{
+			width: 100%;
+		}
+	}
 	.people-list{
-		height: calc(100% - 325rpx - 22rpx);
+		height: calc(100% - 300rpx - 22rpx);
 		.item-content{
-			padding: 22rpx 30rpx ;
+			padding: 22rpx 30rpx;
+			height: 152rpx;
+			box-sizing: border-box;
+			display: flex;
+			align-items: center;
+			.item-avatar{
+				margin-right: 24rpx;
+				display: flex;
+				align-items: center;
+				position: relative;
+				image{
+					width: 92rpx;
+				}
+				.avatar-count{
+					position: absolute;
+					top: -16rpx;
+					right: -9rpx;
+					background-color: #FF0000;
+					height: 34rpx;
+					font-size: 21rpx;
+					color: #fff;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					border-radius: 34rpx;
+				}
+				.round{
+					width: 34rpx;
+				}
+				.auto-round{
+					width: fit-content;
+					padding: 0 5rpx;
+				}
+			}
+			.item-info{
+				flex: 1;
+				.info-name{
+					font-size: 32rpx;
+					font-weight: bold;
+					color: #141414;
+				}
+				.info-text{
+					width: 500rpx;
+					color: #A1A1A1;
+					font-size: 26rpx;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+				}
+			}
+			.item-time{
+				margin-top: 8rpx;
+				color: #ADADAD;
+				font-size: 22rpx;
+				height: 100%;
+			}
 		}
 	}
 }

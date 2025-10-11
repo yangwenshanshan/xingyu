@@ -27,16 +27,19 @@ const props = defineProps({
 })
 const activeIndex = ref(props.actived)
 function goPage (index) {
+  if (index === activeIndex.value) {
+    return
+  }
   if (index === 3 || index === 4) {
     return
   }
   if (index === 1) {
-    uni.navigateTo({
-      url: '/'
+    uni.redirectTo({
+      url: '/pages/index/index'
     })
   }
   if (index === 2) {
-    uni.navigateTo({
+    uni.redirectTo({
       url: '/pages/chatList/chatList'
     })
   }

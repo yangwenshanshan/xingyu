@@ -10,10 +10,10 @@
 			</view>
 			<scroll-view class="people-list" scroll-y>
 				<view class="people-item" v-for="item in 5">
-					<view class="item-content">
+					<view class="item-content" @click="goDetail">
 						<view class="content-top">
 							<StarInfo></StarInfo>
-							<view class="top-right" @click="goChat">
+							<view class="top-right" @click.stop="goChat">
 								<image style="width: 32rpx;" src="../../static/bar-serve.png" mode="widthFix"></image>
 							</view>
 						</view>

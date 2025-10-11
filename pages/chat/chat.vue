@@ -48,7 +48,7 @@
           <image src="../../static/card-photo.png" mode="heightFix"></image>
           <view>拍摄</view>
         </view>
-        <view class="opt-item">
+        <view class="opt-item" @click="showAudio">
           <image src="../../static/card-phone.png" mode="heightFix"></image>
           <view>语音</view>
         </view>
@@ -58,6 +58,7 @@
         </view>
       </view>
     </view>
+    <view class="calling" v-if="callingVisible"></view>
 	</view>
 </template>
 
@@ -65,6 +66,7 @@
 import { onLoad } from '@dcloudio/uni-app'
 import { ref } from 'vue'
 
+const callingVisible = ref(false)
 const inputValue = ref('')
 const giftVisible = ref(false)
 const inputVisible = ref(true)
@@ -88,6 +90,12 @@ function goCard () {
   uni.navigateTo({
 		url: '/pages/card/card'
 	})
+}
+function showAudio () {
+	uni.setNavigationBarColor({
+		frontColor: '#ffffff'
+	})
+  callingVisible.value = true
 }
 function sendMsgImage () {
   uni.chooseImage({
@@ -304,6 +312,15 @@ onLoad(() => {
         }
       }
     }
+  }
+  .calling{
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    backdrop-filter: blur(60px);
+    background: #1E1E1ECC;
   }
 }
 </style>
