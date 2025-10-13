@@ -29,6 +29,12 @@
 			"style": {
 				"navigationBarTitleText": "uni-app"
 			}
+		},
+		{
+			"path": "pages/calling/calling",
+			"style": {
+				"navigationBarTitleText": "uni-app"
+			}
 		}
 		// {
 		// 	"path": "pages/chat2/chat2",
