@@ -77,6 +77,7 @@
 <script setup>
 import { onLoad } from '@dcloudio/uni-app'
 import { computed, ref } from 'vue'
+import tim from '../../utils/tim'
 
 const inputValue = ref('')
 const giftVisible = ref(false)
@@ -148,7 +149,16 @@ function sendMsgImage () {
     sourceType: ['album'],
     sizeType: ['original', 'compressed'],
     success: (res) => {
-      console.log(res)
+      // const message = tim.createImageMessage({
+      //   to: 'userId',
+      //   conversationType: 'C2C',
+      //   payload: {
+      //     file: res
+      //   }
+      // })
+      // tim.tim.sendMessage(message).then(response => {
+      //   console.log(response)
+      // })
     }
   })
 }
