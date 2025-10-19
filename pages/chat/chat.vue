@@ -77,7 +77,8 @@
 <script setup>
 import { onLoad } from '@dcloudio/uni-app'
 import { computed, ref } from 'vue'
-import tim from '../../utils/tim'
+import { tim, timEvent } from '../../utils/tim'
+// import tim from '../../utils/tim'
 
 const inputValue = ref('')
 const giftVisible = ref(false)
@@ -95,15 +96,31 @@ const scrollViewHeight = computed(() => {
   return `calc(100vh - ${bottomHeight.value} - 135rpx - var(--status-bar-height))`
 })
 
+function getListMsg () {
+  tim.getMessageList({
+    conversationID: `C2C3ff691ed-557c-4c09-901f-8e182dd5c514`
+  }).then(res => {
+    console.log('yws', res)
+  })
+}
+
 function handleTouchStart() {
   longPressing.value = true
 }
 function handleTouchEnd() {
-  console.log('end')
+  console.log('yws', 'end')
   longPressing.value = false
 }
 onLoad(() => {
-  // console.log(111)
+  let onSdkReady = function(event) {
+    console.log('yws ready', event)
+    getListMsg()
+  };
+  tim.on(timEvent.SDK_READY, onSdkReady);
+  let onMessageReceived = function(event) {
+    console.log('yws', event)
+  };
+  tim.on(timEvent.MESSAGE_RECEIVED, onMessageReceived);
 })
 function inputVisibleClick (flag) {
   inputVisible.value = flag
@@ -132,10 +149,16 @@ function goVideo () {
   });
 }
 function sendMessage () {
-  uni.showToast({
-    icon: 'none',
-    title: inputValue.value,
+  // uni.showToast({
+  //   icon: 'none',
+  //   title: inputValue.value,
+  // });
+  let message = tim.createTextMessage({
+    to: '3ff691ed-557c-4c09-901f-8e182dd5c514',
+    conversationType: 'C2C',
+    payload: { text: inputValue.value }
   });
+  tim.sendMessage(message);
   inputValue.value = ''
 }
 function goCard () {
