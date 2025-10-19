@@ -31,8 +31,8 @@ if (uni.restoreGlobal) {
 }
 (function(vue) {
   "use strict";
-  const _imports_2$4 = "/static/default-icon.png";
-  const _imports_1$5 = "/static/avatar-level.png";
+  const _imports_0$4 = "/static/default-icon.png";
+  const _imports_1$6 = "/static/avatar-level.png";
   const _export_sfc = (sfc, props) => {
     const target = sfc.__vccOpts || sfc;
     for (const [key, val] of props) {
@@ -40,7 +40,7 @@ if (uni.restoreGlobal) {
     }
     return target;
   };
-  const _sfc_main$8 = {
+  const _sfc_main$9 = {
     props: {
       name: {
         type: String,
@@ -56,11 +56,11 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "star-info" }, [
       vue.createElementVNode("view", { class: "info-avatar" }, [
         vue.createElementVNode("image", {
-          src: _imports_2$4,
+          src: _imports_0$4,
           style: { "width": "84rpx", "height": "84rpx" },
           mode: "widthFix"
         })
@@ -69,7 +69,7 @@ if (uni.restoreGlobal) {
         vue.createElementVNode("view", { class: "name-level" }, [
           vue.createElementVNode("view", { style: { "margin-right": "10rpx" } }, "易烊千玺"),
           vue.createElementVNode("image", {
-            src: _imports_1$5,
+            src: _imports_1$6,
             style: { "width": "60rpx", "height": "30rpx" },
             mode: "widthFix"
           })
@@ -78,7 +78,7 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const __easycom_0$1 = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["render", _sfc_render$7], ["__scopeId", "data-v-6c8a81d8"], ["__file", "D:/Code/IM/components/StarInfo/StarInfo.vue"]]);
+  const __easycom_0$1 = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["render", _sfc_render$8], ["__scopeId", "data-v-6c8a81d8"], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/components/StarInfo/StarInfo.vue"]]);
   const ON_LOAD = "onLoad";
   function formatAppLog(type, filename, ...args) {
     if (uni.__log__) {
@@ -98,8 +98,8 @@ if (uni.restoreGlobal) {
     2
     /* HookFlags.PAGE */
   );
-  const _sfc_main$7 = {};
-  function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
+  const _sfc_main$8 = {};
+  function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "base-page" }, [
       vue.createElementVNode("view", { class: "page-top-left" }),
       vue.createElementVNode("view", { class: "page-top-right" }),
@@ -109,14 +109,14 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const __easycom_0 = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["render", _sfc_render$6], ["__scopeId", "data-v-34ef6681"], ["__file", "D:/Code/IM/components/BasePage/BasePage.vue"]]);
+  const __easycom_0 = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["render", _sfc_render$7], ["__scopeId", "data-v-34ef6681"], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/components/BasePage/BasePage.vue"]]);
   const _imports_0$3 = "/static/bar-home-active.png";
-  const _imports_1$4 = "/static/bar-home.png";
-  const _imports_2$3 = "/static/bar-serve-active.png";
-  const _imports_2$2 = "/static/bar-serve.png";
-  const _imports_4$2 = "/static/bar-shop.png";
+  const _imports_1$5 = "/static/bar-home.png";
+  const _imports_2$4 = "/static/bar-serve-active.png";
+  const _imports_2$3 = "/static/bar-serve.png";
+  const _imports_4$3 = "/static/bar-shop.png";
   const _imports_5$2 = "/static/bar-me.png";
-  const _sfc_main$6 = {
+  const _sfc_main$7 = {
     __name: "Bar",
     props: {
       actived: {
@@ -151,7 +151,7 @@ if (uni.restoreGlobal) {
       return __returned__;
     }
   };
-  function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "bar" }, [
       vue.createElementVNode(
         "view",
@@ -169,7 +169,7 @@ if (uni.restoreGlobal) {
           $setup.activeIndex !== 1 ? (vue.openBlock(), vue.createElementBlock("image", {
             key: 1,
             style: { "width": "35rpx" },
-            src: _imports_1$4,
+            src: _imports_1$5,
             mode: "widthFix"
           })) : vue.createCommentVNode("v-if", true)
         ],
@@ -186,13 +186,13 @@ if (uni.restoreGlobal) {
           $setup.activeIndex === 2 ? (vue.openBlock(), vue.createElementBlock("image", {
             key: 0,
             style: { "width": "35rpx" },
-            src: _imports_2$3,
+            src: _imports_2$4,
             mode: "widthFix"
           })) : vue.createCommentVNode("v-if", true),
           $setup.activeIndex !== 2 ? (vue.openBlock(), vue.createElementBlock("image", {
             key: 1,
             style: { "width": "35rpx" },
-            src: _imports_2$2,
+            src: _imports_2$3,
             mode: "widthFix"
           })) : vue.createCommentVNode("v-if", true)
         ],
@@ -208,7 +208,7 @@ if (uni.restoreGlobal) {
         [
           vue.createElementVNode("image", {
             style: { "width": "44rpx" },
-            src: _imports_4$2,
+            src: _imports_4$3,
             mode: "widthFix"
           })
         ],
@@ -233,11 +233,11 @@ if (uni.restoreGlobal) {
       )
     ]);
   }
-  const __easycom_1 = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["render", _sfc_render$5], ["__scopeId", "data-v-0f74e904"], ["__file", "D:/Code/IM/components/Bar/Bar.vue"]]);
+  const __easycom_1 = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["render", _sfc_render$6], ["__scopeId", "data-v-0f74e904"], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/components/Bar/Bar.vue"]]);
   const _imports_0$2 = "/static/home-left.png";
-  const _imports_1$3 = "/static/home-search.png";
-  const _imports_3$1 = "/static/item-like.png";
-  const _sfc_main$5 = {
+  const _imports_1$4 = "/static/home-search.png";
+  const _imports_3$2 = "/static/item-like.png";
+  const _sfc_main$6 = {
     __name: "index",
     setup(__props, { expose: __expose }) {
       __expose();
@@ -256,7 +256,7 @@ if (uni.restoreGlobal) {
       return __returned__;
     }
   };
-  function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_StarInfo = resolveEasycom(vue.resolveDynamicComponent("StarInfo"), __easycom_0$1);
     const _component_BasePage = resolveEasycom(vue.resolveDynamicComponent("BasePage"), __easycom_0);
     const _component_Bar = resolveEasycom(vue.resolveDynamicComponent("Bar"), __easycom_1);
@@ -272,7 +272,7 @@ if (uni.restoreGlobal) {
           ]),
           vue.createElementVNode("view", { class: "home-search" }, [
             vue.createElementVNode("image", {
-              src: _imports_1$3,
+              src: _imports_1$4,
               alt: ""
             })
           ]),
@@ -297,7 +297,7 @@ if (uni.restoreGlobal) {
                       }, [
                         vue.createElementVNode("image", {
                           style: { "width": "32rpx" },
-                          src: _imports_2$2,
+                          src: _imports_2$3,
                           mode: "widthFix"
                         })
                       ])
@@ -307,7 +307,7 @@ if (uni.restoreGlobal) {
                         vue.createElementVNode("view", { class: "opt-item" }, [
                           vue.createElementVNode("image", {
                             style: { "width": "24rpx" },
-                            src: _imports_3$1,
+                            src: _imports_3$2,
                             mode: "widthFix"
                           }),
                           vue.createElementVNode("text", { class: "item-text" }, "345K")
@@ -315,7 +315,7 @@ if (uni.restoreGlobal) {
                         vue.createElementVNode("view", { class: "opt-item" }, [
                           vue.createElementVNode("image", {
                             style: { "width": "24rpx" },
-                            src: _imports_2$2,
+                            src: _imports_2$3,
                             mode: "widthFix"
                           }),
                           vue.createElementVNode("text", { class: "item-text" }, "1293")
@@ -337,31 +337,71 @@ if (uni.restoreGlobal) {
       vue.createVNode(_component_Bar, { actived: 1 })
     ]);
   }
-  const PagesIndexIndex = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["render", _sfc_render$4], ["__file", "D:/Code/IM/pages/index/index.vue"]]);
+  const PagesIndexIndex = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["render", _sfc_render$5], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/pages/index/index.vue"]]);
   const _imports_0$1 = "/static/bar-back.png";
-  const _imports_1$2 = "/static/card-small-1.png";
-  const _imports_2$1 = "/static/card-small-2.png";
-  const _imports_3 = "/static/expectations.png";
-  const _imports_4$1 = "/static/card-small-3.png";
-  const _imports_5$1 = "/static/chat-audio.png";
-  const _imports_6$1 = "/static/chat-input.png";
-  const _imports_7$1 = "/static/chat-more.png";
-  const _imports_8 = "/static/chat-more-open.png";
+  const _imports_1$3 = "/static/card-small-1.png";
+  const _imports_2$2 = "/static/card-small-2.png";
+  const _imports_3$1 = "/static/expectations.png";
+  const _imports_4$2 = "/static/card-small-3.png";
+  const _imports_5$1 = "/static/card-pic.png";
+  const _imports_6$1 = "/static/card-photo.png";
+  const _imports_7$1 = "/static/card-phone.png";
+  const _imports_8 = "/static/card-video.png";
   const _imports_9 = "/static/gift.png";
-  const _imports_10 = "/static/card-pic.png";
-  const _imports_11 = "/static/card-photo.png";
-  const _imports_12 = "/static/card-phone.png";
-  const _imports_13 = "/static/card-video.png";
-  const _sfc_main$4 = {
+  const _imports_10 = "/static/chat-audio.png";
+  const _imports_11 = "/static/chat-input.png";
+  const _imports_1$2 = "/static/chat-calling.png";
+  const _imports_13 = "/static/chat-speaking.png";
+  const _imports_14 = "/static/chat-more.png";
+  const _imports_15 = "/static/chat-more-open.png";
+  const _sfc_main$5 = {
     __name: "chat",
     setup(__props, { expose: __expose }) {
       __expose();
-      const callingVisible = vue.ref(false);
       const inputValue = vue.ref("");
       const giftVisible = vue.ref(false);
       const inputVisible = vue.ref(true);
       const moreOpen = vue.ref(false);
       const longPressing = vue.ref(false);
+      const bottomHeight = vue.computed(() => {
+        if (moreOpen.value) {
+          return "553rpx";
+        } else {
+          return "395rpx";
+        }
+      });
+      const scrollViewHeight = vue.computed(() => {
+        return `calc(100vh - ${bottomHeight.value} - 135rpx - var(--status-bar-height))`;
+      });
+      function handleTouchStart() {
+        longPressing.value = true;
+      }
+      function handleTouchEnd() {
+        formatAppLog("log", "at pages/chat/chat.vue:101", "end");
+        longPressing.value = false;
+      }
+      onLoad(() => {
+      });
+      function inputVisibleClick(flag) {
+        inputVisible.value = flag;
+        if (flag === false) {
+          moreOpen.value = false;
+        }
+      }
+      function moreOpenClick(flag) {
+        moreOpen.value = flag;
+        if (flag === true) {
+          inputVisible.value = true;
+        }
+      }
+      function showAudio() {
+        uni.navigateTo({
+          url: "/pages/calling/calling"
+        });
+      }
+      function goBack() {
+        uni.navigateBack();
+      }
       function goVideo() {
         uni.showToast({
           icon: "none",
@@ -380,19 +420,13 @@ if (uni.restoreGlobal) {
           url: "/pages/card/card"
         });
       }
-      function showAudio() {
-        uni.setNavigationBarColor({
-          frontColor: "#ffffff"
-        });
-        callingVisible.value = true;
-      }
       function sendMsgImage() {
         uni.chooseImage({
           count: 1,
           sourceType: ["album"],
           sizeType: ["original", "compressed"],
           success: (res) => {
-            formatAppLog("log", "at pages/chat/chat.vue:106", res);
+            formatAppLog("log", "at pages/chat/chat.vue:151", res);
           }
         });
       }
@@ -401,49 +435,18 @@ if (uni.restoreGlobal) {
           sourceType: ["camera"],
           maxDuration: 60,
           success: (res) => {
-            formatAppLog("log", "at pages/chat/chat.vue:115", res);
+            formatAppLog("log", "at pages/chat/chat.vue:160", res);
           }
         });
       }
-      function goBack() {
-        uni.navigateBack();
-      }
-      function inputVisibleClick(flag) {
-        inputVisible.value = flag;
-        if (flag === false) {
-          moreOpen.value = false;
-        }
-      }
-      function moreOpenClick(flag) {
-        moreOpen.value = flag;
-        if (flag === true) {
-          inputVisible.value = true;
-        }
-      }
-      function handleTouchStart(e) {
-        formatAppLog("log", "at pages/chat/chat.vue:135", e);
-        if (inputVisible.value === false) {
-          return;
-        }
-        onLongPress();
-      }
-      function handleTouchEnd() {
-        longPressing.value = false;
-      }
-      function onLongPress() {
-        longPressing.value = true;
-      }
-      onLoad(() => {
-        formatAppLog("log", "at pages/chat/chat.vue:148", 111);
-      });
-      const __returned__ = { callingVisible, inputValue, giftVisible, inputVisible, moreOpen, longPressing, goVideo, sendMessage, goCard, showAudio, sendMsgImage, sendMsgVideo, goBack, inputVisibleClick, moreOpenClick, handleTouchStart, handleTouchEnd, onLongPress, get onLoad() {
+      const __returned__ = { inputValue, giftVisible, inputVisible, moreOpen, longPressing, bottomHeight, scrollViewHeight, handleTouchStart, handleTouchEnd, inputVisibleClick, moreOpenClick, showAudio, goBack, goVideo, sendMessage, goCard, sendMsgImage, sendMsgVideo, get onLoad() {
         return onLoad;
-      }, ref: vue.ref };
+      }, computed: vue.computed, ref: vue.ref };
       Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
       return __returned__;
     }
   };
-  function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_StarInfo = resolveEasycom(vue.resolveDynamicComponent("StarInfo"), __easycom_0$1);
     return vue.openBlock(), vue.createElementBlock("view", { class: "chat" }, [
       vue.createElementVNode("view", { class: "status_bar" }),
@@ -465,7 +468,7 @@ if (uni.restoreGlobal) {
         {
           class: "info-list",
           "scroll-y": "",
-          style: vue.normalizeStyle($setup.moreOpen ? "height: calc(100vh - 550rpx - 135rpx - var(--status-bar-height))" : "height: calc(100vh - 395rpx - 135rpx - var(--status-bar-height))")
+          style: vue.normalizeStyle(`height: ${$setup.scrollViewHeight}`)
         },
         [
           (vue.openBlock(), vue.createElementBlock(
@@ -502,80 +505,144 @@ if (uni.restoreGlobal) {
       vue.createElementVNode(
         "view",
         {
+          class: "chat-bottom-holder",
+          style: vue.normalizeStyle($setup.longPressing ? `height: 908rpx` : `height: ${$setup.bottomHeight}`)
+        },
+        null,
+        4
+        /* STYLE */
+      ),
+      vue.createElementVNode(
+        "view",
+        {
           class: "chat-bottom",
-          style: vue.normalizeStyle($setup.moreOpen ? "bottom: 0" : "bottom: -155rpx")
+          style: vue.normalizeStyle(`height: ${$setup.bottomHeight}`)
         },
         [
+          !$setup.longPressing ? (vue.openBlock(), vue.createElementBlock(
+            "view",
+            {
+              key: 0,
+              class: "bottom-tip",
+              style: vue.normalizeStyle($setup.moreOpen ? "top: 74rpx" : "top: 148rpx")
+            },
+            [
+              vue.createElementVNode("image", {
+                class: "tip-image",
+                src: _imports_1$3,
+                mode: "heightFix",
+                onClick: $setup.goCard
+              }),
+              vue.createElementVNode("view", { class: "image-parent" }, [
+                vue.createElementVNode("image", {
+                  class: "tip-image",
+                  src: _imports_2$2,
+                  mode: "heightFix"
+                }),
+                vue.createElementVNode("image", {
+                  class: "tip-image-tip",
+                  src: _imports_3$1,
+                  mode: "heightFix"
+                })
+              ]),
+              vue.createElementVNode("image", {
+                class: "tip-image",
+                src: _imports_4$2,
+                mode: "heightFix",
+                onClick: _cache[0] || (_cache[0] = ($event) => $setup.giftVisible = true)
+              })
+            ],
+            4
+            /* STYLE */
+          )) : vue.createCommentVNode("v-if", true),
+          $setup.moreOpen && $setup.inputVisible && !$setup.longPressing ? (vue.openBlock(), vue.createElementBlock("view", {
+            key: 1,
+            class: "opt-list"
+          }, [
+            vue.createElementVNode("view", {
+              class: "opt-item",
+              onClick: $setup.sendMsgImage
+            }, [
+              vue.createElementVNode("image", {
+                src: _imports_5$1,
+                mode: "heightFix"
+              }),
+              vue.createElementVNode("view", null, "图片")
+            ]),
+            vue.createElementVNode("view", {
+              class: "opt-item",
+              onClick: $setup.sendMsgVideo
+            }, [
+              vue.createElementVNode("image", {
+                src: _imports_6$1,
+                mode: "heightFix"
+              }),
+              vue.createElementVNode("view", null, "拍摄")
+            ]),
+            vue.createElementVNode("view", {
+              class: "opt-item",
+              onClick: $setup.showAudio
+            }, [
+              vue.createElementVNode("image", {
+                src: _imports_7$1,
+                mode: "heightFix"
+              }),
+              vue.createElementVNode("view", null, "语音")
+            ]),
+            vue.createElementVNode("view", {
+              class: "opt-item",
+              onClick: $setup.goVideo
+            }, [
+              vue.createElementVNode("image", {
+                src: _imports_8,
+                mode: "heightFix"
+              }),
+              vue.createElementVNode("view", null, "视频")
+            ])
+          ])) : vue.createCommentVNode("v-if", true),
+          $setup.giftVisible && !$setup.longPressing ? (vue.openBlock(), vue.createElementBlock("view", {
+            key: 2,
+            class: "opt-gift",
+            onClick: _cache[1] || (_cache[1] = ($event) => $setup.giftVisible = false)
+          }, [
+            vue.createElementVNode("image", {
+              src: _imports_9,
+              mode: "widthFix",
+              class: "gift-image"
+            })
+          ])) : vue.createCommentVNode("v-if", true),
           vue.createElementVNode(
             "view",
             {
-              class: "bottom-tip",
-              style: vue.normalizeStyle($setup.moreOpen ? "margin-top: 74rpx" : "margin-top: 148rpx")
+              class: vue.normalizeClass(["bottom-input", $setup.longPressing ? "bottom-input-pressing" : ""]),
+              style: vue.normalizeStyle($setup.moreOpen ? "bottom: 312rpx" : "bottom: calc(80rpx)")
             },
             [
               !$setup.longPressing ? (vue.openBlock(), vue.createElementBlock(
                 vue.Fragment,
                 { key: 0 },
                 [
-                  vue.createElementVNode("image", {
-                    class: "tip-image",
-                    src: _imports_1$2,
-                    mode: "heightFix",
-                    onClick: $setup.goCard
-                  }),
-                  vue.createElementVNode("view", { class: "image-parent" }, [
-                    vue.createElementVNode("image", {
-                      class: "tip-image",
-                      src: _imports_2$1,
-                      mode: "heightFix"
-                    }),
-                    vue.createElementVNode("image", {
-                      class: "tip-image-tip",
-                      src: _imports_3,
-                      mode: "heightFix"
-                    })
-                  ]),
-                  vue.createElementVNode("image", {
-                    class: "tip-image",
-                    src: _imports_4$1,
-                    mode: "heightFix",
-                    onClick: _cache[0] || (_cache[0] = ($event) => $setup.giftVisible = true)
-                  })
+                  $setup.inputVisible ? (vue.openBlock(), vue.createElementBlock("image", {
+                    key: 0,
+                    onClick: _cache[2] || (_cache[2] = ($event) => $setup.inputVisibleClick(false)),
+                    class: "input-image",
+                    src: _imports_10
+                  })) : (vue.openBlock(), vue.createElementBlock("image", {
+                    key: 1,
+                    onClick: _cache[3] || (_cache[3] = ($event) => $setup.inputVisibleClick(true)),
+                    class: "input-image",
+                    src: _imports_11
+                  }))
                 ],
                 64
                 /* STABLE_FRAGMENT */
-              )) : vue.createCommentVNode("v-if", true)
-            ],
-            4
-            /* STYLE */
-          ),
-          vue.createCommentVNode(` :class="longPressing ? 'longPressing' : 'input-main'"  `),
-          vue.createElementVNode(
-            "view",
-            {
-              class: "bottom-input",
-              "data-id": "nhf",
-              onTouchstart: $setup.handleTouchStart,
-              onTouchend: $setup.handleTouchEnd
-            },
-            [
-              $setup.inputVisible ? (vue.openBlock(), vue.createElementBlock("image", {
-                key: 0,
-                onClick: _cache[1] || (_cache[1] = ($event) => $setup.inputVisibleClick(false)),
-                class: "input-image",
-                src: _imports_5$1
-              })) : (vue.openBlock(), vue.createElementBlock("image", {
-                key: 1,
-                onClick: _cache[2] || (_cache[2] = ($event) => $setup.inputVisibleClick(true)),
-                class: "input-image",
-                src: _imports_6$1
-              })),
+              )) : vue.createCommentVNode("v-if", true),
               vue.createElementVNode("view", { class: "input-main" }, [
                 $setup.inputVisible ? vue.withDirectives((vue.openBlock(), vue.createElementBlock(
                   "input",
                   {
                     key: 0,
-                    "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => $setup.inputValue = $event),
+                    "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => $setup.inputValue = $event),
                     onConfirm: $setup.sendMessage,
                     "cursor-spacing": 20,
                     "confirm-type": "send",
@@ -587,100 +654,85 @@ if (uni.restoreGlobal) {
                   /* NEED_HYDRATION, NEED_PATCH */
                 )), [
                   [vue.vModelText, $setup.inputValue]
-                ]) : (vue.openBlock(), vue.createElementBlock("view", {
-                  key: 1,
-                  class: "main-speak"
-                }, "按住说话"))
+                ]) : (vue.openBlock(), vue.createElementBlock(
+                  "view",
+                  {
+                    key: 1,
+                    class: vue.normalizeClass([$setup.longPressing ? "long-pressing" : "", "main-speak"]),
+                    onTouchstart: $setup.handleTouchStart,
+                    onTouchend: $setup.handleTouchEnd
+                  },
+                  [
+                    !$setup.longPressing ? (vue.openBlock(), vue.createElementBlock(
+                      vue.Fragment,
+                      { key: 0 },
+                      [
+                        vue.createTextVNode("按住说话")
+                      ],
+                      64
+                      /* STABLE_FRAGMENT */
+                    )) : (vue.openBlock(), vue.createElementBlock("view", {
+                      key: 1,
+                      class: "speaking"
+                    }, [
+                      vue.createElementVNode("view", { class: "speak-loading" }, [
+                        vue.createElementVNode("image", {
+                          mode: "widthFix",
+                          style: { "width": "298rpx" },
+                          src: _imports_1$2
+                        })
+                      ]),
+                      vue.createElementVNode("view", { class: "loading-text" }, "松开发送 上滑取消"),
+                      vue.createElementVNode("view", { class: "loading-bottom" }, [
+                        vue.createElementVNode("image", {
+                          style: { "width": "46rpx" },
+                          mode: "widthFix",
+                          src: _imports_13
+                        })
+                      ])
+                    ]))
+                  ],
+                  34
+                  /* CLASS, NEED_HYDRATION */
+                ))
               ]),
-              !$setup.moreOpen ? (vue.openBlock(), vue.createElementBlock("image", {
-                key: 2,
-                class: "input-image",
-                src: _imports_7$1,
-                onClick: _cache[4] || (_cache[4] = ($event) => $setup.moreOpenClick(true))
-              })) : (vue.openBlock(), vue.createElementBlock("image", {
-                key: 3,
-                class: "input-image",
-                src: _imports_8,
-                onClick: _cache[5] || (_cache[5] = ($event) => $setup.moreOpenClick(false))
-              }))
+              !$setup.longPressing ? (vue.openBlock(), vue.createElementBlock(
+                vue.Fragment,
+                { key: 1 },
+                [
+                  !$setup.moreOpen ? (vue.openBlock(), vue.createElementBlock("image", {
+                    key: 0,
+                    class: "input-image",
+                    src: _imports_14,
+                    onClick: _cache[5] || (_cache[5] = ($event) => $setup.moreOpenClick(true))
+                  })) : (vue.openBlock(), vue.createElementBlock("image", {
+                    key: 1,
+                    class: "input-image",
+                    src: _imports_15,
+                    onClick: _cache[6] || (_cache[6] = ($event) => $setup.moreOpenClick(false))
+                  }))
+                ],
+                64
+                /* STABLE_FRAGMENT */
+              )) : vue.createCommentVNode("v-if", true)
             ],
-            32
-            /* NEED_HYDRATION */
-          ),
-          $setup.giftVisible ? (vue.openBlock(), vue.createElementBlock("view", {
-            key: 0,
-            class: "opt-gift",
-            onClick: _cache[6] || (_cache[6] = ($event) => $setup.giftVisible = false)
-          }, [
-            vue.createElementVNode("image", {
-              src: _imports_9,
-              mode: "widthFix",
-              class: "gift-image"
-            })
-          ])) : vue.createCommentVNode("v-if", true),
-          $setup.moreOpen && $setup.inputVisible ? (vue.openBlock(), vue.createElementBlock("view", {
-            key: 1,
-            class: "opt-list"
-          }, [
-            vue.createElementVNode("view", {
-              class: "opt-item",
-              onClick: $setup.sendMsgImage
-            }, [
-              vue.createElementVNode("image", {
-                src: _imports_10,
-                mode: "heightFix"
-              }),
-              vue.createElementVNode("view", null, "图片")
-            ]),
-            vue.createElementVNode("view", {
-              class: "opt-item",
-              onClick: $setup.sendMsgVideo
-            }, [
-              vue.createElementVNode("image", {
-                src: _imports_11,
-                mode: "heightFix"
-              }),
-              vue.createElementVNode("view", null, "拍摄")
-            ]),
-            vue.createElementVNode("view", {
-              class: "opt-item",
-              onClick: $setup.showAudio
-            }, [
-              vue.createElementVNode("image", {
-                src: _imports_12,
-                mode: "heightFix"
-              }),
-              vue.createElementVNode("view", null, "语音")
-            ]),
-            vue.createElementVNode("view", {
-              class: "opt-item",
-              onClick: $setup.goVideo
-            }, [
-              vue.createElementVNode("image", {
-                src: _imports_13,
-                mode: "heightFix"
-              }),
-              vue.createElementVNode("view", null, "视频")
-            ])
-          ])) : vue.createCommentVNode("v-if", true)
+            6
+            /* CLASS, STYLE */
+          )
         ],
         4
         /* STYLE */
-      ),
-      $setup.callingVisible ? (vue.openBlock(), vue.createElementBlock("view", {
-        key: 0,
-        class: "calling"
-      })) : vue.createCommentVNode("v-if", true)
+      )
     ]);
   }
-  const PagesChatChat = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["render", _sfc_render$3], ["__file", "D:/Code/IM/pages/chat/chat.vue"]]);
+  const PagesChatChat = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["render", _sfc_render$4], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/pages/chat/chat.vue"]]);
   const _imports_1$1 = "/static/detail-friend.png";
-  const _imports_2 = "/static/detail-more.png";
-  const _imports_4 = "/static/detail-type.png";
+  const _imports_2$1 = "/static/detail-more.png";
+  const _imports_4$1 = "/static/detail-type.png";
   const _imports_5 = "/static/detail-line.png";
   const _imports_6 = "/static/detail-holder-1.png";
   const _imports_7 = "/static/detail-holder-2.png";
-  const _sfc_main$3 = {
+  const _sfc_main$4 = {
     __name: "detail",
     setup(__props, { expose: __expose }) {
       __expose();
@@ -692,7 +744,7 @@ if (uni.restoreGlobal) {
       return __returned__;
     }
   };
-  function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_BasePage = resolveEasycom(vue.resolveDynamicComponent("BasePage"), __easycom_0);
     const _component_Bar = resolveEasycom(vue.resolveDynamicComponent("Bar"), __easycom_1);
     return vue.openBlock(), vue.createElementBlock("view", { class: "detail" }, [
@@ -718,14 +770,14 @@ if (uni.restoreGlobal) {
               vue.createElementVNode("image", {
                 style: { "width": "20rpx" },
                 mode: "widthFix",
-                src: _imports_2
+                src: _imports_2$1
               })
             ])
           ]),
           vue.createElementVNode("view", { class: "detail-avatar" }, [
             vue.createElementVNode("image", {
               class: "avatar-img",
-              src: _imports_2$4,
+              src: _imports_0$4,
               mode: "widthFix"
             }),
             vue.createElementVNode("view", { class: "avatar-name" }, "@易烊千玺"),
@@ -748,7 +800,7 @@ if (uni.restoreGlobal) {
           vue.createElementVNode("view", { class: "detail-type" }, [
             vue.createElementVNode("image", {
               mode: "widthFix",
-              src: _imports_4
+              src: _imports_4$1
             })
           ]),
           vue.createElementVNode("view", { class: "detail-line" }, [
@@ -778,9 +830,9 @@ if (uni.restoreGlobal) {
       vue.createVNode(_component_Bar, { actived: 1 })
     ]);
   }
-  const PagesDetailDetail = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$2], ["__file", "D:/Code/IM/pages/detail/detail.vue"]]);
+  const PagesDetailDetail = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["render", _sfc_render$3], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/pages/detail/detail.vue"]]);
   const _imports_1 = "/static/chat-list-title.png";
-  const _sfc_main$2 = {
+  const _sfc_main$3 = {
     __name: "chatList",
     setup(__props, { expose: __expose }) {
       __expose();
@@ -808,7 +860,7 @@ if (uni.restoreGlobal) {
       return __returned__;
     }
   };
-  function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_BasePage = resolveEasycom(vue.resolveDynamicComponent("BasePage"), __easycom_0);
     const _component_Bar = resolveEasycom(vue.resolveDynamicComponent("Bar"), __easycom_1);
     return vue.openBlock(), vue.createElementBlock("view", { class: "chat-list" }, [
@@ -845,7 +897,7 @@ if (uni.restoreGlobal) {
                     vue.createElementVNode("view", { class: "item-avatar" }, [
                       vue.createElementVNode("image", {
                         mode: "widthFix",
-                        src: _imports_2$4
+                        src: _imports_0$4
                       }),
                       vue.createElementVNode(
                         "view",
@@ -876,9 +928,9 @@ if (uni.restoreGlobal) {
       vue.createVNode(_component_Bar, { actived: 2 })
     ]);
   }
-  const PagesChatListChatList = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$1], ["__file", "D:/Code/IM/pages/chatList/chatList.vue"]]);
+  const PagesChatListChatList = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$2], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/pages/chatList/chatList.vue"]]);
   const _imports_0 = "/static/card-bg.png";
-  const _sfc_main$1 = {
+  const _sfc_main$2 = {
     __name: "card",
     setup(__props, { expose: __expose }) {
       __expose();
@@ -890,7 +942,7 @@ if (uni.restoreGlobal) {
       return __returned__;
     }
   };
-  function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "card" }, [
       vue.createElementVNode("view", { class: "status_bar" }),
       vue.createElementVNode("view", { class: "home-title" }, [
@@ -909,12 +961,88 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const PagesCardCard = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render], ["__file", "D:/Code/IM/pages/card/card.vue"]]);
+  const PagesCardCard = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$1], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/pages/card/card.vue"]]);
+  const _imports_2 = "/static/chat-microphone.png";
+  const _imports_3 = "/static/chat-hangUp.png";
+  const _imports_4 = "/static/chat-speaker.png";
+  const _sfc_main$1 = {
+    __name: "calling",
+    setup(__props, { expose: __expose }) {
+      __expose();
+      const isCalling = vue.ref(false);
+      function hangUp() {
+        isCalling.value = false;
+        goBack();
+      }
+      function goBack() {
+        uni.navigateBack();
+      }
+      const __returned__ = { isCalling, hangUp, goBack, ref: vue.ref };
+      Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+      return __returned__;
+    }
+  };
+  function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
+    return vue.openBlock(), vue.createElementBlock("view", { class: "calling" }, [
+      vue.createElementVNode("view", { class: "calling-avatar" }, [
+        vue.createElementVNode("image", {
+          style: { "width": "330rpx" },
+          src: _imports_0$4,
+          mode: "widthFix"
+        }),
+        vue.createElementVNode("view", { class: "avatar-name" }, "易烊千玺")
+      ]),
+      $setup.isCalling ? (vue.openBlock(), vue.createElementBlock("view", {
+        key: 0,
+        class: "calling-called"
+      }, [
+        vue.createElementVNode("image", {
+          style: { "width": "298rpx" },
+          src: _imports_1$2,
+          mode: "widthFix"
+        })
+      ])) : (vue.openBlock(), vue.createElementBlock("view", {
+        key: 1,
+        class: "calling-waiting"
+      }, "等待对方接受邀请…")),
+      vue.createElementVNode("view", { class: "calling-opt" }, [
+        vue.createElementVNode("view", { class: "opt-item" }, [
+          vue.createElementVNode("image", {
+            style: { "width": "122rpx" },
+            src: _imports_2,
+            mode: "widthFix"
+          }),
+          vue.createElementVNode("view", null, "麦克风已开")
+        ]),
+        vue.createElementVNode("view", {
+          class: "opt-item",
+          onClick: $setup.hangUp
+        }, [
+          vue.createElementVNode("image", {
+            style: { "width": "122rpx" },
+            src: _imports_3,
+            mode: "widthFix"
+          }),
+          vue.createElementVNode("view", null, "挂断")
+        ]),
+        vue.createElementVNode("view", { class: "opt-item" }, [
+          vue.createElementVNode("image", {
+            style: { "width": "122rpx" },
+            src: _imports_4,
+            mode: "widthFix"
+          }),
+          vue.createElementVNode("view", null, "扬声器已开")
+        ])
+      ])
+    ]);
+  }
+  const PagesCallingCalling = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/pages/calling/calling.vue"]]);
   __definePage("pages/index/index", PagesIndexIndex);
   __definePage("pages/chat/chat", PagesChatChat);
   __definePage("pages/detail/detail", PagesDetailDetail);
   __definePage("pages/chatList/chatList", PagesChatListChatList);
   __definePage("pages/card/card", PagesCardCard);
+  __definePage("pages/calling/calling", PagesCallingCalling);
   const _sfc_main = {
     onLaunch: function() {
     },
@@ -925,7 +1053,7 @@ if (uni.restoreGlobal) {
       formatAppLog("log", "at App.vue:37", "App Hide");
     }
   };
-  const App = /* @__PURE__ */ _export_sfc(_sfc_main, [["__file", "D:/Code/IM/App.vue"]]);
+  const App = /* @__PURE__ */ _export_sfc(_sfc_main, [["__file", "D:/Code/yds/xingmi-uniapp/xingyu/App.vue"]]);
   function createApp() {
     const app = vue.createVueApp(App);
     return {
