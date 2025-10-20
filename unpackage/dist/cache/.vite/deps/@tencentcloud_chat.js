@@ -2,9 +2,9 @@ import {
   __commonJS
 } from "./chunk-Y2F7D3TJ.js";
 
-// ../../../../Code/yds/xingmi-uniapp/xingyu/node_modules/@tencentcloud/chat/index.js
+// ../../../Code/IM/node_modules/@tencentcloud/chat/index.js
 var require_chat = __commonJS({
-  "../../../../Code/yds/xingmi-uniapp/xingyu/node_modules/@tencentcloud/chat/index.js"(exports, module) {
+  "../../../Code/IM/node_modules/@tencentcloud/chat/index.js"(exports, module) {
     !function(e, t) {
       "object" == typeof exports && "undefined" != typeof module ? module.exports = t() : "function" == typeof define && define.amd ? define(t) : (e = "undefined" != typeof globalThis ? globalThis : e || self).TencentCloudChat = t();
     }(exports, function() {

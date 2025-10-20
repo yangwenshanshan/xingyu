@@ -7,10 +7,13 @@
       </view>
       <StarInfo></StarInfo>
     </view>
-    <scroll-view class="info-list" scroll-y :style="`height: ${scrollViewHeight}`">
-      <view class="list-item" v-for="item in 20" :class="item % 2 === 0 ? 'self-parent' : 'star-parent'">
-        <view class="item-content" :class="item % 2 === 0 ? 'self' : 'star'">
-          asdas大苏时d{{ item }}
+    <scroll-view class="info-list" scroll-y :style="`height: ${scrollViewHeight}`" :scroll-top="scrollTop">
+      <view id="content">
+        <view class="list-item" v-for="item in msgList" :class="item.flow === 'out' ? 'self-parent' : 'star-parent'">
+          <TextMessage v-if="item.type === 'TIMTextElem'" :message="item"></TextMessage>
+          <ImageMessage v-if="item.type === 'TIMImageElem'" :message="item"></ImageMessage>
+          <VideoMessage v-if="item.type === 'TIMVideoFileElem'" :message="item"></VideoMessage>
+          <AudioMessage v-if="item.type === 'TIMSoundElem'" :message="item"></AudioMessage>
         </view>
       </view>
     </scroll-view>
@@ -52,7 +55,7 @@
         </template>
         <view class="input-main">
           <input v-model="inputValue" @confirm="sendMessage" :cursor-spacing="20" v-if="inputVisible" confirm-type="send" placeholder="发消息..." placeholder-style="color: #ffffff"></input>
-          <view :class="longPressing ? 'long-pressing' : ''" @touchstart="handleTouchStart" @touchend="handleTouchEnd" class="main-speak" v-else>
+          <view :class="longPressing ? 'long-pressing' : ''" @touchcancel="handleTouchCancel" @touchstart="handleTouchStart" @touchend="handleTouchEnd" class="main-speak" v-else>
             <template v-if="!longPressing">按住说话</template>
             <view v-else class="speaking">
               <view class="speak-loading">
@@ -75,15 +78,37 @@
 </template>
 
 <script setup>
-import { onLoad } from '@dcloudio/uni-app'
-import { computed, ref } from 'vue'
+import { onLoad, onUnload } from '@dcloudio/uni-app'
+import { computed, ref, nextTick } from 'vue'
 import { tim, timEvent } from '../../utils/tim'
-// import tim from '../../utils/tim'
 
+const recorderManager = uni.getRecorderManager();
+recorderManager.onStop((res) => {
+  if (canSendAudio.value) {
+    let message = tim.createAudioMessage({
+      to: starId.value,
+      conversationType: 'C2C',
+      payload: {
+        file: res
+      },
+      onProgress: function(event) {
+        console.log(event)
+      }
+    })
+    tim.sendMessage(message).then(response => {
+      msgList.value.push(response.data.message)
+      scrollBottom()
+    })
+  }
+});
+const canSendAudio = ref(false)
+const starId = ref('3ff691ed-557c-4c09-901f-8e182dd5c514')
+const msgList = ref([])
 const inputValue = ref('')
 const giftVisible = ref(false)
 const inputVisible = ref(true)
 const moreOpen = ref(false)
+const scrollTop = ref(0)
 const longPressing = ref(false)
 const bottomHeight = computed(() => {
   if (moreOpen.value) {
@@ -96,32 +121,55 @@ const scrollViewHeight = computed(() => {
   return `calc(100vh - ${bottomHeight.value} - 135rpx - var(--status-bar-height))`
 })
 
-function getListMsg () {
-  tim.getMessageList({
-    conversationID: `C2C3ff691ed-557c-4c09-901f-8e182dd5c514`
-  }).then(res => {
-    console.log('yws', res)
-  })
+onLoad(() => {
+  getListMsg()
+  tim.on(timEvent.MESSAGE_RECEIVED, onMessageReceived);
+})
+onUnload(() => {
+  tim.off(timEvent.MESSAGE_RECEIVED, onMessageReceived);
+})
+function onMessageReceived (event) {
+  console.log('yws', event)
 }
-
+function handleTouchCancel () {
+  canSendAudio.value = false
+  recorderManager.stop();
+  longPressing.value = false
+}
 function handleTouchStart() {
+  canSendAudio.value = false
+  recorderManager.start();
   longPressing.value = true
 }
 function handleTouchEnd() {
-  console.log('yws', 'end')
+  canSendAudio.value = true
+  recorderManager.stop();
   longPressing.value = false
 }
-onLoad(() => {
-  let onSdkReady = function(event) {
-    console.log('yws ready', event)
-    getListMsg()
-  };
-  tim.on(timEvent.SDK_READY, onSdkReady);
-  let onMessageReceived = function(event) {
-    console.log('yws', event)
-  };
-  tim.on(timEvent.MESSAGE_RECEIVED, onMessageReceived);
-})
+function scrollBottom () {
+  nextTick(() => {
+    setTimeout(() => {
+      const query = uni.createSelectorQuery()
+      query.select('#content').boundingClientRect((res) => {
+        if (scrollTop.value === res.height) {
+          scrollTop.value++
+        } else {
+          scrollTop.value = res.height
+        }
+        console.log(scrollTop.value, res.height)
+      }).exec()
+    }, 0);
+  })
+}
+function getListMsg () {
+  tim.getMessageList({
+    conversationID: `C2C${starId.value}`
+  }).then(res => {
+    msgList.value = [ ...res.data.messageList ]
+    console.log(res.data.messageList)
+    scrollBottom()
+  })
+}
 function inputVisibleClick (flag) {
   inputVisible.value = flag
   if (flag === false) {
@@ -133,6 +181,63 @@ function moreOpenClick (flag) {
   if (flag === true) {
     inputVisible.value = true
   }
+  scrollBottom()
+}
+function sendMessage () {
+  if (inputValue.value) {
+    let message = tim.createTextMessage({
+      to: starId.value,
+      conversationType: 'C2C',
+      payload: { text: inputValue.value }
+    });
+    tim.sendMessage(message).then(res => {
+      msgList.value.push(res.data.message)
+      scrollBottom()
+    })
+    inputValue.value = ''
+  }
+}
+function sendMsgImage () {
+  uni.chooseImage({
+    count: 1,
+    sourceType: ['album'],
+    sizeType: ['original', 'compressed'],
+    success: (res) => {
+      console.log(res)
+      let message = tim.createImageMessage({
+        to: starId.value,
+        conversationType: 'C2C',
+        payload: {
+          file: res
+        },
+        onProgress: function(event) {}
+      });
+      tim.sendMessage(message).then((res) => {
+        msgList.value.push(res.data.message)
+        scrollBottom()
+      })
+    }
+  })
+}
+function sendMsgVideo () {
+  uni.chooseVideo({
+    sourceType: ['camera'],
+    maxDuration: 60,
+    success: (res) => {
+      let message = tim.createVideoMessage({
+        to: starId.value,
+        conversationType: 'C2C',
+        payload: {
+          file: res
+        },
+        onProgress: function(event) {}
+      });
+      tim.sendMessage(message).then((res) => {
+        msgList.value.push(res.data.message)
+        scrollBottom()
+      })
+    }
+  })
 }
 function showAudio () {
   uni.navigateTo({
@@ -148,51 +253,10 @@ function goVideo () {
     title: '敬请期待',
   });
 }
-function sendMessage () {
-  // uni.showToast({
-  //   icon: 'none',
-  //   title: inputValue.value,
-  // });
-  let message = tim.createTextMessage({
-    to: '3ff691ed-557c-4c09-901f-8e182dd5c514',
-    conversationType: 'C2C',
-    payload: { text: inputValue.value }
-  });
-  tim.sendMessage(message);
-  inputValue.value = ''
-}
 function goCard () {
   uni.navigateTo({
 		url: '/pages/card/card'
 	})
-}
-function sendMsgImage () {
-  uni.chooseImage({
-    count: 1,
-    sourceType: ['album'],
-    sizeType: ['original', 'compressed'],
-    success: (res) => {
-      // const message = tim.createImageMessage({
-      //   to: 'userId',
-      //   conversationType: 'C2C',
-      //   payload: {
-      //     file: res
-      //   }
-      // })
-      // tim.tim.sendMessage(message).then(response => {
-      //   console.log(response)
-      // })
-    }
-  })
-}
-function sendMsgVideo () {
-  uni.chooseVideo({
-    sourceType: ['camera'],
-    maxDuration: 60,
-    success: (res) => {
-      console.log(res)
-    }
-  })
 }
 </script>
 
@@ -229,27 +293,6 @@ function sendMsgVideo () {
       padding: 0 30rpx;
       box-sizing: border-box;
       margin-bottom: 33rpx;
-      .item-content{
-        max-width: 552rpx;
-        width: fit-content;
-        box-sizing: border-box;
-        padding: 20rpx;
-      }
-      .self{
-        background: #FF92C1;
-        border-top-left-radius: 32rpx;
-        border-top-right-radius: 8rpx;
-        border-bottom-right-radius: 32rpx;
-        border-bottom-left-radius: 32rpx;
-      }
-      .star{
-        border-top-left-radius: 8rpx;
-        border-top-right-radius: 32rpx;
-        border-bottom-right-radius: 32rpx;
-        border-bottom-left-radius: 32rpx;
-        background: #FFFFFF99;
-        backdrop-filter: blur(20rpx);
-      }
     }
     .star-parent{
       justify-content: flex-start;
