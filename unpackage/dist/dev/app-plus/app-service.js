@@ -11575,13 +11575,13 @@ if (uni.restoreGlobal) {
       },
       [
         vue.createElementVNode("image", {
-          style: { "width": "48rpx" },
+          style: { "width": "34rpx" },
           mode: "widthFix",
           src: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAAAxCAYAAAC/BXv3AAADg0lEQVR4AbSYgXnUMAyF8zFBmYBuQJmAMgEwATABMAEwATABMAEwAbBBmYAyAWUD3p+ec8qznDs+1/dZkazI0rMkJ2lvTWN/J3IPiW2PkUBeKfSfHSFLbI9RQE4V8rWoDORHZZLxUUCycnwQAACK1WMUkAuF+i6KA3CfoyLKo4AQ47Eul6I4zjShTGLrMRLIlUIBBi5xGc8lVSUaCUTxJkr0Zlr/KBH9stL2AnkqbziFS0zHO2m9X86lg8SuRw8QghcQ8CfXLtOrZwWj1bOlB4gHZudV7YkoIiOQxGWQEWhW9AD5MXvYX9La729PWVaWh1wPEDLgx5MdUrIQfxHJCLQoJJBVNjD1AOFYPpMzH6va203PCiB4tnQBIQY7fI8QiD5pZYXjzAaC+URWuoHgkCdl6pybRth9Nd3cJ4dK80KLfok4nqRRYjVw7lmhV8hMZSwFWRRbBn5Pt4BQ67cyxyGpBpSm6fiSaOedJnoHgsl5CwggSDlGhdCBvswjp/ZQ1D2MkyBz0shiUE1nGRACOoiyaCsr/lyZT0NZaNxBV6XZAoEv3pzwjNw52aOsme1vU96JGTkEgrVbzrPat4BQHvwVOilAjgFRFrVS7nXHvgXEbefSsMtWT+DMCXvXMXfn6FpU2ZKRluOWkyF6gFAvfwdsBat2szP+nw1VtgDBD6U5FgzAWeOU9UPL1oFcFiA4PQYMjv2YshbKgBybvasIBGeHwGRHlHUQ7xd4IUC0QN8tRjv+14Gg3wKzVb77LA70M8gunk3TSnWRAcEiA/NRNyiNWDUoiz9fshchC7H1HmkCYUEBQ4p5j7xE2SBs/VarjA6YdZtAMCDAbQnUH0ASq8EOvSz0BlQZS+GfB/g9CETrDg4+9QATDf1DKd5z0GS7+1MRAGQtBqKP6KeoKzLZYE2Zw+deajUrBsfQt8Ro62TxpedLuoGQCd/dVjaw9a82MkePdJUm6/4Hvt0wB3iYzuKn+apLT2n8eHK8yYjcVoNs0NTxBk26+OgBwp+cBMchnHkMFOXsX1aUZbHpAYITgvOMgTPPiA9uLyPgbxRIFjjqKAmfoVGHXJ2e3ozgtEW8Tzje8GjD8a56aSQQykVGIggAZKen6/jGAC7TE35KsGke71EZmR9SRA7EySIjQbUXRwEhIL1QIiFTqjKv+CggBKIX7kmAkCW2x0ggROWbBELepH8AAAD//xV/GygAAAAGSURBVAMANsaQY1P6nBkAAAAASUVORK5CYII="
         }),
         vue.createElementVNode(
           "view",
-          null,
+          { style: { "margin-left": "20rpx", "display": "flex", "align-items": "center" } },
           vue.toDisplayString($setup.second) + "''",
           1
           /* TEXT */
@@ -11612,25 +11612,6 @@ if (uni.restoreGlobal) {
     __name: "chat",
     setup(__props, { expose: __expose }) {
       __expose();
-      const recorderManager = uni.getRecorderManager();
-      recorderManager.onStop((res) => {
-        if (canSendAudio.value) {
-          let message = tim.createAudioMessage({
-            to: starId.value,
-            conversationType: "C2C",
-            payload: {
-              file: res
-            },
-            onProgress: function(event) {
-              formatAppLog("log", "at pages/chat/chat.vue:95", event);
-            }
-          });
-          tim.sendMessage(message).then((response) => {
-            msgList.value.push(response.data.message);
-            scrollBottom();
-          });
-        }
-      });
       const canSendAudio = vue.ref(false);
       const starId = vue.ref("3ff691ed-557c-4c09-901f-8e182dd5c514");
       const msgList = vue.ref([]);
@@ -11662,17 +11643,14 @@ if (uni.restoreGlobal) {
       }
       function handleTouchCancel() {
         canSendAudio.value = false;
-        recorderManager.stop();
         longPressing.value = false;
       }
       function handleTouchStart() {
         canSendAudio.value = false;
-        recorderManager.start();
         longPressing.value = true;
       }
       function handleTouchEnd() {
         canSendAudio.value = true;
-        recorderManager.stop();
         longPressing.value = false;
       }
       function scrollBottom() {
@@ -11789,7 +11767,7 @@ if (uni.restoreGlobal) {
           url: "/pages/card/card"
         });
       }
-      const __returned__ = { recorderManager, canSendAudio, starId, msgList, inputValue, giftVisible, inputVisible, moreOpen, scrollTop, longPressing, bottomHeight, scrollViewHeight, onMessageReceived, handleTouchCancel, handleTouchStart, handleTouchEnd, scrollBottom, getListMsg, inputVisibleClick, moreOpenClick, sendMessage, sendMsgImage, sendMsgVideo, showAudio, goBack, goVideo, goCard, get onLoad() {
+      const __returned__ = { canSendAudio, starId, msgList, inputValue, giftVisible, inputVisible, moreOpen, scrollTop, longPressing, bottomHeight, scrollViewHeight, onMessageReceived, handleTouchCancel, handleTouchStart, handleTouchEnd, scrollBottom, getListMsg, inputVisibleClick, moreOpenClick, sendMessage, sendMsgImage, sendMsgVideo, showAudio, goBack, goVideo, goCard, get onLoad() {
         return onLoad;
       }, get onUnload() {
         return onUnload;
