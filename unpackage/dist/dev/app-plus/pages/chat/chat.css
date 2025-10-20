@@ -216,6 +216,10 @@
   display: flex;
   align-items: center;
 }
+.TextMessage .message-item[data-v-0f73054c] {
+  display: flex;
+  align-items: center;
+}
 .self[data-v-0f73054c] {
   background: #FF92C1;
   border-top-left-radius: 1rem;

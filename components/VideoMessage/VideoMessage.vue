@@ -1,5 +1,5 @@
 <template>
-  <view class="video-message" >
+  <view class="video-message" @click="goVideoPlay">
     <!-- error="videoError" bindfullscreenchange="showVideoFullScreenChange"  bind:longpress="handleLongPress" -->
     <!-- <video class="video-box" :src="message.payload.videoUrl" :poster="message.payload.thumbUrl"></video> -->
     <image
@@ -34,6 +34,11 @@ const videoInfo = computed(() => {
   }
 })
 
+function goVideoPlay () {
+  uni.navigateTo({
+		url: '/pages/videoPlay/videoPlay?url=' + videoInfo.value.videoUrl
+	})
+}
 </script>
 <style lang="scss">
 .video-message {

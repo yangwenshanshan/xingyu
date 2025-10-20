@@ -11081,7 +11081,7 @@ if (uni.restoreGlobal) {
     }
     return target;
   };
-  const _sfc_main$e = {
+  const _sfc_main$f = {
     __name: "home",
     setup(__props, { expose: __expose }) {
       __expose();
@@ -11117,13 +11117,13 @@ if (uni.restoreGlobal) {
       return __returned__;
     }
   };
-  function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$e(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "home" });
   }
-  const PagesHomeHome = /* @__PURE__ */ _export_sfc(_sfc_main$e, [["render", _sfc_render$d], ["__file", "D:/Code/IM/pages/home/home.vue"]]);
+  const PagesHomeHome = /* @__PURE__ */ _export_sfc(_sfc_main$f, [["render", _sfc_render$e], ["__file", "D:/Code/IM/pages/home/home.vue"]]);
   const _imports_0$4 = "/static/default-icon.png";
   const _imports_1$6 = "/static/avatar-level.png";
-  const _sfc_main$d = {
+  const _sfc_main$e = {
     props: {
       name: {
         type: String,
@@ -11139,7 +11139,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "star-info" }, [
       vue.createElementVNode("view", { class: "info-avatar" }, [
         vue.createElementVNode("image", {
@@ -11161,9 +11161,9 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const __easycom_0$1 = /* @__PURE__ */ _export_sfc(_sfc_main$d, [["render", _sfc_render$c], ["__scopeId", "data-v-6c8a81d8"], ["__file", "D:/Code/IM/components/StarInfo/StarInfo.vue"]]);
-  const _sfc_main$c = {};
-  function _sfc_render$b(_ctx, _cache, $props, $setup, $data, $options) {
+  const __easycom_0$1 = /* @__PURE__ */ _export_sfc(_sfc_main$e, [["render", _sfc_render$d], ["__scopeId", "data-v-6c8a81d8"], ["__file", "D:/Code/IM/components/StarInfo/StarInfo.vue"]]);
+  const _sfc_main$d = {};
+  function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "base-page" }, [
       vue.createElementVNode("view", { class: "page-top-left" }),
       vue.createElementVNode("view", { class: "page-top-right" }),
@@ -11173,14 +11173,14 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const __easycom_0 = /* @__PURE__ */ _export_sfc(_sfc_main$c, [["render", _sfc_render$b], ["__scopeId", "data-v-34ef6681"], ["__file", "D:/Code/IM/components/BasePage/BasePage.vue"]]);
+  const __easycom_0 = /* @__PURE__ */ _export_sfc(_sfc_main$d, [["render", _sfc_render$c], ["__scopeId", "data-v-34ef6681"], ["__file", "D:/Code/IM/components/BasePage/BasePage.vue"]]);
   const _imports_0$3 = "/static/bar-home-active.png";
   const _imports_1$5 = "/static/bar-home.png";
   const _imports_2$4 = "/static/bar-serve-active.png";
   const _imports_2$3 = "/static/bar-serve.png";
   const _imports_4$3 = "/static/bar-shop.png";
   const _imports_5$2 = "/static/bar-me.png";
-  const _sfc_main$b = {
+  const _sfc_main$c = {
     __name: "Bar",
     props: {
       actived: {
@@ -11215,7 +11215,7 @@ if (uni.restoreGlobal) {
       return __returned__;
     }
   };
-  function _sfc_render$a(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$b(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "bar" }, [
       vue.createElementVNode(
         "view",
@@ -11297,11 +11297,11 @@ if (uni.restoreGlobal) {
       )
     ]);
   }
-  const __easycom_1$1 = /* @__PURE__ */ _export_sfc(_sfc_main$b, [["render", _sfc_render$a], ["__scopeId", "data-v-0f74e904"], ["__file", "D:/Code/IM/components/Bar/Bar.vue"]]);
+  const __easycom_1$1 = /* @__PURE__ */ _export_sfc(_sfc_main$c, [["render", _sfc_render$b], ["__scopeId", "data-v-0f74e904"], ["__file", "D:/Code/IM/components/Bar/Bar.vue"]]);
   const _imports_0$2 = "/static/home-left.png";
   const _imports_1$4 = "/static/home-search.png";
   const _imports_3$2 = "/static/item-like.png";
-  const _sfc_main$a = {
+  const _sfc_main$b = {
     __name: "index",
     setup(__props, { expose: __expose }) {
       __expose();
@@ -11320,7 +11320,7 @@ if (uni.restoreGlobal) {
       return __returned__;
     }
   };
-  function _sfc_render$9(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$a(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_StarInfo = resolveEasycom(vue.resolveDynamicComponent("StarInfo"), __easycom_0$1);
     const _component_BasePage = resolveEasycom(vue.resolveDynamicComponent("BasePage"), __easycom_0);
     const _component_Bar = resolveEasycom(vue.resolveDynamicComponent("Bar"), __easycom_1$1);
@@ -11401,8 +11401,8 @@ if (uni.restoreGlobal) {
       vue.createVNode(_component_Bar, { actived: 1 })
     ]);
   }
-  const PagesIndexIndex = /* @__PURE__ */ _export_sfc(_sfc_main$a, [["render", _sfc_render$9], ["__file", "D:/Code/IM/pages/index/index.vue"]]);
-  const _sfc_main$9 = {
+  const PagesIndexIndex = /* @__PURE__ */ _export_sfc(_sfc_main$b, [["render", _sfc_render$a], ["__file", "D:/Code/IM/pages/index/index.vue"]]);
+  const _sfc_main$a = {
     __name: "TextMessage",
     props: {
       message: {
@@ -11432,7 +11432,7 @@ if (uni.restoreGlobal) {
       return __returned__;
     }
   };
-  function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$9(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock(
       "view",
       {
@@ -11443,8 +11443,8 @@ if (uni.restoreGlobal) {
       /* TEXT, CLASS */
     );
   }
-  const __easycom_1 = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["render", _sfc_render$8], ["__scopeId", "data-v-e05b611f"], ["__file", "D:/Code/IM/components/TextMessage/TextMessage.vue"]]);
-  const _sfc_main$8 = {
+  const __easycom_1 = /* @__PURE__ */ _export_sfc(_sfc_main$a, [["render", _sfc_render$9], ["__scopeId", "data-v-e05b611f"], ["__file", "D:/Code/IM/components/TextMessage/TextMessage.vue"]]);
+  const _sfc_main$9 = {
     __name: "ImageMessage",
     props: {
       message: {
@@ -11477,7 +11477,7 @@ if (uni.restoreGlobal) {
       return __returned__;
     }
   };
-  function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", {
       class: "TUI-ImageMessage",
       onClick: $setup.previewImage
@@ -11490,8 +11490,8 @@ if (uni.restoreGlobal) {
       }, null, 12, ["src"])
     ]);
   }
-  const __easycom_2 = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["render", _sfc_render$7], ["__scopeId", "data-v-4c2aa605"], ["__file", "D:/Code/IM/components/ImageMessage/ImageMessage.vue"]]);
-  const _sfc_main$7 = {
+  const __easycom_2 = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["render", _sfc_render$8], ["__scopeId", "data-v-4c2aa605"], ["__file", "D:/Code/IM/components/ImageMessage/ImageMessage.vue"]]);
+  const _sfc_main$8 = {
     __name: "VideoMessage",
     props: {
       message: {
@@ -11514,13 +11514,21 @@ if (uni.restoreGlobal) {
           };
         }
       });
-      const __returned__ = { props, videoInfo, computed: vue.computed };
+      function goVideoPlay() {
+        uni.navigateTo({
+          url: "/pages/videoPlay/videoPlay?url=" + videoInfo.value.videoUrl
+        });
+      }
+      const __returned__ = { props, videoInfo, goVideoPlay, computed: vue.computed };
       Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
       return __returned__;
     }
   };
-  function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
-    return vue.openBlock(), vue.createElementBlock("view", { class: "video-message" }, [
+  function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
+    return vue.openBlock(), vue.createElementBlock("view", {
+      class: "video-message",
+      onClick: $setup.goVideoPlay
+    }, [
       vue.createCommentVNode(' error="videoError" bindfullscreenchange="showVideoFullScreenChange"  bind:longpress="handleLongPress" '),
       vue.createCommentVNode(' <video class="video-box" :src="message.payload.videoUrl" :poster="message.payload.thumbUrl"></video> '),
       vue.createElementVNode("image", {
@@ -11537,8 +11545,8 @@ if (uni.restoreGlobal) {
       })
     ]);
   }
-  const __easycom_3 = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["render", _sfc_render$6], ["__scopeId", "data-v-4c9132f1"], ["__file", "D:/Code/IM/components/VideoMessage/VideoMessage.vue"]]);
-  const _sfc_main$6 = {
+  const __easycom_3 = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["render", _sfc_render$7], ["__scopeId", "data-v-4c9132f1"], ["__file", "D:/Code/IM/components/VideoMessage/VideoMessage.vue"]]);
+  const _sfc_main$7 = {
     __name: "AudioMessage",
     props: {
       message: {
@@ -11566,7 +11574,7 @@ if (uni.restoreGlobal) {
       return __returned__;
     }
   };
-  function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock(
       "view",
       {
@@ -11574,24 +11582,46 @@ if (uni.restoreGlobal) {
         onClick: $setup.playAudio
       },
       [
-        vue.createElementVNode("image", {
-          style: { "width": "34rpx" },
-          mode: "widthFix",
-          src: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAAAxCAYAAAC/BXv3AAADg0lEQVR4AbSYgXnUMAyF8zFBmYBuQJmAMgEwATABMAEwATABMAEwAbBBmYAyAWUD3p+ec8qznDs+1/dZkazI0rMkJ2lvTWN/J3IPiW2PkUBeKfSfHSFLbI9RQE4V8rWoDORHZZLxUUCycnwQAACK1WMUkAuF+i6KA3CfoyLKo4AQ47Eul6I4zjShTGLrMRLIlUIBBi5xGc8lVSUaCUTxJkr0Zlr/KBH9stL2AnkqbziFS0zHO2m9X86lg8SuRw8QghcQ8CfXLtOrZwWj1bOlB4gHZudV7YkoIiOQxGWQEWhW9AD5MXvYX9La729PWVaWh1wPEDLgx5MdUrIQfxHJCLQoJJBVNjD1AOFYPpMzH6va203PCiB4tnQBIQY7fI8QiD5pZYXjzAaC+URWuoHgkCdl6pybRth9Nd3cJ4dK80KLfok4nqRRYjVw7lmhV8hMZSwFWRRbBn5Pt4BQ67cyxyGpBpSm6fiSaOedJnoHgsl5CwggSDlGhdCBvswjp/ZQ1D2MkyBz0shiUE1nGRACOoiyaCsr/lyZT0NZaNxBV6XZAoEv3pzwjNw52aOsme1vU96JGTkEgrVbzrPat4BQHvwVOilAjgFRFrVS7nXHvgXEbefSsMtWT+DMCXvXMXfn6FpU2ZKRluOWkyF6gFAvfwdsBat2szP+nw1VtgDBD6U5FgzAWeOU9UPL1oFcFiA4PQYMjv2YshbKgBybvasIBGeHwGRHlHUQ7xd4IUC0QN8tRjv+14Gg3wKzVb77LA70M8gunk3TSnWRAcEiA/NRNyiNWDUoiz9fshchC7H1HmkCYUEBQ4p5j7xE2SBs/VarjA6YdZtAMCDAbQnUH0ASq8EOvSz0BlQZS+GfB/g9CETrDg4+9QATDf1DKd5z0GS7+1MRAGQtBqKP6KeoKzLZYE2Zw+deajUrBsfQt8Ro62TxpedLuoGQCd/dVjaw9a82MkePdJUm6/4Hvt0wB3iYzuKn+apLT2n8eHK8yYjcVoNs0NTxBk26+OgBwp+cBMchnHkMFOXsX1aUZbHpAYITgvOMgTPPiA9uLyPgbxRIFjjqKAmfoVGHXJ2e3ozgtEW8Tzje8GjD8a56aSQQykVGIggAZKen6/jGAC7TE35KsGke71EZmR9SRA7EySIjQbUXRwEhIL1QIiFTqjKv+CggBKIX7kmAkCW2x0ggROWbBELepH8AAAD//xV/GygAAAAGSURBVAMANsaQY1P6nBkAAAAASUVORK5CYII="
-        }),
-        vue.createElementVNode(
-          "view",
-          { style: { "margin-left": "20rpx", "display": "flex", "align-items": "center" } },
-          vue.toDisplayString($setup.second) + "''",
-          1
-          /* TEXT */
-        )
+        $props.message.flow === "out" ? (vue.openBlock(), vue.createElementBlock("view", {
+          key: 0,
+          class: "message-item"
+        }, [
+          vue.createElementVNode(
+            "view",
+            { style: { "margin-right": "20rpx", "display": "flex", "align-items": "center" } },
+            vue.toDisplayString($setup.second) + "''",
+            1
+            /* TEXT */
+          ),
+          vue.createElementVNode("image", {
+            style: { "width": "30rpx", "transform": "rotate(180deg)" },
+            mode: "widthFix",
+            src: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAAAxCAYAAAC/BXv3AAADg0lEQVR4AbSYgXnUMAyF8zFBmYBuQJmAMgEwATABMAEwATABMAEwAbBBmYAyAWUD3p+ec8qznDs+1/dZkazI0rMkJ2lvTWN/J3IPiW2PkUBeKfSfHSFLbI9RQE4V8rWoDORHZZLxUUCycnwQAACK1WMUkAuF+i6KA3CfoyLKo4AQ47Eul6I4zjShTGLrMRLIlUIBBi5xGc8lVSUaCUTxJkr0Zlr/KBH9stL2AnkqbziFS0zHO2m9X86lg8SuRw8QghcQ8CfXLtOrZwWj1bOlB4gHZudV7YkoIiOQxGWQEWhW9AD5MXvYX9La729PWVaWh1wPEDLgx5MdUrIQfxHJCLQoJJBVNjD1AOFYPpMzH6va203PCiB4tnQBIQY7fI8QiD5pZYXjzAaC+URWuoHgkCdl6pybRth9Nd3cJ4dK80KLfok4nqRRYjVw7lmhV8hMZSwFWRRbBn5Pt4BQ67cyxyGpBpSm6fiSaOedJnoHgsl5CwggSDlGhdCBvswjp/ZQ1D2MkyBz0shiUE1nGRACOoiyaCsr/lyZT0NZaNxBV6XZAoEv3pzwjNw52aOsme1vU96JGTkEgrVbzrPat4BQHvwVOilAjgFRFrVS7nXHvgXEbefSsMtWT+DMCXvXMXfn6FpU2ZKRluOWkyF6gFAvfwdsBat2szP+nw1VtgDBD6U5FgzAWeOU9UPL1oFcFiA4PQYMjv2YshbKgBybvasIBGeHwGRHlHUQ7xd4IUC0QN8tRjv+14Gg3wKzVb77LA70M8gunk3TSnWRAcEiA/NRNyiNWDUoiz9fshchC7H1HmkCYUEBQ4p5j7xE2SBs/VarjA6YdZtAMCDAbQnUH0ASq8EOvSz0BlQZS+GfB/g9CETrDg4+9QATDf1DKd5z0GS7+1MRAGQtBqKP6KeoKzLZYE2Zw+deajUrBsfQt8Ro62TxpedLuoGQCd/dVjaw9a82MkePdJUm6/4Hvt0wB3iYzuKn+apLT2n8eHK8yYjcVoNs0NTxBk26+OgBwp+cBMchnHkMFOXsX1aUZbHpAYITgvOMgTPPiA9uLyPgbxRIFjjqKAmfoVGHXJ2e3ozgtEW8Tzje8GjD8a56aSQQykVGIggAZKen6/jGAC7TE35KsGke71EZmR9SRA7EySIjQbUXRwEhIL1QIiFTqjKv+CggBKIX7kmAkCW2x0ggROWbBELepH8AAAD//xV/GygAAAAGSURBVAMANsaQY1P6nBkAAAAASUVORK5CYII="
+          })
+        ])) : vue.createCommentVNode("v-if", true),
+        $props.message.flow === "in" ? (vue.openBlock(), vue.createElementBlock("view", {
+          key: 1,
+          class: "message-item"
+        }, [
+          vue.createElementVNode("image", {
+            style: { "width": "30rpx" },
+            mode: "widthFix",
+            src: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAAAxCAYAAAC/BXv3AAADg0lEQVR4AbSYgXnUMAyF8zFBmYBuQJmAMgEwATABMAEwATABMAEwAbBBmYAyAWUD3p+ec8qznDs+1/dZkazI0rMkJ2lvTWN/J3IPiW2PkUBeKfSfHSFLbI9RQE4V8rWoDORHZZLxUUCycnwQAACK1WMUkAuF+i6KA3CfoyLKo4AQ47Eul6I4zjShTGLrMRLIlUIBBi5xGc8lVSUaCUTxJkr0Zlr/KBH9stL2AnkqbziFS0zHO2m9X86lg8SuRw8QghcQ8CfXLtOrZwWj1bOlB4gHZudV7YkoIiOQxGWQEWhW9AD5MXvYX9La729PWVaWh1wPEDLgx5MdUrIQfxHJCLQoJJBVNjD1AOFYPpMzH6va203PCiB4tnQBIQY7fI8QiD5pZYXjzAaC+URWuoHgkCdl6pybRth9Nd3cJ4dK80KLfok4nqRRYjVw7lmhV8hMZSwFWRRbBn5Pt4BQ67cyxyGpBpSm6fiSaOedJnoHgsl5CwggSDlGhdCBvswjp/ZQ1D2MkyBz0shiUE1nGRACOoiyaCsr/lyZT0NZaNxBV6XZAoEv3pzwjNw52aOsme1vU96JGTkEgrVbzrPat4BQHvwVOilAjgFRFrVS7nXHvgXEbefSsMtWT+DMCXvXMXfn6FpU2ZKRluOWkyF6gFAvfwdsBat2szP+nw1VtgDBD6U5FgzAWeOU9UPL1oFcFiA4PQYMjv2YshbKgBybvasIBGeHwGRHlHUQ7xd4IUC0QN8tRjv+14Gg3wKzVb77LA70M8gunk3TSnWRAcEiA/NRNyiNWDUoiz9fshchC7H1HmkCYUEBQ4p5j7xE2SBs/VarjA6YdZtAMCDAbQnUH0ASq8EOvSz0BlQZS+GfB/g9CETrDg4+9QATDf1DKd5z0GS7+1MRAGQtBqKP6KeoKzLZYE2Zw+deajUrBsfQt8Ro62TxpedLuoGQCd/dVjaw9a82MkePdJUm6/4Hvt0wB3iYzuKn+apLT2n8eHK8yYjcVoNs0NTxBk26+OgBwp+cBMchnHkMFOXsX1aUZbHpAYITgvOMgTPPiA9uLyPgbxRIFjjqKAmfoVGHXJ2e3ozgtEW8Tzje8GjD8a56aSQQykVGIggAZKen6/jGAC7TE35KsGke71EZmR9SRA7EySIjQbUXRwEhIL1QIiFTqjKv+CggBKIX7kmAkCW2x0ggROWbBELepH8AAAD//xV/GygAAAAGSURBVAMANsaQY1P6nBkAAAAASUVORK5CYII="
+          }),
+          vue.createElementVNode(
+            "view",
+            { style: { "margin-left": "20rpx", "display": "flex", "align-items": "center" } },
+            vue.toDisplayString($setup.second) + "''",
+            1
+            /* TEXT */
+          )
+        ])) : vue.createCommentVNode("v-if", true)
       ],
       2
       /* CLASS */
     );
   }
-  const __easycom_4 = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["render", _sfc_render$5], ["__scopeId", "data-v-0f73054c"], ["__file", "D:/Code/IM/components/AudioMessage/AudioMessage.vue"]]);
+  const __easycom_4 = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["render", _sfc_render$6], ["__scopeId", "data-v-0f73054c"], ["__file", "D:/Code/IM/components/AudioMessage/AudioMessage.vue"]]);
   const _imports_0$1 = "/static/bar-back.png";
   const _imports_1$3 = "/static/card-small-1.png";
   const _imports_2$2 = "/static/card-small-2.png";
@@ -11608,7 +11638,7 @@ if (uni.restoreGlobal) {
   const _imports_13 = "/static/chat-speaking.png";
   const _imports_14 = "/static/chat-more.png";
   const _imports_15 = "/static/chat-more-open.png";
-  const _sfc_main$5 = {
+  const _sfc_main$6 = {
     __name: "chat",
     setup(__props, { expose: __expose }) {
       __expose();
@@ -11780,7 +11810,7 @@ if (uni.restoreGlobal) {
       return __returned__;
     }
   };
-  function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_StarInfo = resolveEasycom(vue.resolveDynamicComponent("StarInfo"), __easycom_0$1);
     const _component_TextMessage = resolveEasycom(vue.resolveDynamicComponent("TextMessage"), __easycom_1);
     const _component_ImageMessage = resolveEasycom(vue.resolveDynamicComponent("ImageMessage"), __easycom_2);
@@ -12068,14 +12098,14 @@ if (uni.restoreGlobal) {
       )
     ]);
   }
-  const PagesChatChat = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["render", _sfc_render$4], ["__file", "D:/Code/IM/pages/chat/chat.vue"]]);
+  const PagesChatChat = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["render", _sfc_render$5], ["__file", "D:/Code/IM/pages/chat/chat.vue"]]);
   const _imports_1$1 = "/static/detail-friend.png";
   const _imports_2$1 = "/static/detail-more.png";
   const _imports_4$1 = "/static/detail-type.png";
   const _imports_5 = "/static/detail-line.png";
   const _imports_6 = "/static/detail-holder-1.png";
   const _imports_7 = "/static/detail-holder-2.png";
-  const _sfc_main$4 = {
+  const _sfc_main$5 = {
     __name: "detail",
     setup(__props, { expose: __expose }) {
       __expose();
@@ -12087,7 +12117,7 @@ if (uni.restoreGlobal) {
       return __returned__;
     }
   };
-  function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_BasePage = resolveEasycom(vue.resolveDynamicComponent("BasePage"), __easycom_0);
     const _component_Bar = resolveEasycom(vue.resolveDynamicComponent("Bar"), __easycom_1$1);
     return vue.openBlock(), vue.createElementBlock("view", { class: "detail" }, [
@@ -12173,9 +12203,9 @@ if (uni.restoreGlobal) {
       vue.createVNode(_component_Bar, { actived: 1 })
     ]);
   }
-  const PagesDetailDetail = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["render", _sfc_render$3], ["__file", "D:/Code/IM/pages/detail/detail.vue"]]);
+  const PagesDetailDetail = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["render", _sfc_render$4], ["__file", "D:/Code/IM/pages/detail/detail.vue"]]);
   const _imports_1 = "/static/chat-list-title.png";
-  const _sfc_main$3 = {
+  const _sfc_main$4 = {
     __name: "chatList",
     setup(__props, { expose: __expose }) {
       __expose();
@@ -12203,7 +12233,7 @@ if (uni.restoreGlobal) {
       return __returned__;
     }
   };
-  function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_BasePage = resolveEasycom(vue.resolveDynamicComponent("BasePage"), __easycom_0);
     const _component_Bar = resolveEasycom(vue.resolveDynamicComponent("Bar"), __easycom_1$1);
     return vue.openBlock(), vue.createElementBlock("view", { class: "chat-list" }, [
@@ -12271,9 +12301,9 @@ if (uni.restoreGlobal) {
       vue.createVNode(_component_Bar, { actived: 2 })
     ]);
   }
-  const PagesChatListChatList = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$2], ["__file", "D:/Code/IM/pages/chatList/chatList.vue"]]);
+  const PagesChatListChatList = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["render", _sfc_render$3], ["__file", "D:/Code/IM/pages/chatList/chatList.vue"]]);
   const _imports_0 = "/static/card-bg.png";
-  const _sfc_main$2 = {
+  const _sfc_main$3 = {
     __name: "card",
     setup(__props, { expose: __expose }) {
       __expose();
@@ -12285,7 +12315,7 @@ if (uni.restoreGlobal) {
       return __returned__;
     }
   };
-  function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "card" }, [
       vue.createElementVNode("view", { class: "status_bar" }),
       vue.createElementVNode("view", { class: "home-title" }, [
@@ -12304,11 +12334,11 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const PagesCardCard = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$1], ["__file", "D:/Code/IM/pages/card/card.vue"]]);
+  const PagesCardCard = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$2], ["__file", "D:/Code/IM/pages/card/card.vue"]]);
   const _imports_2 = "/static/chat-microphone.png";
   const _imports_3 = "/static/chat-hangUp.png";
   const _imports_4 = "/static/chat-speaker.png";
-  const _sfc_main$1 = {
+  const _sfc_main$2 = {
     __name: "calling",
     setup(__props, { expose: __expose }) {
       __expose();
@@ -12325,7 +12355,7 @@ if (uni.restoreGlobal) {
       return __returned__;
     }
   };
-  function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "calling" }, [
       vue.createElementVNode("view", { class: "calling-avatar" }, [
         vue.createElementVNode("image", {
@@ -12379,7 +12409,32 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const PagesCallingCalling = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render], ["__file", "D:/Code/IM/pages/calling/calling.vue"]]);
+  const PagesCallingCalling = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$1], ["__file", "D:/Code/IM/pages/calling/calling.vue"]]);
+  const _sfc_main$1 = {
+    __name: "videoPlay",
+    setup(__props, { expose: __expose }) {
+      __expose();
+      const url = vue.ref("");
+      onLoad((option) => {
+        url.value = option.url;
+        formatAppLog("log", "at pages/videoPlay/videoPlay.vue:14", option.url);
+      });
+      const __returned__ = { url, get onLoad() {
+        return onLoad;
+      }, ref: vue.ref };
+      Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+      return __returned__;
+    }
+  };
+  function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
+    return vue.openBlock(), vue.createElementBlock("view", { class: "videoplay" }, [
+      vue.createElementVNode("video", {
+        src: $setup.url,
+        autoplay: ""
+      }, null, 8, ["src"])
+    ]);
+  }
+  const PagesVideoPlayVideoPlay = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render], ["__file", "D:/Code/IM/pages/videoPlay/videoPlay.vue"]]);
   __definePage("pages/home/home", PagesHomeHome);
   __definePage("pages/index/index", PagesIndexIndex);
   __definePage("pages/chat/chat", PagesChatChat);
@@ -12387,6 +12442,7 @@ if (uni.restoreGlobal) {
   __definePage("pages/chatList/chatList", PagesChatListChatList);
   __definePage("pages/card/card", PagesCardCard);
   __definePage("pages/calling/calling", PagesCallingCalling);
+  __definePage("pages/videoPlay/videoPlay", PagesVideoPlayVideoPlay);
   const _sfc_main = {
     onLaunch: function() {
       formatAppLog("log", "at App.vue:4", "App onLaunch");
