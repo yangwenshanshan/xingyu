@@ -5,7 +5,7 @@
       <view class="avatar-name">易烊千玺</view>
     </view>
     <view class="calling-called" v-if="isCalling">
-      <image style="width: 298rpx" src="../../static/chat-calling.png" mode="widthFix"></image>
+      <image style="width: 298rpx" src="../../static/chat-calling.gif" mode="widthFix"></image>
     </view>
     <view class="calling-waiting" v-else>等待对方接受邀请…</view>
     <view class="calling-opt">

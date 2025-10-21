@@ -11642,6 +11642,25 @@ if (uni.restoreGlobal) {
     __name: "chat",
     setup(__props, { expose: __expose }) {
       __expose();
+      const recorderManager = uni.getRecorderManager();
+      recorderManager.onStop((res) => {
+        if (canSendAudio.value) {
+          let message = tim.createAudioMessage({
+            to: starId.value,
+            conversationType: "C2C",
+            payload: {
+              file: res
+            },
+            onProgress: function(event) {
+              formatAppLog("log", "at pages/chat/chat.vue:95", event);
+            }
+          });
+          tim.sendMessage(message).then((response) => {
+            msgList.value.push(response.data.message);
+            scrollBottom();
+          });
+        }
+      });
       const canSendAudio = vue.ref(false);
       const starId = vue.ref("3ff691ed-557c-4c09-901f-8e182dd5c514");
       const msgList = vue.ref([]);
@@ -11673,14 +11692,17 @@ if (uni.restoreGlobal) {
       }
       function handleTouchCancel() {
         canSendAudio.value = false;
+        recorderManager.stop();
         longPressing.value = false;
       }
       function handleTouchStart() {
         canSendAudio.value = false;
+        recorderManager.start();
         longPressing.value = true;
       }
       function handleTouchEnd() {
         canSendAudio.value = true;
+        recorderManager.stop();
         longPressing.value = false;
       }
       function scrollBottom() {
@@ -11797,7 +11819,7 @@ if (uni.restoreGlobal) {
           url: "/pages/card/card"
         });
       }
-      const __returned__ = { canSendAudio, starId, msgList, inputValue, giftVisible, inputVisible, moreOpen, scrollTop, longPressing, bottomHeight, scrollViewHeight, onMessageReceived, handleTouchCancel, handleTouchStart, handleTouchEnd, scrollBottom, getListMsg, inputVisibleClick, moreOpenClick, sendMessage, sendMsgImage, sendMsgVideo, showAudio, goBack, goVideo, goCard, get onLoad() {
+      const __returned__ = { recorderManager, canSendAudio, starId, msgList, inputValue, giftVisible, inputVisible, moreOpen, scrollTop, longPressing, bottomHeight, scrollViewHeight, onMessageReceived, handleTouchCancel, handleTouchStart, handleTouchEnd, scrollBottom, getListMsg, inputVisibleClick, moreOpenClick, sendMessage, sendMsgImage, sendMsgVideo, showAudio, goBack, goVideo, goCard, get onLoad() {
         return onLoad;
       }, get onUnload() {
         return onUnload;

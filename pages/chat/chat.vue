@@ -59,7 +59,7 @@
             <template v-if="!longPressing">按住说话</template>
             <view v-else class="speaking">
               <view class="speak-loading">
-                <image mode="widthFix" style="width: 298rpx;" src="../../static/chat-calling.png"></image>
+                <image mode="widthFix" style="width: 298rpx;" src="../../static/chat-calling.gif"></image>
               </view>
               <view class="loading-text">松开发送 上滑取消</view>
               <view class="loading-bottom">
@@ -82,25 +82,25 @@ import { onLoad, onUnload } from '@dcloudio/uni-app'
 import { computed, ref, nextTick } from 'vue'
 import { tim, timEvent } from '../../utils/tim'
 
-// const recorderManager = uni.getRecorderManager();
-// recorderManager.onStop((res) => {
-//   if (canSendAudio.value) {
-//     let message = tim.createAudioMessage({
-//       to: starId.value,
-//       conversationType: 'C2C',
-//       payload: {
-//         file: res
-//       },
-//       onProgress: function(event) {
-//         console.log(event)
-//       }
-//     })
-//     tim.sendMessage(message).then(response => {
-//       msgList.value.push(response.data.message)
-//       scrollBottom()
-//     })
-//   }
-// });
+const recorderManager = uni.getRecorderManager();
+recorderManager.onStop((res) => {
+  if (canSendAudio.value) {
+    let message = tim.createAudioMessage({
+      to: starId.value,
+      conversationType: 'C2C',
+      payload: {
+        file: res
+      },
+      onProgress: function(event) {
+        console.log(event)
+      }
+    })
+    tim.sendMessage(message).then(response => {
+      msgList.value.push(response.data.message)
+      scrollBottom()
+    })
+  }
+});
 const canSendAudio = ref(false)
 const starId = ref('3ff691ed-557c-4c09-901f-8e182dd5c514')
 const msgList = ref([])
@@ -133,17 +133,17 @@ function onMessageReceived (event) {
 }
 function handleTouchCancel () {
   canSendAudio.value = false
-  // recorderManager.stop();
+  recorderManager.stop();
   longPressing.value = false
 }
 function handleTouchStart() {
   canSendAudio.value = false
-  // recorderManager.start();
+  recorderManager.start();
   longPressing.value = true
 }
 function handleTouchEnd() {
   canSendAudio.value = true
-  // recorderManager.stop();
+  recorderManager.stop();
   longPressing.value = false
 }
 function scrollBottom () {
