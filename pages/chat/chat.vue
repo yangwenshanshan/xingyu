@@ -129,7 +129,8 @@ onUnload(() => {
   tim.off(timEvent.MESSAGE_RECEIVED, onMessageReceived);
 })
 function onMessageReceived (event) {
-  console.log('yws', event)
+  let arr = event.data.filter((res) => res.conversationID === `C2C${starId.value}`)
+  msgList.value.push(...arr)
 }
 function handleTouchCancel () {
   canSendAudio.value = false
