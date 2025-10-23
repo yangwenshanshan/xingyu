@@ -17,7 +17,7 @@
 						</view>
 						<view class="item-info">
 							<view class="info-name">{{ item.idol.name }}</view>
-							<view class="info-text">暂无消息</view>
+							<view class="info-text">{{ item.messages && item.messages[0] ? item.messages[0].text_content : '' }}</view>
 						</view>
 						<view class="item-time">10:19</view>
 					</view>
@@ -43,15 +43,41 @@ function goDetail () {
 	})
 }
 onMounted(() => {
+	// ?limit=25&&fields[]=&fields[]=&fields[]=&sort[]=id&page=1
 	uni.request({
-		url: 'https://xingmi.app.canglandata.com/items/chat?limit=25&fields[]=heat_value&fields[]=idol.user&fields[]=idol.name&fields[]=idol.id&fields[]=user.id&fields[]=user.avatar.id&fields[]=user.avatar.modified_on&fields[]=user.email&fields[]=user.first_name&fields[]=user.last_name&fields[]=user_defined_prompt&fields[]=id&sort[]=id&page=1',
+		url: 'https://xingmi.app.canglandata.com/items/chat',
 		header: {
 			Authorization: `Bearer Tx24NJznrt8ka1leJvx2Re3-ZgEDSolD`
+		},
+		data: {
+			limit: 20,
+			fields: [
+				'id',
+				'heat_value',
+				'idol.user',
+				'idol.name',
+				'idol.id',
+				'user.id',
+				'user.avatar.id',
+				'user.avatar.modified_on',
+				'user.first_name',
+				'user.last_name',
+				'user_defined_prompt',
+				'messages.text_content',
+				'messages.date_created',
+			],
+			sort: 'id',
+			page: 1,
+			deep: {
+				messages: {
+					_limit: 1,
+					_sort: '-date_created',
+				}
+			}
 		},
 		method: 'get',
 		success: (res) => {
 			chatList.value = res.data.data
-			console.log(res)
 		}
 	})
 })

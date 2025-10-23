@@ -1,19 +1,19 @@
 {
-  "hash": "f369741c",
-  "configHash": "f994ac26",
-  "lockfileHash": "dfed2a99",
-  "browserHash": "b6774854",
+  "hash": "f6f2f4a4",
+  "configHash": "330d8d19",
+  "lockfileHash": "3397a789",
+  "browserHash": "41b1e19e",
   "optimized": {
     "@tencentcloud/chat": {
       "src": "../../../../../node_modules/@tencentcloud/chat/index.js",
       "file": "@tencentcloud_chat.js",
-      "fileHash": "4b66348a",
+      "fileHash": "f47c1638",
       "needsInterop": true
     },
     "tim-upload-plugin": {
       "src": "../../../../../node_modules/tim-upload-plugin/index.js",
       "file": "tim-upload-plugin.js",
-      "fileHash": "51f9224b",
+      "fileHash": "a43c109e",
       "needsInterop": true
     }
   },

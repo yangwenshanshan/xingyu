@@ -2,9 +2,9 @@ import {
   __commonJS
 } from "./chunk-Y2F7D3TJ.js";
 
-// ../../../Code/IM/node_modules/tim-upload-plugin/index.js
+// ../../../../Code/yds/xingmi-uniapp/xingyu/node_modules/tim-upload-plugin/index.js
 var require_tim_upload_plugin = __commonJS({
-  "../../../Code/IM/node_modules/tim-upload-plugin/index.js"(exports, module) {
+  "../../../../Code/yds/xingmi-uniapp/xingyu/node_modules/tim-upload-plugin/index.js"(exports, module) {
     !function(e, t) {
       "object" == typeof exports && "undefined" != typeof module ? module.exports = t() : "function" == typeof define && define.amd ? define(t) : (e = e || self).TIMUploadPlugin = t();
     }(exports, function() {
