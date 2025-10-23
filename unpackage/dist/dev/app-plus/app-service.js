@@ -11634,7 +11634,7 @@ if (uni.restoreGlobal) {
   const _imports_9 = "/static/gift.png";
   const _imports_10 = "/static/chat-audio.png";
   const _imports_11 = "/static/chat-input.png";
-  const _imports_1$2 = "/static/chat-calling.png";
+  const _imports_1$2 = "/static/chat-calling.gif";
   const _imports_13 = "/static/chat-speaking.png";
   const _imports_14 = "/static/chat-more.png";
   const _imports_15 = "/static/chat-more-open.png";
@@ -11642,27 +11642,8 @@ if (uni.restoreGlobal) {
     __name: "chat",
     setup(__props, { expose: __expose }) {
       __expose();
-      const recorderManager = uni.getRecorderManager();
-      recorderManager.onStop((res) => {
-        if (canSendAudio.value) {
-          let message = tim.createAudioMessage({
-            to: starId.value,
-            conversationType: "C2C",
-            payload: {
-              file: res
-            },
-            onProgress: function(event) {
-              formatAppLog("log", "at pages/chat/chat.vue:95", event);
-            }
-          });
-          tim.sendMessage(message).then((response) => {
-            msgList.value.push(response.data.message);
-            scrollBottom();
-          });
-        }
-      });
       const canSendAudio = vue.ref(false);
-      const starId = vue.ref("3ff691ed-557c-4c09-901f-8e182dd5c514");
+      const starId = vue.ref("");
       const msgList = vue.ref([]);
       const inputValue = vue.ref("");
       const giftVisible = vue.ref(false);
@@ -11680,7 +11661,8 @@ if (uni.restoreGlobal) {
       const scrollViewHeight = vue.computed(() => {
         return `calc(100vh - ${bottomHeight.value} - 135rpx - var(--status-bar-height))`;
       });
-      onLoad(() => {
+      onLoad((option) => {
+        starId.value = option.idol;
         getListMsg();
         tim.on(timEvent.MESSAGE_RECEIVED, onMessageReceived);
       });
@@ -11688,21 +11670,20 @@ if (uni.restoreGlobal) {
         tim.off(timEvent.MESSAGE_RECEIVED, onMessageReceived);
       });
       function onMessageReceived(event) {
-        formatAppLog("log", "at pages/chat/chat.vue:132", "yws", event);
+        let arr = event.data.filter((res) => res.conversationID === `C2C${starId.value}`);
+        msgList.value.push(...arr);
+        scrollBottom();
       }
       function handleTouchCancel() {
         canSendAudio.value = false;
-        recorderManager.stop();
         longPressing.value = false;
       }
       function handleTouchStart() {
         canSendAudio.value = false;
-        recorderManager.start();
         longPressing.value = true;
       }
       function handleTouchEnd() {
         canSendAudio.value = true;
-        recorderManager.stop();
         longPressing.value = false;
       }
       function scrollBottom() {
@@ -11715,7 +11696,7 @@ if (uni.restoreGlobal) {
               } else {
                 scrollTop.value = res.height;
               }
-              formatAppLog("log", "at pages/chat/chat.vue:159", scrollTop.value, res.height);
+              formatAppLog("log", "at pages/chat/chat.vue:162", scrollTop.value, res.height);
             }).exec();
           }, 0);
         });
@@ -11725,7 +11706,7 @@ if (uni.restoreGlobal) {
           conversationID: `C2C${starId.value}`
         }).then((res) => {
           msgList.value = [...res.data.messageList];
-          formatAppLog("log", "at pages/chat/chat.vue:169", res.data.messageList);
+          formatAppLog("log", "at pages/chat/chat.vue:172", res.data.messageList);
           scrollBottom();
         });
       }
@@ -11762,7 +11743,7 @@ if (uni.restoreGlobal) {
           sourceType: ["album"],
           sizeType: ["original", "compressed"],
           success: (res) => {
-            formatAppLog("log", "at pages/chat/chat.vue:206", res);
+            formatAppLog("log", "at pages/chat/chat.vue:209", res);
             let message = tim.createImageMessage({
               to: starId.value,
               conversationType: "C2C",
@@ -11819,7 +11800,7 @@ if (uni.restoreGlobal) {
           url: "/pages/card/card"
         });
       }
-      const __returned__ = { recorderManager, canSendAudio, starId, msgList, inputValue, giftVisible, inputVisible, moreOpen, scrollTop, longPressing, bottomHeight, scrollViewHeight, onMessageReceived, handleTouchCancel, handleTouchStart, handleTouchEnd, scrollBottom, getListMsg, inputVisibleClick, moreOpenClick, sendMessage, sendMsgImage, sendMsgVideo, showAudio, goBack, goVideo, goCard, get onLoad() {
+      const __returned__ = { canSendAudio, starId, msgList, inputValue, giftVisible, inputVisible, moreOpen, scrollTop, longPressing, bottomHeight, scrollViewHeight, onMessageReceived, handleTouchCancel, handleTouchStart, handleTouchEnd, scrollBottom, getListMsg, inputVisibleClick, moreOpenClick, sendMessage, sendMsgImage, sendMsgVideo, showAudio, goBack, goVideo, goCard, get onLoad() {
         return onLoad;
       }, get onUnload() {
         return onUnload;
@@ -12231,10 +12212,10 @@ if (uni.restoreGlobal) {
     __name: "chatList",
     setup(__props, { expose: __expose }) {
       __expose();
-      const active = vue.ref(1);
-      function goChat() {
+      const chatList = vue.ref([]);
+      function goChat(item) {
         uni.navigateTo({
-          url: "/pages/chat/chat"
+          url: "/pages/chat/chat?idol=" + item.idol.id
         });
       }
       function goDetail() {
@@ -12243,14 +12224,22 @@ if (uni.restoreGlobal) {
         });
       }
       vue.onMounted(() => {
-        setTimeout(() => {
-          active.value = 2;
-        }, 0);
+        uni.request({
+          url: "https://xingmi.app.canglandata.com/items/chat?limit=25&fields[]=heat_value&fields[]=idol.user&fields[]=idol.name&fields[]=idol.id&fields[]=user.id&fields[]=user.avatar.id&fields[]=user.avatar.modified_on&fields[]=user.email&fields[]=user.first_name&fields[]=user.last_name&fields[]=user_defined_prompt&fields[]=id&sort[]=id&page=1",
+          header: {
+            Authorization: `Bearer Tx24NJznrt8ka1leJvx2Re3-ZgEDSolD`
+          },
+          method: "get",
+          success: (res) => {
+            chatList.value = res.data.data;
+            formatAppLog("log", "at pages/chatList/chatList.vue:54", res);
+          }
+        });
       });
       function goBack() {
         uni.navigateBack();
       }
-      const __returned__ = { active, goChat, goDetail, goBack, onMounted: vue.onMounted, ref: vue.ref };
+      const __returned__ = { chatList, goChat, goDetail, goBack, onMounted: vue.onMounted, ref: vue.ref };
       Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
       return __returned__;
     }
@@ -12280,40 +12269,41 @@ if (uni.restoreGlobal) {
             class: "people-list",
             "scroll-y": ""
           }, [
-            (vue.openBlock(), vue.createElementBlock(
+            (vue.openBlock(true), vue.createElementBlock(
               vue.Fragment,
               null,
-              vue.renderList(10, (item) => {
-                return vue.createElementVNode("view", { class: "people-item" }, [
+              vue.renderList($setup.chatList, (item) => {
+                return vue.openBlock(), vue.createElementBlock("view", {
+                  class: "people-item",
+                  key: item.id
+                }, [
                   vue.createElementVNode("view", {
                     class: "item-content",
-                    onClick: $setup.goChat
+                    onClick: ($event) => $setup.goChat(item)
                   }, [
                     vue.createElementVNode("view", { class: "item-avatar" }, [
                       vue.createElementVNode("image", {
                         mode: "widthFix",
                         src: _imports_0$4
                       }),
-                      vue.createElementVNode(
-                        "view",
-                        {
-                          class: vue.normalizeClass(["avatar-count", item * 20 < 99 ? "round" : "auto-round"])
-                        },
-                        vue.toDisplayString(item * 20),
-                        3
-                        /* TEXT, CLASS */
-                      )
+                      vue.createCommentVNode(` <view class="avatar-count" :class="item * 20 < 99 ? 'round' : 'auto-round'">{{ item * 20 }}</view> `)
                     ]),
                     vue.createElementVNode("view", { class: "item-info" }, [
-                      vue.createElementVNode("view", { class: "info-name" }, "易烊千玺"),
-                      vue.createElementVNode("view", { class: "info-text" }, "刚刚结束拍摄刚刚结束拍摄刚刚结束拍摄刚刚结束拍摄刚刚结束拍摄刚刚结束拍摄刚刚结束拍摄刚刚结束拍摄刚刚结束拍摄")
+                      vue.createElementVNode(
+                        "view",
+                        { class: "info-name" },
+                        vue.toDisplayString(item.idol.name),
+                        1
+                        /* TEXT */
+                      ),
+                      vue.createElementVNode("view", { class: "info-text" }, "暂无消息")
                     ]),
                     vue.createElementVNode("view", { class: "item-time" }, "10:19")
-                  ])
+                  ], 8, ["onClick"])
                 ]);
               }),
-              64
-              /* STABLE_FRAGMENT */
+              128
+              /* KEYED_FRAGMENT */
             ))
           ])
         ]),

@@ -82,27 +82,27 @@ import { onLoad, onUnload } from '@dcloudio/uni-app'
 import { computed, ref, nextTick } from 'vue'
 import { tim, timEvent } from '../../utils/tim'
 
-const recorderManager = uni.getRecorderManager();
-recorderManager.onStop((res) => {
-  if (canSendAudio.value) {
-    let message = tim.createAudioMessage({
-      to: starId.value,
-      conversationType: 'C2C',
-      payload: {
-        file: res
-      },
-      onProgress: function(event) {
-        console.log(event)
-      }
-    })
-    tim.sendMessage(message).then(response => {
-      msgList.value.push(response.data.message)
-      scrollBottom()
-    })
-  }
-});
+// const recorderManager = uni.getRecorderManager();
+// recorderManager.onStop((res) => {
+//   if (canSendAudio.value) {
+//     let message = tim.createAudioMessage({
+//       to: starId.value,
+//       conversationType: 'C2C',
+//       payload: {
+//         file: res
+//       },
+//       onProgress: function(event) {
+//         console.log(event)
+//       }
+//     })
+//     tim.sendMessage(message).then(response => {
+//       msgList.value.push(response.data.message)
+//       scrollBottom()
+//     })
+//   }
+// });
 const canSendAudio = ref(false)
-const starId = ref('3ff691ed-557c-4c09-901f-8e182dd5c514')
+const starId = ref('')
 const msgList = ref([])
 const inputValue = ref('')
 const giftVisible = ref(false)
@@ -121,7 +121,8 @@ const scrollViewHeight = computed(() => {
   return `calc(100vh - ${bottomHeight.value} - 135rpx - var(--status-bar-height))`
 })
 
-onLoad(() => {
+onLoad((option) => {
+  starId.value = option.idol
   getListMsg()
   tim.on(timEvent.MESSAGE_RECEIVED, onMessageReceived);
 })
@@ -131,20 +132,21 @@ onUnload(() => {
 function onMessageReceived (event) {
   let arr = event.data.filter((res) => res.conversationID === `C2C${starId.value}`)
   msgList.value.push(...arr)
+  scrollBottom()
 }
 function handleTouchCancel () {
   canSendAudio.value = false
-  recorderManager.stop();
+  // recorderManager.stop();
   longPressing.value = false
 }
 function handleTouchStart() {
   canSendAudio.value = false
-  recorderManager.start();
+  // recorderManager.start();
   longPressing.value = true
 }
 function handleTouchEnd() {
   canSendAudio.value = true
-  recorderManager.stop();
+  // recorderManager.stop();
   longPressing.value = false
 }
 function scrollBottom () {

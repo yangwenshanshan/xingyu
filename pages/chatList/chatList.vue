@@ -9,15 +9,15 @@
 				<image src="../../static/chat-list-title.png" mode="widthFix" />
 			</view>
 			<scroll-view class="people-list" scroll-y>
-				<view class="people-item" v-for="item in 10">
-					<view class="item-content" @click="goChat">
+				<view class="people-item" v-for="item in chatList" :key="item.id">
+					<view class="item-content" @click="goChat(item)">
 						<view class="item-avatar">
 							<image mode="widthFix" src="../../static/default-icon.png"></image>
-							<view class="avatar-count" :class="item * 20 < 99 ? 'round' : 'auto-round'">{{ item * 20 }}</view>
+							<!-- <view class="avatar-count" :class="item * 20 < 99 ? 'round' : 'auto-round'">{{ item * 20 }}</view> -->
 						</view>
 						<view class="item-info">
-							<view class="info-name">易烊千玺</view>
-							<view class="info-text">刚刚结束拍摄刚刚结束拍摄刚刚结束拍摄刚刚结束拍摄刚刚结束拍摄刚刚结束拍摄刚刚结束拍摄刚刚结束拍摄刚刚结束拍摄</view>
+							<view class="info-name">{{ item.idol.name }}</view>
+							<view class="info-text">暂无消息</view>
 						</view>
 						<view class="item-time">10:19</view>
 					</view>
@@ -31,10 +31,10 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 
-const active = ref(1)
-function goChat () {
+const chatList = ref([])
+function goChat (item) {
 	uni.navigateTo({
-		url: '/pages/chat/chat'
+		url: '/pages/chat/chat?idol=' + item.idol.id
 	})
 }
 function goDetail () {
@@ -43,9 +43,17 @@ function goDetail () {
 	})
 }
 onMounted(() => {
-	setTimeout(() => {
-		active.value = 2
-	}, 0);
+	uni.request({
+		url: 'https://xingmi.app.canglandata.com/items/chat?limit=25&fields[]=heat_value&fields[]=idol.user&fields[]=idol.name&fields[]=idol.id&fields[]=user.id&fields[]=user.avatar.id&fields[]=user.avatar.modified_on&fields[]=user.email&fields[]=user.first_name&fields[]=user.last_name&fields[]=user_defined_prompt&fields[]=id&sort[]=id&page=1',
+		header: {
+			Authorization: `Bearer Tx24NJznrt8ka1leJvx2Re3-ZgEDSolD`
+		},
+		method: 'get',
+		success: (res) => {
+			chatList.value = res.data.data
+			console.log(res)
+		}
+	})
 })
 function goBack () {
 	uni.navigateBack()
