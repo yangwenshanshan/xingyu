@@ -54,7 +54,7 @@
           <image @click="inputVisibleClick(true)" v-else class="input-image" src="../../static/chat-input.png"></image>
         </template>
         <view class="input-main">
-          <input v-model="inputValue" @confirm="sendMessage" :cursor-spacing="20" v-if="inputVisible" confirm-type="send" placeholder="发消息..." placeholder-style="color: #ffffff"></input>
+          <input @keyboardheightchange="keyboardheightchange" @focus="inputFocus" v-model="inputValue" @confirm="sendMessage" :cursor-spacing="20" v-if="inputVisible" confirm-type="send" placeholder="发消息..." placeholder-style="color: #ffffff"></input>
           <view :class="longPressing ? 'long-pressing' : ''" @touchcancel="handleTouchCancel" @touchstart="handleTouchStart" @touchend="handleTouchEnd" class="main-speak" v-else>
             <template v-if="!longPressing">按住说话</template>
             <view v-else class="speaking">
@@ -81,7 +81,6 @@
 import { onLoad, onUnload } from '@dcloudio/uni-app'
 import { computed, ref, nextTick } from 'vue'
 import { tim, timEvent } from '../../utils/tim'
-import { getImage } from '../../utils/util';
 import http from '../../utils/http';
 
 const recorderManager = uni.getRecorderManager();
@@ -105,6 +104,7 @@ recorderManager.onStop((res) => {
 });
 const canSendAudio = ref(false)
 const starId = ref('')
+const chatId = ref('')
 const msgList = ref([])
 const inputValue = ref('')
 const giftVisible = ref(false)
@@ -113,6 +113,7 @@ const moreOpen = ref(false)
 const scrollTop = ref(0)
 const longPressing = ref(false)
 const detail = ref(null)
+const changeBottomVal = ref('0px')
 const bottomHeight = computed(() => {
   if (moreOpen.value) {
     return '553rpx'
@@ -126,7 +127,10 @@ const scrollViewHeight = computed(() => {
 
 onLoad((option) => {
   starId.value = option.idol
-  getListMsg()
+  chatId.value = option.chat
+  if (chatId.value) {
+    getListMsg()
+  }
   tim.on(timEvent.MESSAGE_RECEIVED, onMessageReceived);
   getDetail()
 })
@@ -150,17 +154,17 @@ function onMessageReceived (event) {
 }
 function handleTouchCancel () {
   canSendAudio.value = false
-  // recorderManager.stop();
+  recorderManager.stop();
   longPressing.value = false
 }
 function handleTouchStart() {
   canSendAudio.value = false
-  // recorderManager.start();
+  recorderManager.start();
   longPressing.value = true
 }
 function handleTouchEnd() {
   canSendAudio.value = true
-  // recorderManager.stop();
+  recorderManager.stop();
   longPressing.value = false
 }
 function scrollBottom () {
@@ -178,14 +182,65 @@ function scrollBottom () {
     }, 0);
   })
 }
+function keyboardheightchange(e) {
+  changeBottomVal.value = e.detail.height + 'px'
+}
 function getListMsg () {
-  tim.getMessageList({
-    conversationID: `C2C${starId.value}`
+  http.get(`/items/chat/${chatId.value}`, {
+    fields: ['id', 'messages.*'],
+    deep: {
+      messages: {
+        _limit: 1000,
+        _sort: ['date_created'],
+      }
+    },
   }).then(res => {
-    msgList.value = [ ...res.data.messageList ]
-    console.log(res.data.messageList)
+    const messages = res.data.messages
+    messages.forEach(element => {
+      element.flow = element.role === 'user' ? 'out' : 'in'
+      if (element.content_type === 'text') {
+        element.type = 'TIMTextElem'
+        element.payload = {
+          text: element.text_content
+        }
+      }
+      if (element.content_type === 'video') {
+        element.type = 'TIMVideoFileElem'
+        element.payload = {
+          thumbHeight: 0,
+          thumbWidth: 0,
+          thumbUrl: '',
+        }
+      }
+      if (element.content_type === 'image') {
+        element.type = 'TIMImageElem'
+        element.payload = {
+          height: 0,
+          width: 0,
+          url: '',
+        }
+      }
+      if (element.content_type === 'audio') {
+        element.type = 'TIMSoundElem'
+        element.payload = {
+          url: '',
+        }
+      }
+    });
+    msgList.value = messages
     scrollBottom()
   })
+  // tim.getMessageList({
+  //   conversationID: `C2C${starId.value}`
+  // }).then(res => {
+  //   msgList.value = [ ...res.data.messageList ]
+  //   console.log(res.data.messageList)
+  //   scrollBottom()
+  // })
+}
+function inputFocus () {
+  inputVisible.value = true
+  moreOpen.value = false
 }
 function inputVisibleClick (flag) {
   inputVisible.value = flag

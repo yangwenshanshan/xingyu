@@ -20,7 +20,7 @@
 							<view class="info-name">{{ item.idol.name }}</view>
 							<view class="info-text">{{ item.messages && item.messages[0] ? item.messages[0].text_content : '' }}</view>
 						</view>
-						<view class="item-time">10:19</view>
+						<view class="item-time" v-if="item.messages && item.messages[0]">{{ formatTime(item.messages[0].date_created) }}</view>
 					</view>
 				</view>
 			</scroll-view>
@@ -39,8 +39,33 @@ import { getImage } from '../../utils/util'
 const chatList = ref([])
 function goChat (item) {
 	uni.navigateTo({
-		url: '/pages/chat/chat?idol=' + item.idol.id
+		url: `/pages/chat/chat?idol=${item.idol.id}&chat=${item.id}`
 	})
+}
+function formatTime(timestamp) {
+	const date = new Date(timestamp);
+	const now = new Date();
+
+	const year = date.getFullYear();
+	const month = date.getMonth() + 1;
+	const day = date.getDate();
+	const hours = date.getHours();
+	const minutes = date.getMinutes();
+
+	const isToday = now.toDateString() === date.toDateString();
+	const isYesterday = now.toDateString() === new Date(date.setDate(date.getDate() + 1)).toDateString();
+
+	if (isToday) {
+		return `${hours}:${minutes < 10 ? '0' : ''}${minutes}`;
+	} else if (isYesterday) {
+			return '昨天';
+	} else {
+		if (year === now.getFullYear()) {
+			return `${month}月${day}日`;
+		} else {
+			return `${year}年${month}月${day}日`;
+		}
+	}
 }
 onShow(() => {
 	http.get('/items/chat', {
@@ -68,7 +93,7 @@ onShow(() => {
 			'messages.text_content',
 			'messages.date_created',
 		],
-		sort: 'id',
+		sort: '-messages.date_created',
 		page: 1,
 		deep: {
 			messages: {
@@ -77,7 +102,6 @@ onShow(() => {
 			}
 		}
 	}).then(res => {
-		console.log(res.data)
 		chatList.value = res.data
 	})
 })

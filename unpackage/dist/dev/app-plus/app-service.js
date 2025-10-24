@@ -11085,10 +11085,31 @@ if (uni.restoreGlobal) {
     return "Tx24NJznrt8ka1leJvx2Re3-ZgEDSolD";
   }
   function getUserInfo() {
-    return {
-      id: "8920782a-1727-41da-8639-4868c3f2b389"
-    };
+    const userInfo = uni.getStorageSync("userInfo");
+    return userInfo;
   }
+  const request = (url, method, data) => {
+    return new Promise((resolve, reject) => {
+      uni.request({
+        url: `${baseURL}${url}`,
+        header: {
+          Authorization: `Bearer ${getToken()}`
+        },
+        data,
+        method,
+        success: (res) => {
+          resolve(res.data);
+        },
+        fail: (error) => {
+          reject(error);
+        }
+      });
+    });
+  };
+  const http = {
+    get: (url, params) => request(url, "get", params),
+    post: (url, data) => request(url, "post", data)
+  };
   const _export_sfc = (sfc, props) => {
     const target = sfc.__vccOpts || sfc;
     for (const [key, val] of props) {
@@ -11096,6 +11117,8 @@ if (uni.restoreGlobal) {
     }
     return target;
   };
+  const email = "yangwenshan@canglandata.com";
+  const password = "oSt9cpvtUz41I43k";
   const _sfc_main$f = {
     __name: "home",
     setup(__props, { expose: __expose }) {
@@ -11104,31 +11127,66 @@ if (uni.restoreGlobal) {
         uni.showLoading({
           mask: true
         });
-        let promise = tim.login({ userID: getUserInfo().id, userSig: "eJwtzc0KgkAUBeB3mW0pd*44f0K7aBFKiNJem1GGtMQGkaJ3z9Tl-Q7n3A8pkjwc7UBigiGQ-XI7Yx-e1W5hpRGkwjKgEmUQUVMGSjAdREqoG6uxYkpvvZe5l33vDImpAKCgJaNrYqfeDXZ2zjkCwKredX*TAhSPNMNtxTXz22hs0wLwmgBnpzx7pijrJj16beW7tZ6N3Xm4TJXY0exAvj8UcjcU" });
-        promise.then(function(imResponse) {
-          formatAppLog("log", "at pages/home/home.vue:16", "登录成功", imResponse);
-          tim.on(timEvent.SDK_READY, (event) => {
-            formatAppLog("log", "at pages/home/home.vue:18", "yws ready", event);
-            uni.hideLoading();
-            uni.redirectTo({
-              url: "/pages/index/index"
+        getUserInfo2().then((res) => {
+          if (res.tencent_im_usersig) {
+            imLogin(res.id, res.tencent_im_usersig + "1").catch(() => {
+              updateUserSig().then(() => {
+                getUserInfo2().then((response) => {
+                  if (response.tencent_im_usersig) {
+                    imLogin(response.id, response.tencent_im_usersig);
+                  }
+                });
+              });
             });
-          });
-          if (imResponse.data.repeatLogin === true) {
-            formatAppLog("log", "at pages/home/home.vue:26", imResponse.data.errorInfo);
+          } else {
+            updateUserSig().then(() => {
+              getUserInfo2().then((response) => {
+                if (response.tencent_im_usersig) {
+                  imLogin(response.id, response.tencent_im_usersig);
+                }
+              });
+            });
           }
-        }).catch(function(imError) {
-          formatAppLog("warn", "at pages/home/home.vue:29", "login error:", imError);
         });
       });
-      const __returned__ = { get onLoad() {
+      function getUserInfo2() {
+        return new Promise((resolve, reject) => {
+          http.get("/users/me").then((res) => {
+            uni.setStorageSync("userInfo", res.data);
+            resolve(res.data);
+          }).catch(() => {
+            reject();
+          });
+        });
+      }
+      function imLogin(userID, userSig) {
+        formatAppLog("log", "at pages/home/home.vue:53", "userID", userID, userSig);
+        return new Promise((resolve, reject) => {
+          tim.login({ userID, userSig }).then((imResponse) => {
+            formatAppLog("log", "at pages/home/home.vue:56", "登录成功", imResponse);
+            uni.hideLoading();
+            tim.on(timEvent.SDK_READY, (event) => {
+              uni.redirectTo({
+                url: "/pages/index/index"
+              });
+              resolve();
+            });
+          }).catch((imError) => {
+            reject(imError);
+          });
+        });
+      }
+      function updateUserSig() {
+        return http.post("/http-service/im/usersig/update");
+      }
+      const __returned__ = { email, password, getUserInfo: getUserInfo2, imLogin, updateUserSig, get onLoad() {
         return onLoad;
       }, get tim() {
         return tim;
       }, get timEvent() {
         return timEvent;
-      }, get getUserInfo() {
-        return getUserInfo;
+      }, get http() {
+        return http;
       } };
       Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
       return __returned__;
@@ -11341,28 +11399,6 @@ if (uni.restoreGlobal) {
     ]);
   }
   const __easycom_1$1 = /* @__PURE__ */ _export_sfc(_sfc_main$c, [["render", _sfc_render$b], ["__scopeId", "data-v-0f74e904"], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/components/Bar/Bar.vue"]]);
-  const request = (url, method, data) => {
-    return new Promise((resolve, reject) => {
-      uni.request({
-        url: `${baseURL}${url}`,
-        header: {
-          Authorization: `Bearer ${getToken()}`
-        },
-        data,
-        method,
-        success: (res) => {
-          resolve(res.data);
-        },
-        fail: (error) => {
-          reject(error);
-        }
-      });
-    });
-  };
-  const http = {
-    get: (url, params) => request(url, "get", params),
-    post: (url, data) => request(url, "post", data)
-  };
   const _imports_0$3 = "/static/home-left.png";
   const _imports_1$4 = "/static/home-search.png";
   const _imports_3$2 = "/static/item-like.png";
@@ -11392,13 +11428,46 @@ if (uni.restoreGlobal) {
           sort: "sort",
           page: 1
         }).then((res) => {
-          formatAppLog("log", "at pages/index/index.vue:68", res);
+          formatAppLog("log", "at pages/index/index.vue:69", res);
           list.value = res.data;
         });
       });
       function goChat(item) {
-        uni.navigateTo({
-          url: "/pages/chat/chat?idol=" + item.id
+        uni.showLoading({
+          mask: true
+        });
+        http.get("/items/chat", {
+          limit: 1,
+          filter: {
+            _and: [
+              {
+                user: {
+                  _eq: getUserInfo().id
+                }
+              },
+              {
+                idol: {
+                  _eq: item.id
+                }
+              }
+            ]
+          },
+          fields: [
+            "id"
+          ]
+        }).then((res) => {
+          uni.hideLoading();
+          if (res.data && res.data.length) {
+            uni.navigateTo({
+              url: `/pages/chat/chat?idol=${item.id}&chat=${res.data[0].id}`
+            });
+          } else {
+            uni.navigateTo({
+              url: `/pages/chat/chat?idol=${item.id}`
+            });
+          }
+        }).catch(() => {
+          uni.hideLoading();
         });
       }
       function goDetail(item) {
@@ -11410,7 +11479,9 @@ if (uni.restoreGlobal) {
         return onLoad;
       }, get http() {
         return http;
-      }, ref: vue.ref };
+      }, ref: vue.ref, get getUserInfo() {
+        return getUserInfo;
+      } };
       Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
       return __returned__;
     }
@@ -11725,9 +11796,6 @@ if (uni.restoreGlobal) {
     );
   }
   const __easycom_4 = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["render", _sfc_render$6], ["__scopeId", "data-v-0f73054c"], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/components/AudioMessage/AudioMessage.vue"]]);
-  function getImage(id) {
-    return `${baseURL}/assets/${id}?access_token=${getToken()}`;
-  }
   const _imports_0$2 = "/static/bar-back.png";
   const _imports_1$3 = "/static/card-small-1.png";
   const _imports_2$2 = "/static/card-small-2.png";
@@ -11758,7 +11826,7 @@ if (uni.restoreGlobal) {
               file: res
             },
             onProgress: function(event) {
-              formatAppLog("log", "at pages/chat/chat.vue:97", event);
+              formatAppLog("log", "at pages/chat/chat.vue:96", event);
             }
           });
           tim.sendMessage(message).then((response) => {
@@ -11769,6 +11837,7 @@ if (uni.restoreGlobal) {
       });
       const canSendAudio = vue.ref(false);
       const starId = vue.ref("");
+      const chatId = vue.ref("");
       const msgList = vue.ref([]);
       const inputValue = vue.ref("");
       const giftVisible = vue.ref(false);
@@ -11777,6 +11846,7 @@ if (uni.restoreGlobal) {
       const scrollTop = vue.ref(0);
       const longPressing = vue.ref(false);
       const detail = vue.ref(null);
+      const changeBottomVal = vue.ref("0px");
       const bottomHeight = vue.computed(() => {
         if (moreOpen.value) {
           return "553rpx";
@@ -11789,7 +11859,10 @@ if (uni.restoreGlobal) {
       });
       onLoad((option) => {
         starId.value = option.idol;
-        getListMsg();
+        chatId.value = option.chat;
+        if (chatId.value) {
+          getListMsg();
+        }
         tim.on(timEvent.MESSAGE_RECEIVED, onMessageReceived);
         getDetail();
       });
@@ -11813,14 +11886,17 @@ if (uni.restoreGlobal) {
       }
       function handleTouchCancel() {
         canSendAudio.value = false;
+        recorderManager.stop();
         longPressing.value = false;
       }
       function handleTouchStart() {
         canSendAudio.value = false;
+        recorderManager.start();
         longPressing.value = true;
       }
       function handleTouchEnd() {
         canSendAudio.value = true;
+        recorderManager.stop();
         longPressing.value = false;
       }
       function scrollBottom() {
@@ -11833,19 +11909,63 @@ if (uni.restoreGlobal) {
               } else {
                 scrollTop.value = res.height;
               }
-              formatAppLog("log", "at pages/chat/chat.vue:176", scrollTop.value, res.height);
+              formatAppLog("log", "at pages/chat/chat.vue:180", scrollTop.value, res.height);
             }).exec();
           }, 0);
         });
       }
+      function keyboardheightchange(e) {
+        changeBottomVal.value = e.detail.height + "px";
+      }
       function getListMsg() {
-        tim.getMessageList({
-          conversationID: `C2C${starId.value}`
+        http.get(`/items/chat/${chatId.value}`, {
+          fields: ["id", "messages.*"],
+          deep: {
+            messages: {
+              _limit: 1e3,
+              _sort: ["date_created"]
+            }
+          }
         }).then((res) => {
-          msgList.value = [...res.data.messageList];
-          formatAppLog("log", "at pages/chat/chat.vue:186", res.data.messageList);
+          const messages = res.data.messages;
+          messages.forEach((element) => {
+            element.flow = element.role === "user" ? "out" : "in";
+            if (element.content_type === "text") {
+              element.type = "TIMTextElem";
+              element.payload = {
+                text: element.text_content
+              };
+            }
+            if (element.content_type === "video") {
+              element.type = "TIMVideoFileElem";
+              element.payload = {
+                thumbHeight: 0,
+                thumbWidth: 0,
+                thumbUrl: ""
+              };
+            }
+            if (element.content_type === "image") {
+              element.type = "TIMImageElem";
+              element.payload = {
+                height: 0,
+                width: 0,
+                url: ""
+              };
+            }
+            if (element.content_type === "audio") {
+              element.type = "TIMSoundElem";
+              element.payload = {
+                url: ""
+              };
+            }
+          });
+          msgList.value = messages;
           scrollBottom();
         });
+      }
+      function inputFocus() {
+        inputVisible.value = true;
+        moreOpen.value = false;
       }
       function inputVisibleClick(flag) {
         inputVisible.value = flag;
@@ -11880,7 +12000,7 @@ if (uni.restoreGlobal) {
           sourceType: ["album"],
           sizeType: ["original", "compressed"],
           success: (res) => {
-            formatAppLog("log", "at pages/chat/chat.vue:223", res);
+            formatAppLog("log", "at pages/chat/chat.vue:278", res);
             let message = tim.createImageMessage({
               to: starId.value,
               conversationType: "C2C",
@@ -11937,7 +12057,7 @@ if (uni.restoreGlobal) {
           url: "/pages/card/card"
         });
       }
-      const __returned__ = { recorderManager, canSendAudio, starId, msgList, inputValue, giftVisible, inputVisible, moreOpen, scrollTop, longPressing, detail, bottomHeight, scrollViewHeight, getDetail, onMessageReceived, handleTouchCancel, handleTouchStart, handleTouchEnd, scrollBottom, getListMsg, inputVisibleClick, moreOpenClick, sendMessage, sendMsgImage, sendMsgVideo, showAudio, goBack, goVideo, goCard, get onLoad() {
+      const __returned__ = { recorderManager, canSendAudio, starId, chatId, msgList, inputValue, giftVisible, inputVisible, moreOpen, scrollTop, longPressing, detail, changeBottomVal, bottomHeight, scrollViewHeight, getDetail, onMessageReceived, handleTouchCancel, handleTouchStart, handleTouchEnd, scrollBottom, keyboardheightchange, getListMsg, inputFocus, inputVisibleClick, moreOpenClick, sendMessage, sendMsgImage, sendMsgVideo, showAudio, goBack, goVideo, goCard, get onLoad() {
         return onLoad;
       }, get onUnload() {
         return onUnload;
@@ -11945,8 +12065,6 @@ if (uni.restoreGlobal) {
         return tim;
       }, get timEvent() {
         return timEvent;
-      }, get getImage() {
-        return getImage;
       }, get http() {
         return http;
       } };
@@ -12163,6 +12281,8 @@ if (uni.restoreGlobal) {
                   "input",
                   {
                     key: 0,
+                    onKeyboardheightchange: $setup.keyboardheightchange,
+                    onFocus: $setup.inputFocus,
                     "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => $setup.inputValue = $event),
                     onConfirm: $setup.sendMessage,
                     "cursor-spacing": 20,
@@ -12248,6 +12368,9 @@ if (uni.restoreGlobal) {
     ]);
   }
   const PagesChatChat = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["render", _sfc_render$5], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/pages/chat/chat.vue"]]);
+  function getImage(id) {
+    return `${baseURL}/assets/${id}?access_token=${getToken()}`;
+  }
   const _imports_1$1 = "/static/detail-friend.png";
   const _imports_2$1 = "/static/detail-more.png";
   const _imports_0$1 = "/static/default-icon.png";
@@ -12413,8 +12536,30 @@ if (uni.restoreGlobal) {
       const chatList = vue.ref([]);
       function goChat(item) {
         uni.navigateTo({
-          url: "/pages/chat/chat?idol=" + item.idol.id
+          url: `/pages/chat/chat?idol=${item.idol.id}&chat=${item.id}`
         });
+      }
+      function formatTime(timestamp) {
+        const date = new Date(timestamp);
+        const now = /* @__PURE__ */ new Date();
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
+        const hours = date.getHours();
+        const minutes = date.getMinutes();
+        const isToday = now.toDateString() === date.toDateString();
+        const isYesterday = now.toDateString() === new Date(date.setDate(date.getDate() + 1)).toDateString();
+        if (isToday) {
+          return `${hours}:${minutes < 10 ? "0" : ""}${minutes}`;
+        } else if (isYesterday) {
+          return "昨天";
+        } else {
+          if (year === now.getFullYear()) {
+            return `${month}月${day}日`;
+          } else {
+            return `${year}年${month}月${day}日`;
+          }
+        }
       }
       onShow(() => {
         http.get("/items/chat", {
@@ -12442,7 +12587,7 @@ if (uni.restoreGlobal) {
             "messages.text_content",
             "messages.date_created"
           ],
-          sort: "id",
+          sort: "-messages.date_created",
           page: 1,
           deep: {
             messages: {
@@ -12451,14 +12596,13 @@ if (uni.restoreGlobal) {
             }
           }
         }).then((res) => {
-          formatAppLog("log", "at pages/chatList/chatList.vue:80", res.data);
           chatList.value = res.data;
         });
       });
       function goBack() {
         uni.navigateBack();
       }
-      const __returned__ = { chatList, goChat, goBack, onMounted: vue.onMounted, ref: vue.ref, get onShow() {
+      const __returned__ = { chatList, goChat, formatTime, goBack, onMounted: vue.onMounted, ref: vue.ref, get onShow() {
         return onShow;
       }, get getUserInfo() {
         return getUserInfo;
@@ -12536,7 +12680,16 @@ if (uni.restoreGlobal) {
                         /* TEXT */
                       )
                     ]),
-                    vue.createElementVNode("view", { class: "item-time" }, "10:19")
+                    item.messages && item.messages[0] ? (vue.openBlock(), vue.createElementBlock(
+                      "view",
+                      {
+                        key: 0,
+                        class: "item-time"
+                      },
+                      vue.toDisplayString($setup.formatTime(item.messages[0].date_created)),
+                      1
+                      /* TEXT */
+                    )) : vue.createCommentVNode("v-if", true)
                   ], 8, ["onClick"])
                 ]);
               }),

@@ -1,34 +1,75 @@
 <template>
-	<view class="home"></view>
+	<view class="home">
+  </view>
 </template>
 
 <script setup>
 import { onLoad } from '@dcloudio/uni-app'
 import { tim, timEvent } from '../../utils/tim';
-import { getUserInfo } from '../../utils/config';
+import http from '../../utils/http'
+
+const email = 'yangwenshan@canglandata.com'
+const password = 'oSt9cpvtUz41I43k'
 
 onLoad(() => {
 	uni.showLoading({
 		mask:true
 	})
-  let promise = tim.login({userID: getUserInfo().id, userSig: 'eJwtzc0KgkAUBeB3mW0pd*44f0K7aBFKiNJem1GGtMQGkaJ3z9Tl-Q7n3A8pkjwc7UBigiGQ-XI7Yx-e1W5hpRGkwjKgEmUQUVMGSjAdREqoG6uxYkpvvZe5l33vDImpAKCgJaNrYqfeDXZ2zjkCwKredX*TAhSPNMNtxTXz22hs0wLwmgBnpzx7pijrJj16beW7tZ6N3Xm4TJXY0exAvj8UcjcU' });
-  promise.then(function(imResponse) {
-    console.log('登录成功', imResponse);
+  getUserInfo().then(res => {
+    if (res.tencent_im_usersig) {
+      imLogin(res.id, res.tencent_im_usersig + '1').catch(() => {
+        updateUserSig().then(() => {
+          getUserInfo().then(response => {
+            if (response.tencent_im_usersig) {
+              imLogin(response.id, response.tencent_im_usersig)
+            }
+          })
+        })
+      })
+    } else {
+      updateUserSig().then(() => {
+        getUserInfo().then(response => {
+          if (response.tencent_im_usersig) {
+            imLogin(response.id, response.tencent_im_usersig)
+          }
+        })
+      })
+    }
+  })
+})
+
+function getUserInfo () {
+  return new Promise((resolve, reject) => {
+    http.get('/users/me').then(res => {
+      uni.setStorageSync('userInfo', res.data)
+      resolve(res.data)
+    }).catch(() => {
+      reject()
+    })
+  })
+}
+
+function imLogin (userID, userSig) {
+  console.log('userID', userID, userSig)
+  return new Promise((resolve, reject) => {
+    tim.login({userID, userSig }).then(imResponse => {
+      console.log('登录成功', imResponse);
+      uni.hideLoading()
       tim.on(timEvent.SDK_READY, (event) => {
-        console.log('yws ready', event)
-        uni.hideLoading()
         uni.redirectTo({
           url: '/pages/index/index'
         })
+        resolve()
       });
-    if (imResponse.data.repeatLogin === true) {
-      // 标识账号已登录，本次登录操作为重复登录。
-      console.log(imResponse.data.errorInfo);
-    }
-  }).catch(function(imError) {
-    console.warn('login error:', imError); // 登录失败的相关信息
-  });
-})
+    }).catch((imError) => {
+      reject(imError)
+    });
+  })
+}
+
+function updateUserSig () {
+  return http.post('/http-service/im/usersig/update')
+}
 </script>
 
 <style lang="scss">

@@ -42,6 +42,7 @@
 import { onLoad } from '@dcloudio/uni-app'
 import http from '../../utils/http'
 import { ref } from 'vue'
+import { getUserInfo } from '../../utils/config'
 
 const list = ref([])
 onLoad(() => {
@@ -71,8 +72,41 @@ onLoad(() => {
 })
 
 function goChat (item) {
-	uni.navigateTo({
-		url: '/pages/chat/chat?idol=' + item.id
+	uni.showLoading({
+		mask:true
+	})
+	http.get('/items/chat', {
+		limit: 1,
+		filter: {
+			_and: [
+				{
+					user: {
+						_eq: getUserInfo().id
+					}
+				},
+				{
+					idol: {
+						_eq: item.id
+					}
+				}
+			]
+		},
+		fields: [
+			'id',
+		],
+	}).then(res => {
+		uni.hideLoading()
+		if (res.data && res.data.length) {
+			uni.navigateTo({
+				url: `/pages/chat/chat?idol=${item.id}&chat=${res.data[0].id}`
+			})
+		} else {
+			uni.navigateTo({
+				url: `/pages/chat/chat?idol=${item.id}`
+			})
+		}
+	}).catch(() => {
+		uni.hideLoading()
 	})
 }
 function goDetail (item) {
