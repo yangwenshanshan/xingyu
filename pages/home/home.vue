@@ -5,12 +5,13 @@
 <script setup>
 import { onLoad } from '@dcloudio/uni-app'
 import { tim, timEvent } from '../../utils/tim';
+import { getUserInfo } from '../../utils/config';
 
 onLoad(() => {
 	uni.showLoading({
 		mask:true
 	})
-  let promise = tim.login({userID: '8920782a-1727-41da-8639-4868c3f2b389', userSig: 'eJwtzc0KgkAUBeB3mW0pd*44f0K7aBFKiNJem1GGtMQGkaJ3z9Tl-Q7n3A8pkjwc7UBigiGQ-XI7Yx-e1W5hpRGkwjKgEmUQUVMGSjAdREqoG6uxYkpvvZe5l33vDImpAKCgJaNrYqfeDXZ2zjkCwKredX*TAhSPNMNtxTXz22hs0wLwmgBnpzx7pijrJj16beW7tZ6N3Xm4TJXY0exAvj8UcjcU' });
+  let promise = tim.login({userID: getUserInfo().id, userSig: 'eJwtzc0KgkAUBeB3mW0pd*44f0K7aBFKiNJem1GGtMQGkaJ3z9Tl-Q7n3A8pkjwc7UBigiGQ-XI7Yx-e1W5hpRGkwjKgEmUQUVMGSjAdREqoG6uxYkpvvZe5l33vDImpAKCgJaNrYqfeDXZ2zjkCwKredX*TAhSPNMNtxTXz22hs0wLwmgBnpzx7pijrJj16beW7tZ6N3Xm4TJXY0exAvj8UcjcU' });
   promise.then(function(imResponse) {
     console.log('登录成功', imResponse);
       tim.on(timEvent.SDK_READY, (event) => {

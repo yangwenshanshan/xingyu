@@ -12,7 +12,8 @@
 				<view class="people-item" v-for="item in chatList" :key="item.id">
 					<view class="item-content" @click="goChat(item)">
 						<view class="item-avatar">
-							<image mode="widthFix" src="../../static/default-icon.png"></image>
+							<image mode="widthFix" v-if="item.idol && item.idol.user && item.idol.user.avatar" :src="getImage(item.idol.user.avatar)"></image>
+							<image mode="widthFix" v-else src="../../static/default-icon.png"></image>
 							<!-- <view class="avatar-count" :class="item * 20 < 99 ? 'round' : 'auto-round'">{{ item * 20 }}</view> -->
 						</view>
 						<view class="item-info">
@@ -30,6 +31,10 @@
 
 <script setup>
 import { onMounted, ref } from 'vue'
+import { onShow } from '@dcloudio/uni-app'
+import { getUserInfo } from '../../utils/config'
+import http from '../../utils/http'
+import { getImage } from '../../utils/util'
 
 const chatList = ref([])
 function goChat (item) {
@@ -37,47 +42,43 @@ function goChat (item) {
 		url: '/pages/chat/chat?idol=' + item.idol.id
 	})
 }
-function goDetail () {
-	uni.navigateTo({
-		url: '/pages/detail/detail'
-	})
-}
-onMounted(() => {
-	uni.request({
-		url: 'https://xingmi.app.canglandata.com/items/chat',
-		header: {
-			Authorization: `Bearer Tx24NJznrt8ka1leJvx2Re3-ZgEDSolD`
-		},
-		data: {
-			limit: 20,
-			fields: [
-				'id',
-				'heat_value',
-				'idol.user',
-				'idol.name',
-				'idol.id',
-				'user.id',
-				'user.avatar.id',
-				'user.avatar.modified_on',
-				'user.first_name',
-				'user.last_name',
-				'user_defined_prompt',
-				'messages.text_content',
-				'messages.date_created',
-			],
-			sort: 'id',
-			page: 1,
-			deep: {
-				messages: {
-					_limit: 1,
-					_sort: '-date_created',
+onShow(() => {
+	http.get('/items/chat', {
+		limit: 20,
+		filter: {
+			_and: [
+				{
+					user: {
+						_eq: getUserInfo().id
+					}
 				}
-			}
+			]
 		},
-		method: 'get',
-		success: (res) => {
-			chatList.value = res.data.data
+		fields: [
+			'id',
+			'heat_value',
+			'idol.user',
+			'idol.user.avatar',
+			'idol.name',
+			'idol.id',
+			'user.id',
+			'user.first_name',
+			'user.last_name',
+			'user_defined_prompt',
+			'messages.text_content',
+			'messages.date_created',
+		],
+		sort: 'id',
+		page: 1,
+		deep: {
+			messages: {
+				_limit: 1,
+				_sort: '-date_created',
+			}
 		}
+	}).then(res => {
+		console.log(res.data)
+		chatList.value = res.data
 	})
 })
 function goBack () {
@@ -131,6 +132,8 @@ function goBack () {
 				position: relative;
 				image{
 					width: 92rpx;
+					height: 92rpx;
+					border-radius: 50%;
 				}
 				.avatar-count{
 					position: absolute;

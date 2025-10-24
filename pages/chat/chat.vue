@@ -5,7 +5,7 @@
       <view class="star-back" @click="goBack">
         <image style="width: 14rpx;" mode="widthFix" src="../../static/bar-back.png"></image>
       </view>
-      <StarInfo></StarInfo>
+      <StarInfo v-if="detail" :icon="detail.user.avatar" :name="detail.name " :desc="detail.desc"></StarInfo>
     </view>
     <scroll-view class="info-list" scroll-y :style="`height: ${scrollViewHeight}`" :scroll-top="scrollTop">
       <view id="content">
@@ -81,26 +81,28 @@
 import { onLoad, onUnload } from '@dcloudio/uni-app'
 import { computed, ref, nextTick } from 'vue'
 import { tim, timEvent } from '../../utils/tim'
+import { getImage } from '../../utils/util';
+import http from '../../utils/http';
 
-// const recorderManager = uni.getRecorderManager();
-// recorderManager.onStop((res) => {
-//   if (canSendAudio.value) {
-//     let message = tim.createAudioMessage({
-//       to: starId.value,
-//       conversationType: 'C2C',
-//       payload: {
-//         file: res
-//       },
-//       onProgress: function(event) {
-//         console.log(event)
-//       }
-//     })
-//     tim.sendMessage(message).then(response => {
-//       msgList.value.push(response.data.message)
-//       scrollBottom()
-//     })
-//   }
-// });
+const recorderManager = uni.getRecorderManager();
+recorderManager.onStop((res) => {
+  if (canSendAudio.value) {
+    let message = tim.createAudioMessage({
+      to: starId.value,
+      conversationType: 'C2C',
+      payload: {
+        file: res
+      },
+      onProgress: function(event) {
+        console.log(event)
+      }
+    })
+    tim.sendMessage(message).then(response => {
+      msgList.value.push(response.data.message)
+      scrollBottom()
+    })
+  }
+});
 const canSendAudio = ref(false)
 const starId = ref('')
 const msgList = ref([])
@@ -110,6 +112,7 @@ const inputVisible = ref(true)
 const moreOpen = ref(false)
 const scrollTop = ref(0)
 const longPressing = ref(false)
+const detail = ref(null)
 const bottomHeight = computed(() => {
   if (moreOpen.value) {
     return '553rpx'
@@ -125,10 +128,21 @@ onLoad((option) => {
   starId.value = option.idol
   getListMsg()
   tim.on(timEvent.MESSAGE_RECEIVED, onMessageReceived);
+  getDetail()
 })
 onUnload(() => {
   tim.off(timEvent.MESSAGE_RECEIVED, onMessageReceived);
 })
+function getDetail() {
+	http.get('/items/idol/' + starId.value, {
+		fields: [
+			'*',
+			'user.avatar'
+		]
+	}).then(res => {
+		detail.value = res.data
+	})
+}
 function onMessageReceived (event) {
   let arr = event.data.filter((res) => res.conversationID === `C2C${starId.value}`)
   msgList.value.push(...arr)

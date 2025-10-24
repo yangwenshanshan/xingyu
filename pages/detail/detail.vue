@@ -1,5 +1,5 @@
 <template>
-	<view class="detail">
+	<view class="detail" v-if="detail">
 		<BasePage>
 			<view class="detail-title">
         <view class="detail-left" @click="goBack">
@@ -11,9 +11,10 @@
         </view>
 			</view>
 			<view class="detail-avatar">
-				<image class="avatar-img" src="../../static/default-icon.png" mode="widthFix"></image>
-				<view class="avatar-name">@易烊千玺</view>
-				<view class="avatar-desc">中国内地，演员，歌手，人气少年偶像组合TFBOYS成员</view>
+				<image class="avatar-img" v-if="icon" :src="icon" mode="widthFix"></image>
+				<image class="avatar-img" v-else src="../../static/default-icon.png" mode="widthFix"></image>
+				<view class="avatar-name">@{{ detail.name }}</view>
+				<view class="avatar-desc">{{ detail.desc }}</view>
 			</view>
 			<view class="deail-info">
 				<view class="info-item">
@@ -49,6 +50,37 @@
 </template>
 
 <script setup>
+import { onLoad } from '@dcloudio/uni-app'
+import { computed, ref } from 'vue'
+import http from '../../utils/http'
+import { getImage } from '../../utils/util'
+
+const starId = ref('')
+const detail = ref(null)
+const icon = computed(() => {
+	if (detail.value) {
+		return getImage(detail.value.user.avatar)
+	} else {
+		return ''
+	}
+})
+onLoad((option) => {
+  starId.value = option.idol
+  getDetail()
+})
+
+function getDetail() {
+	http.get('/items/idol/' + starId.value, {
+		fields: [
+			'*',
+			'user.avatar'
+		]
+	}).then(res => {
+		detail.value = res.data
+		console.log(res)
+	})
+}
+
 function goBack () {
 	uni.navigateBack()
 }
@@ -95,7 +127,9 @@ function goBack () {
 		align-items: center;
 		.avatar-img{
 			width: 204rpx;
+			height: 204rpx;
 			margin-bottom: 16rpx;
+			border-radius: 50%;
 		}
 		.avatar-name{
 			font-weight: bold;

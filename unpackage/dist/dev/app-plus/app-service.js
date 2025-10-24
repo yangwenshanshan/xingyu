@@ -31,6 +31,7 @@ if (uni.restoreGlobal) {
 }
 (function(vue) {
   "use strict";
+  const ON_SHOW = "onShow";
   const ON_LOAD = "onLoad";
   const ON_UNLOAD = "onUnload";
   function requireNativePlugin(name) {
@@ -49,6 +50,11 @@ if (uni.restoreGlobal) {
   const createLifeCycleHook = (lifecycle, flag = 0) => (hook, target = vue.getCurrentInstance()) => {
     !vue.isInSSRComponentSetup && vue.injectHook(lifecycle, hook, target);
   };
+  const onShow = /* @__PURE__ */ createLifeCycleHook(
+    ON_SHOW,
+    1 | 2
+    /* HookFlags.PAGE */
+  );
   const onLoad = /* @__PURE__ */ createLifeCycleHook(
     ON_LOAD,
     2
@@ -11074,6 +11080,15 @@ if (uni.restoreGlobal) {
   chat.registerPlugin({ "tim-upload-plugin": TIMUploadPlugin });
   const tim = chat;
   const timEvent = TencentCloudChat.EVENT;
+  const baseURL = "https://xingmi.app.canglandata.com";
+  function getToken() {
+    return "Tx24NJznrt8ka1leJvx2Re3-ZgEDSolD";
+  }
+  function getUserInfo() {
+    return {
+      id: "8920782a-1727-41da-8639-4868c3f2b389"
+    };
+  }
   const _export_sfc = (sfc, props) => {
     const target = sfc.__vccOpts || sfc;
     for (const [key, val] of props) {
@@ -11089,21 +11104,21 @@ if (uni.restoreGlobal) {
         uni.showLoading({
           mask: true
         });
-        let promise = tim.login({ userID: "8920782a-1727-41da-8639-4868c3f2b389", userSig: "eJwtzc0KgkAUBeB3mW0pd*44f0K7aBFKiNJem1GGtMQGkaJ3z9Tl-Q7n3A8pkjwc7UBigiGQ-XI7Yx-e1W5hpRGkwjKgEmUQUVMGSjAdREqoG6uxYkpvvZe5l33vDImpAKCgJaNrYqfeDXZ2zjkCwKredX*TAhSPNMNtxTXz22hs0wLwmgBnpzx7pijrJj16beW7tZ6N3Xm4TJXY0exAvj8UcjcU" });
+        let promise = tim.login({ userID: getUserInfo().id, userSig: "eJwtzc0KgkAUBeB3mW0pd*44f0K7aBFKiNJem1GGtMQGkaJ3z9Tl-Q7n3A8pkjwc7UBigiGQ-XI7Yx-e1W5hpRGkwjKgEmUQUVMGSjAdREqoG6uxYkpvvZe5l33vDImpAKCgJaNrYqfeDXZ2zjkCwKredX*TAhSPNMNtxTXz22hs0wLwmgBnpzx7pijrJj16beW7tZ6N3Xm4TJXY0exAvj8UcjcU" });
         promise.then(function(imResponse) {
-          formatAppLog("log", "at pages/home/home.vue:15", "登录成功", imResponse);
+          formatAppLog("log", "at pages/home/home.vue:16", "登录成功", imResponse);
           tim.on(timEvent.SDK_READY, (event) => {
-            formatAppLog("log", "at pages/home/home.vue:17", "yws ready", event);
+            formatAppLog("log", "at pages/home/home.vue:18", "yws ready", event);
             uni.hideLoading();
             uni.redirectTo({
               url: "/pages/index/index"
             });
           });
           if (imResponse.data.repeatLogin === true) {
-            formatAppLog("log", "at pages/home/home.vue:25", imResponse.data.errorInfo);
+            formatAppLog("log", "at pages/home/home.vue:26", imResponse.data.errorInfo);
           }
         }).catch(function(imError) {
-          formatAppLog("warn", "at pages/home/home.vue:28", "login error:", imError);
+          formatAppLog("warn", "at pages/home/home.vue:29", "login error:", imError);
         });
       });
       const __returned__ = { get onLoad() {
@@ -11112,6 +11127,8 @@ if (uni.restoreGlobal) {
         return tim;
       }, get timEvent() {
         return timEvent;
+      }, get getUserInfo() {
+        return getUserInfo;
       } };
       Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
       return __returned__;
@@ -11120,7 +11137,7 @@ if (uni.restoreGlobal) {
   function _sfc_render$e(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "home" });
   }
-  const PagesHomeHome = /* @__PURE__ */ _export_sfc(_sfc_main$f, [["render", _sfc_render$e], ["__file", "D:/Code/IM/pages/home/home.vue"]]);
+  const PagesHomeHome = /* @__PURE__ */ _export_sfc(_sfc_main$f, [["render", _sfc_render$e], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/pages/home/home.vue"]]);
   const _imports_0$5 = "/static/avatar-level.png";
   const _sfc_main$e = {
     __name: "StarInfo",
@@ -11142,9 +11159,13 @@ if (uni.restoreGlobal) {
       __expose();
       const props = __props;
       const image = vue.computed(() => {
-        return `https://xingmi.app.canglandata.com/assets/${props.icon}?access_token=Tx24NJznrt8ka1leJvx2Re3-ZgEDSolD`;
+        return `${baseURL}/assets/${props.icon}?access_token=${getToken()}`;
       });
-      const __returned__ = { props, image, computed: vue.computed };
+      const __returned__ = { props, image, computed: vue.computed, get baseURL() {
+        return baseURL;
+      }, get getToken() {
+        return getToken;
+      } };
       Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
       return __returned__;
     }
@@ -11183,7 +11204,7 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const __easycom_0$1 = /* @__PURE__ */ _export_sfc(_sfc_main$e, [["render", _sfc_render$d], ["__scopeId", "data-v-6c8a81d8"], ["__file", "D:/Code/IM/components/StarInfo/StarInfo.vue"]]);
+  const __easycom_0$1 = /* @__PURE__ */ _export_sfc(_sfc_main$e, [["render", _sfc_render$d], ["__scopeId", "data-v-6c8a81d8"], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/components/StarInfo/StarInfo.vue"]]);
   const _sfc_main$d = {};
   function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "base-page" }, [
@@ -11195,7 +11216,7 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const __easycom_0 = /* @__PURE__ */ _export_sfc(_sfc_main$d, [["render", _sfc_render$c], ["__scopeId", "data-v-34ef6681"], ["__file", "D:/Code/IM/components/BasePage/BasePage.vue"]]);
+  const __easycom_0 = /* @__PURE__ */ _export_sfc(_sfc_main$d, [["render", _sfc_render$c], ["__scopeId", "data-v-34ef6681"], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/components/BasePage/BasePage.vue"]]);
   const _imports_0$4 = "/static/bar-home-active.png";
   const _imports_1$5 = "/static/bar-home.png";
   const _imports_2$4 = "/static/bar-serve-active.png";
@@ -11319,13 +11340,13 @@ if (uni.restoreGlobal) {
       )
     ]);
   }
-  const __easycom_1$1 = /* @__PURE__ */ _export_sfc(_sfc_main$c, [["render", _sfc_render$b], ["__scopeId", "data-v-0f74e904"], ["__file", "D:/Code/IM/components/Bar/Bar.vue"]]);
+  const __easycom_1$1 = /* @__PURE__ */ _export_sfc(_sfc_main$c, [["render", _sfc_render$b], ["__scopeId", "data-v-0f74e904"], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/components/Bar/Bar.vue"]]);
   const request = (url, method, data) => {
     return new Promise((resolve, reject) => {
       uni.request({
-        url: `https://xingmi.app.canglandata.com${url}`,
+        url: `${baseURL}${url}`,
         header: {
-          Authorization: `Bearer Tx24NJznrt8ka1leJvx2Re3-ZgEDSolD`
+          Authorization: `Bearer ${getToken()}`
         },
         data,
         method,
@@ -11351,7 +11372,6 @@ if (uni.restoreGlobal) {
       __expose();
       const list = vue.ref([]);
       onLoad(() => {
-        formatAppLog("log", "at pages/index/index.vue:48", "/items/idol");
         http.get("/items/idol", {
           limit: 20,
           fields: [
@@ -11372,7 +11392,7 @@ if (uni.restoreGlobal) {
           sort: "sort",
           page: 1
         }).then((res) => {
-          formatAppLog("log", "at pages/index/index.vue:69", res);
+          formatAppLog("log", "at pages/index/index.vue:68", res);
           list.value = res.data;
         });
       });
@@ -11383,7 +11403,7 @@ if (uni.restoreGlobal) {
       }
       function goDetail(item) {
         uni.navigateTo({
-          url: "/pages/detail/detail"
+          url: "/pages/detail/detail?idol=" + item.id
         });
       }
       const __returned__ = { list, goChat, goDetail, get onLoad() {
@@ -11484,7 +11504,7 @@ if (uni.restoreGlobal) {
       vue.createVNode(_component_Bar, { actived: 1 })
     ]);
   }
-  const PagesIndexIndex = /* @__PURE__ */ _export_sfc(_sfc_main$b, [["render", _sfc_render$a], ["__file", "D:/Code/IM/pages/index/index.vue"]]);
+  const PagesIndexIndex = /* @__PURE__ */ _export_sfc(_sfc_main$b, [["render", _sfc_render$a], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/pages/index/index.vue"]]);
   const _sfc_main$a = {
     __name: "TextMessage",
     props: {
@@ -11526,7 +11546,7 @@ if (uni.restoreGlobal) {
       /* TEXT, CLASS */
     );
   }
-  const __easycom_1 = /* @__PURE__ */ _export_sfc(_sfc_main$a, [["render", _sfc_render$9], ["__scopeId", "data-v-e05b611f"], ["__file", "D:/Code/IM/components/TextMessage/TextMessage.vue"]]);
+  const __easycom_1 = /* @__PURE__ */ _export_sfc(_sfc_main$a, [["render", _sfc_render$9], ["__scopeId", "data-v-e05b611f"], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/components/TextMessage/TextMessage.vue"]]);
   const _sfc_main$9 = {
     __name: "ImageMessage",
     props: {
@@ -11573,7 +11593,7 @@ if (uni.restoreGlobal) {
       }, null, 12, ["src"])
     ]);
   }
-  const __easycom_2 = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["render", _sfc_render$8], ["__scopeId", "data-v-4c2aa605"], ["__file", "D:/Code/IM/components/ImageMessage/ImageMessage.vue"]]);
+  const __easycom_2 = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["render", _sfc_render$8], ["__scopeId", "data-v-4c2aa605"], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/components/ImageMessage/ImageMessage.vue"]]);
   const _sfc_main$8 = {
     __name: "VideoMessage",
     props: {
@@ -11628,7 +11648,7 @@ if (uni.restoreGlobal) {
       })
     ]);
   }
-  const __easycom_3 = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["render", _sfc_render$7], ["__scopeId", "data-v-4c9132f1"], ["__file", "D:/Code/IM/components/VideoMessage/VideoMessage.vue"]]);
+  const __easycom_3 = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["render", _sfc_render$7], ["__scopeId", "data-v-4c9132f1"], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/components/VideoMessage/VideoMessage.vue"]]);
   const _sfc_main$7 = {
     __name: "AudioMessage",
     props: {
@@ -11704,7 +11724,10 @@ if (uni.restoreGlobal) {
       /* CLASS */
     );
   }
-  const __easycom_4 = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["render", _sfc_render$6], ["__scopeId", "data-v-0f73054c"], ["__file", "D:/Code/IM/components/AudioMessage/AudioMessage.vue"]]);
+  const __easycom_4 = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["render", _sfc_render$6], ["__scopeId", "data-v-0f73054c"], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/components/AudioMessage/AudioMessage.vue"]]);
+  function getImage(id) {
+    return `${baseURL}/assets/${id}?access_token=${getToken()}`;
+  }
   const _imports_0$2 = "/static/bar-back.png";
   const _imports_1$3 = "/static/card-small-1.png";
   const _imports_2$2 = "/static/card-small-2.png";
@@ -11725,6 +11748,25 @@ if (uni.restoreGlobal) {
     __name: "chat",
     setup(__props, { expose: __expose }) {
       __expose();
+      const recorderManager = uni.getRecorderManager();
+      recorderManager.onStop((res) => {
+        if (canSendAudio.value) {
+          let message = tim.createAudioMessage({
+            to: starId.value,
+            conversationType: "C2C",
+            payload: {
+              file: res
+            },
+            onProgress: function(event) {
+              formatAppLog("log", "at pages/chat/chat.vue:97", event);
+            }
+          });
+          tim.sendMessage(message).then((response) => {
+            msgList.value.push(response.data.message);
+            scrollBottom();
+          });
+        }
+      });
       const canSendAudio = vue.ref(false);
       const starId = vue.ref("");
       const msgList = vue.ref([]);
@@ -11734,6 +11776,7 @@ if (uni.restoreGlobal) {
       const moreOpen = vue.ref(false);
       const scrollTop = vue.ref(0);
       const longPressing = vue.ref(false);
+      const detail = vue.ref(null);
       const bottomHeight = vue.computed(() => {
         if (moreOpen.value) {
           return "553rpx";
@@ -11748,10 +11791,21 @@ if (uni.restoreGlobal) {
         starId.value = option.idol;
         getListMsg();
         tim.on(timEvent.MESSAGE_RECEIVED, onMessageReceived);
+        getDetail();
       });
       onUnload(() => {
         tim.off(timEvent.MESSAGE_RECEIVED, onMessageReceived);
       });
+      function getDetail() {
+        http.get("/items/idol/" + starId.value, {
+          fields: [
+            "*",
+            "user.avatar"
+          ]
+        }).then((res) => {
+          detail.value = res.data;
+        });
+      }
       function onMessageReceived(event) {
         let arr = event.data.filter((res) => res.conversationID === `C2C${starId.value}`);
         msgList.value.push(...arr);
@@ -11779,7 +11833,7 @@ if (uni.restoreGlobal) {
               } else {
                 scrollTop.value = res.height;
               }
-              formatAppLog("log", "at pages/chat/chat.vue:162", scrollTop.value, res.height);
+              formatAppLog("log", "at pages/chat/chat.vue:176", scrollTop.value, res.height);
             }).exec();
           }, 0);
         });
@@ -11789,7 +11843,7 @@ if (uni.restoreGlobal) {
           conversationID: `C2C${starId.value}`
         }).then((res) => {
           msgList.value = [...res.data.messageList];
-          formatAppLog("log", "at pages/chat/chat.vue:172", res.data.messageList);
+          formatAppLog("log", "at pages/chat/chat.vue:186", res.data.messageList);
           scrollBottom();
         });
       }
@@ -11826,7 +11880,7 @@ if (uni.restoreGlobal) {
           sourceType: ["album"],
           sizeType: ["original", "compressed"],
           success: (res) => {
-            formatAppLog("log", "at pages/chat/chat.vue:209", res);
+            formatAppLog("log", "at pages/chat/chat.vue:223", res);
             let message = tim.createImageMessage({
               to: starId.value,
               conversationType: "C2C",
@@ -11883,7 +11937,7 @@ if (uni.restoreGlobal) {
           url: "/pages/card/card"
         });
       }
-      const __returned__ = { canSendAudio, starId, msgList, inputValue, giftVisible, inputVisible, moreOpen, scrollTop, longPressing, bottomHeight, scrollViewHeight, onMessageReceived, handleTouchCancel, handleTouchStart, handleTouchEnd, scrollBottom, getListMsg, inputVisibleClick, moreOpenClick, sendMessage, sendMsgImage, sendMsgVideo, showAudio, goBack, goVideo, goCard, get onLoad() {
+      const __returned__ = { recorderManager, canSendAudio, starId, msgList, inputValue, giftVisible, inputVisible, moreOpen, scrollTop, longPressing, detail, bottomHeight, scrollViewHeight, getDetail, onMessageReceived, handleTouchCancel, handleTouchStart, handleTouchEnd, scrollBottom, getListMsg, inputVisibleClick, moreOpenClick, sendMessage, sendMsgImage, sendMsgVideo, showAudio, goBack, goVideo, goCard, get onLoad() {
         return onLoad;
       }, get onUnload() {
         return onUnload;
@@ -11891,6 +11945,10 @@ if (uni.restoreGlobal) {
         return tim;
       }, get timEvent() {
         return timEvent;
+      }, get getImage() {
+        return getImage;
+      }, get http() {
+        return http;
       } };
       Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
       return __returned__;
@@ -11915,7 +11973,12 @@ if (uni.restoreGlobal) {
             src: _imports_0$2
           })
         ]),
-        vue.createVNode(_component_StarInfo)
+        $setup.detail ? (vue.openBlock(), vue.createBlock(_component_StarInfo, {
+          key: 0,
+          icon: $setup.detail.user.avatar,
+          name: $setup.detail.name,
+          desc: $setup.detail.desc
+        }, null, 8, ["icon", "name", "desc"])) : vue.createCommentVNode("v-if", true)
       ]),
       vue.createElementVNode("scroll-view", {
         class: "info-list",
@@ -12184,7 +12247,7 @@ if (uni.restoreGlobal) {
       )
     ]);
   }
-  const PagesChatChat = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["render", _sfc_render$5], ["__file", "D:/Code/IM/pages/chat/chat.vue"]]);
+  const PagesChatChat = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["render", _sfc_render$5], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/pages/chat/chat.vue"]]);
   const _imports_1$1 = "/static/detail-friend.png";
   const _imports_2$1 = "/static/detail-more.png";
   const _imports_0$1 = "/static/default-icon.png";
@@ -12196,10 +12259,40 @@ if (uni.restoreGlobal) {
     __name: "detail",
     setup(__props, { expose: __expose }) {
       __expose();
+      const starId = vue.ref("");
+      const detail = vue.ref(null);
+      const icon = vue.computed(() => {
+        if (detail.value) {
+          return getImage(detail.value.user.avatar);
+        } else {
+          return "";
+        }
+      });
+      onLoad((option) => {
+        starId.value = option.idol;
+        getDetail();
+      });
+      function getDetail() {
+        http.get("/items/idol/" + starId.value, {
+          fields: [
+            "*",
+            "user.avatar"
+          ]
+        }).then((res) => {
+          detail.value = res.data;
+          formatAppLog("log", "at pages/detail/detail.vue:80", res);
+        });
+      }
       function goBack() {
         uni.navigateBack();
       }
-      const __returned__ = { goBack };
+      const __returned__ = { starId, detail, icon, getDetail, goBack, get onLoad() {
+        return onLoad;
+      }, computed: vue.computed, ref: vue.ref, get http() {
+        return http;
+      }, get getImage() {
+        return getImage;
+      } };
       Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
       return __returned__;
     }
@@ -12207,7 +12300,10 @@ if (uni.restoreGlobal) {
   function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_BasePage = resolveEasycom(vue.resolveDynamicComponent("BasePage"), __easycom_0);
     const _component_Bar = resolveEasycom(vue.resolveDynamicComponent("Bar"), __easycom_1$1);
-    return vue.openBlock(), vue.createElementBlock("view", { class: "detail" }, [
+    return $setup.detail ? (vue.openBlock(), vue.createElementBlock("view", {
+      key: 0,
+      class: "detail"
+    }, [
       vue.createVNode(_component_BasePage, null, {
         default: vue.withCtx(() => [
           vue.createElementVNode("view", { class: "detail-title" }, [
@@ -12235,13 +12331,31 @@ if (uni.restoreGlobal) {
             ])
           ]),
           vue.createElementVNode("view", { class: "detail-avatar" }, [
-            vue.createElementVNode("image", {
+            $setup.icon ? (vue.openBlock(), vue.createElementBlock("image", {
+              key: 0,
+              class: "avatar-img",
+              src: $setup.icon,
+              mode: "widthFix"
+            }, null, 8, ["src"])) : (vue.openBlock(), vue.createElementBlock("image", {
+              key: 1,
               class: "avatar-img",
               src: _imports_0$1,
               mode: "widthFix"
-            }),
-            vue.createElementVNode("view", { class: "avatar-name" }, "@易烊千玺"),
-            vue.createElementVNode("view", { class: "avatar-desc" }, "中国内地，演员，歌手，人气少年偶像组合TFBOYS成员")
+            })),
+            vue.createElementVNode(
+              "view",
+              { class: "avatar-name" },
+              "@" + vue.toDisplayString($setup.detail.name),
+              1
+              /* TEXT */
+            ),
+            vue.createElementVNode(
+              "view",
+              { class: "avatar-desc" },
+              vue.toDisplayString($setup.detail.desc),
+              1
+              /* TEXT */
+            )
           ]),
           vue.createElementVNode("view", { class: "deail-info" }, [
             vue.createElementVNode("view", { class: "info-item" }, [
@@ -12288,9 +12402,9 @@ if (uni.restoreGlobal) {
         /* STABLE */
       }),
       vue.createVNode(_component_Bar, { actived: 1 })
-    ]);
+    ])) : vue.createCommentVNode("v-if", true);
   }
-  const PagesDetailDetail = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["render", _sfc_render$4], ["__file", "D:/Code/IM/pages/detail/detail.vue"]]);
+  const PagesDetailDetail = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["render", _sfc_render$4], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/pages/detail/detail.vue"]]);
   const _imports_1 = "/static/chat-list-title.png";
   const _sfc_main$4 = {
     __name: "chatList",
@@ -12302,53 +12416,57 @@ if (uni.restoreGlobal) {
           url: "/pages/chat/chat?idol=" + item.idol.id
         });
       }
-      function goDetail() {
-        uni.navigateTo({
-          url: "/pages/detail/detail"
-        });
-      }
-      vue.onMounted(() => {
-        uni.request({
-          url: "https://xingmi.app.canglandata.com/items/chat",
-          header: {
-            Authorization: `Bearer Tx24NJznrt8ka1leJvx2Re3-ZgEDSolD`
-          },
-          data: {
-            limit: 20,
-            fields: [
-              "id",
-              "heat_value",
-              "idol.user",
-              "idol.name",
-              "idol.id",
-              "user.id",
-              "user.avatar.id",
-              "user.avatar.modified_on",
-              "user.first_name",
-              "user.last_name",
-              "user_defined_prompt",
-              "messages.text_content",
-              "messages.date_created"
-            ],
-            sort: "id",
-            page: 1,
-            deep: {
-              messages: {
-                _limit: 1,
-                _sort: "-date_created"
+      onShow(() => {
+        http.get("/items/chat", {
+          limit: 20,
+          filter: {
+            _and: [
+              {
+                user: {
+                  _eq: getUserInfo().id
+                }
               }
-            }
+            ]
           },
-          method: "get",
-          success: (res) => {
-            chatList.value = res.data.data;
+          fields: [
+            "id",
+            "heat_value",
+            "idol.user",
+            "idol.user.avatar",
+            "idol.name",
+            "idol.id",
+            "user.id",
+            "user.first_name",
+            "user.last_name",
+            "user_defined_prompt",
+            "messages.text_content",
+            "messages.date_created"
+          ],
+          sort: "id",
+          page: 1,
+          deep: {
+            messages: {
+              _limit: 1,
+              _sort: "-date_created"
+            }
           }
+        }).then((res) => {
+          formatAppLog("log", "at pages/chatList/chatList.vue:80", res.data);
+          chatList.value = res.data;
         });
       });
       function goBack() {
         uni.navigateBack();
       }
-      const __returned__ = { chatList, goChat, goDetail, goBack, onMounted: vue.onMounted, ref: vue.ref };
+      const __returned__ = { chatList, goChat, goBack, onMounted: vue.onMounted, ref: vue.ref, get onShow() {
+        return onShow;
+      }, get getUserInfo() {
+        return getUserInfo;
+      }, get http() {
+        return http;
+      }, get getImage() {
+        return getImage;
+      } };
       Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
       return __returned__;
     }
@@ -12391,10 +12509,15 @@ if (uni.restoreGlobal) {
                     onClick: ($event) => $setup.goChat(item)
                   }, [
                     vue.createElementVNode("view", { class: "item-avatar" }, [
-                      vue.createElementVNode("image", {
+                      item.idol && item.idol.user && item.idol.user.avatar ? (vue.openBlock(), vue.createElementBlock("image", {
+                        key: 0,
+                        mode: "widthFix",
+                        src: $setup.getImage(item.idol.user.avatar)
+                      }, null, 8, ["src"])) : (vue.openBlock(), vue.createElementBlock("image", {
+                        key: 1,
                         mode: "widthFix",
                         src: _imports_0$1
-                      }),
+                      })),
                       vue.createCommentVNode(` <view class="avatar-count" :class="item * 20 < 99 ? 'round' : 'auto-round'">{{ item * 20 }}</view> `)
                     ]),
                     vue.createElementVNode("view", { class: "item-info" }, [
@@ -12428,7 +12551,7 @@ if (uni.restoreGlobal) {
       vue.createVNode(_component_Bar, { actived: 2 })
     ]);
   }
-  const PagesChatListChatList = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["render", _sfc_render$3], ["__file", "D:/Code/IM/pages/chatList/chatList.vue"]]);
+  const PagesChatListChatList = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["render", _sfc_render$3], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/pages/chatList/chatList.vue"]]);
   const _imports_0 = "/static/card-bg.png";
   const _sfc_main$3 = {
     __name: "card",
@@ -12461,7 +12584,7 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const PagesCardCard = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$2], ["__file", "D:/Code/IM/pages/card/card.vue"]]);
+  const PagesCardCard = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$2], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/pages/card/card.vue"]]);
   const _imports_2 = "/static/chat-microphone.png";
   const _imports_3 = "/static/chat-hangUp.png";
   const _imports_4 = "/static/chat-speaker.png";
@@ -12536,7 +12659,7 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const PagesCallingCalling = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$1], ["__file", "D:/Code/IM/pages/calling/calling.vue"]]);
+  const PagesCallingCalling = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$1], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/pages/calling/calling.vue"]]);
   const _sfc_main$1 = {
     __name: "videoPlay",
     setup(__props, { expose: __expose }) {
@@ -12561,7 +12684,7 @@ if (uni.restoreGlobal) {
       }, null, 8, ["src"])
     ]);
   }
-  const PagesVideoPlayVideoPlay = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render], ["__file", "D:/Code/IM/pages/videoPlay/videoPlay.vue"]]);
+  const PagesVideoPlayVideoPlay = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/pages/videoPlay/videoPlay.vue"]]);
   __definePage("pages/home/home", PagesHomeHome);
   __definePage("pages/index/index", PagesIndexIndex);
   __definePage("pages/chat/chat", PagesChatChat);
@@ -12581,7 +12704,7 @@ if (uni.restoreGlobal) {
       formatAppLog("log", "at App.vue:10", "App Hide");
     }
   };
-  const App = /* @__PURE__ */ _export_sfc(_sfc_main, [["__file", "D:/Code/IM/App.vue"]]);
+  const App = /* @__PURE__ */ _export_sfc(_sfc_main, [["__file", "D:/Code/yds/xingmi-uniapp/xingyu/App.vue"]]);
   function createApp() {
     const app = vue.createVueApp(App);
     return {

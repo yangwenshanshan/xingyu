@@ -14,6 +14,7 @@
 </template>
 <script setup>
 import { computed } from 'vue';
+import { baseURL, getToken } from '../../utils/config';
 
 const props = defineProps({
   name: {
@@ -30,7 +31,7 @@ const props = defineProps({
   }
 })
 const image = computed(() => {
-  return `https://xingmi.app.canglandata.com/assets/${props.icon}?access_token=Tx24NJznrt8ka1leJvx2Re3-ZgEDSolD`
+  return `${baseURL}/assets/${props.icon}?access_token=${getToken()}`
 })
 </script>
 <style lang="scss">

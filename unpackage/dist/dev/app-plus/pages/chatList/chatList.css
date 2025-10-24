@@ -187,6 +187,8 @@
 }
 .chat-list .people-list .item-content .item-avatar uni-image {
   width: 2.875rem;
+  height: 2.875rem;
+  border-radius: 50%;
 }
 .chat-list .people-list .item-content .item-avatar .avatar-count {
   position: absolute;

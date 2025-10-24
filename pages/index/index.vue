@@ -45,7 +45,6 @@ import { ref } from 'vue'
 
 const list = ref([])
 onLoad(() => {
-	console.log('/items/idol')
 	http.get('/items/idol', {
 		limit: 20,
 		fields: [
@@ -78,7 +77,7 @@ function goChat (item) {
 }
 function goDetail (item) {
 	uni.navigateTo({
-		url: '/pages/detail/detail'
+		url: '/pages/detail/detail?idol=' + item.id
 	})
 }
 </script>

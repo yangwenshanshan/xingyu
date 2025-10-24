@@ -1,10 +1,11 @@
-// /items/chat
+import { baseURL, getToken } from "./config"
+
 const request = (url, method, data) => {
   return new Promise((resolve, reject) => {
     uni.request({
-      url: `https://xingmi.app.canglandata.com${url}`,
+      url: `${baseURL}${url}`,
       header: {
-        Authorization: `Bearer Tx24NJznrt8ka1leJvx2Re3-ZgEDSolD`
+        Authorization: `Bearer ${getToken()}`
       },
       data,
       method,
