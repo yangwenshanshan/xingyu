@@ -43,7 +43,6 @@ function goDetail () {
 	})
 }
 onMounted(() => {
-	// ?limit=25&&fields[]=&fields[]=&fields[]=&sort[]=id&page=1
 	uni.request({
 		url: 'https://xingmi.app.canglandata.com/items/chat',
 		header: {

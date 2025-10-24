@@ -9,11 +9,11 @@
 				<image src="../../static/home-search.png" alt="" />
 			</view>
 			<scroll-view class="people-list" scroll-y>
-				<view class="people-item" v-for="item in 5">
-					<view class="item-content" @click="goDetail">
+				<view class="people-item" v-for="item in list" :key="item.id">
+					<view class="item-content" @click="goDetail(item)" :style="item.bg ? `background: url(${item.bg}) center top no-repeat;` : ''">
 						<view class="content-top">
-							<StarInfo></StarInfo>
-							<view class="top-right" @click.stop="goChat">
+							<StarInfo :icon="item.user.avatar" :name="item.name" :desc="item.desc"></StarInfo>
+							<view class="top-right" @click.stop="goChat(item)">
 								<image style="width: 32rpx;" src="../../static/bar-serve.png" mode="widthFix"></image>
 							</view>
 						</view>
@@ -39,12 +39,44 @@
 </template>
 
 <script setup>
-function goChat () {
+import { onLoad } from '@dcloudio/uni-app'
+import http from '../../utils/http'
+import { ref } from 'vue'
+
+const list = ref([])
+onLoad(() => {
+	console.log('/items/idol')
+	http.get('/items/idol', {
+		limit: 20,
+		fields: [
+			'id',
+			'desc',
+			'name',
+			'sort',
+			'status',
+			'user.first_name',
+			'user.last_name',
+			'user.avatar',
+		],
+		filter: {
+			status: {
+				'_neq': 'archived'
+			}
+		},
+		sort: 'sort',
+		page: 1,
+	}).then(res => {
+		console.log(res)
+		list.value = res.data
+	})
+})
+
+function goChat (item) {
 	uni.navigateTo({
-		url: '/pages/chat/chat'
+		url: '/pages/chat/chat?idol=' + item.id
 	})
 }
-function goDetail () {
+function goDetail (item) {
 	uni.navigateTo({
 		url: '/pages/detail/detail'
 	})
