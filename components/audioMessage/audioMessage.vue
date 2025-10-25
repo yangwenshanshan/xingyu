@@ -18,7 +18,12 @@ const props = defineProps({
     type: Object,
     default: () => {}
   },
+  isPlaying: {
+    type: Boolean,
+    default: false
+  }
 })
+const emit = defineEmits(['playAudio'])
 let innerAudioContext = uni.createInnerAudioContext();
 innerAudioContext.onCanplay(() => {
   second.value = parseInt(innerAudioContext.duration)
@@ -28,30 +33,9 @@ onMounted(() => {
     innerAudioContext.src = props.message.payload.url;
   }
 })
-const isPlaying = ref(false)
 const second = ref('')
 function playAudio () {
-  if (innerAudioContext) {
-    if (!innerAudioContext.paused) {
-      innerAudioContext.stop()
-      innerAudioContext.destroy()
-      innerAudioContext = null
-      // isPlaying.value = false
-    } else {
-      innerAudioContext.stop()
-      innerAudioContext.destroy()
-      innerAudioContext = null
-      innerAudioContext = uni.createInnerAudioContext()
-      innerAudioContext.src = props.message.payload.url
-      innerAudioContext.play()
-      // isPlaying.value = true
-    }
-  } else {
-    innerAudioContext = uni.createInnerAudioContext()
-    innerAudioContext.src = props.message.payload.url
-    innerAudioContext.play()
-    // isPlaying.value = true
-  }
+  emit('playAudio')
 }
 </script>
 <style lang="scss" scoped>

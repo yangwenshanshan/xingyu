@@ -11825,11 +11825,17 @@ if (uni.restoreGlobal) {
         type: Object,
         default: () => {
         }
+      },
+      isPlaying: {
+        type: Boolean,
+        default: false
       }
     },
-    setup(__props, { expose: __expose }) {
+    emits: ["playAudio"],
+    setup(__props, { expose: __expose, emit: __emit }) {
       __expose();
       const props = __props;
+      const emit = __emit;
       let innerAudioContext = uni.createInnerAudioContext();
       innerAudioContext.onCanplay(() => {
         second.value = parseInt(innerAudioContext.duration);
@@ -11839,33 +11845,15 @@ if (uni.restoreGlobal) {
           innerAudioContext.src = props.message.payload.url;
         }
       });
-      const isPlaying = vue.ref(false);
       const second = vue.ref("");
       function playAudio() {
-        if (innerAudioContext) {
-          if (!innerAudioContext.paused) {
-            innerAudioContext.stop();
-            innerAudioContext.destroy();
-            innerAudioContext = null;
-          } else {
-            innerAudioContext.stop();
-            innerAudioContext.destroy();
-            innerAudioContext = null;
-            innerAudioContext = uni.createInnerAudioContext();
-            innerAudioContext.src = props.message.payload.url;
-            innerAudioContext.play();
-          }
-        } else {
-          innerAudioContext = uni.createInnerAudioContext();
-          innerAudioContext.src = props.message.payload.url;
-          innerAudioContext.play();
-        }
+        emit("playAudio");
       }
-      const __returned__ = { props, get innerAudioContext() {
+      const __returned__ = { props, emit, get innerAudioContext() {
         return innerAudioContext;
       }, set innerAudioContext(v) {
         innerAudioContext = v;
-      }, isPlaying, second, playAudio, ref: vue.ref, onMounted: vue.onMounted };
+      }, second, playAudio, ref: vue.ref, onMounted: vue.onMounted };
       Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
       return __returned__;
     }
@@ -11892,7 +11880,7 @@ if (uni.restoreGlobal) {
           vue.createElementVNode(
             "view",
             {
-              class: vue.normalizeClass(["voice__play__icon__container", { "web_wechat_voice_playing": $setup.isPlaying }])
+              class: vue.normalizeClass(["voice__play__icon__container", { "web_wechat_voice_playing": $props.isPlaying }])
             },
             null,
             2
@@ -11906,7 +11894,7 @@ if (uni.restoreGlobal) {
           vue.createElementVNode(
             "view",
             {
-              class: vue.normalizeClass(["voice__play__icon__container", { "web_wechat_voice_playing": $setup.isPlaying }]),
+              class: vue.normalizeClass(["voice__play__icon__container", { "web_wechat_voice_playing": $props.isPlaying }]),
               style: { "transform": "rotate(180deg)" }
             },
             null,
@@ -11966,6 +11954,7 @@ if (uni.restoreGlobal) {
           });
         }
       });
+      let innerAudioContext = null;
       const canSendAudio = vue.ref(false);
       const starId = vue.ref("");
       const chatId = vue.ref("");
@@ -12008,6 +11997,30 @@ if (uni.restoreGlobal) {
       onUnload(() => {
         tim.off(timEvent.MESSAGE_RECEIVED, onMessageReceived);
       });
+      function playAudio(item) {
+        const playing = item.isPlaying;
+        msgList.value.forEach((el) => {
+          if (el.type === "TIMSoundElem") {
+            el.isPlaying = false;
+          }
+        });
+        if (playing) {
+          innerAudioContext.stop();
+          innerAudioContext.destroy();
+          innerAudioContext = null;
+          item.isPlaying = false;
+        } else {
+          innerAudioContext = uni.createInnerAudioContext();
+          innerAudioContext.onEnded(() => {
+            innerAudioContext.destroy();
+            innerAudioContext = null;
+            item.isPlaying = false;
+          });
+          innerAudioContext.src = item.payload.url;
+          innerAudioContext.play();
+          item.isPlaying = true;
+        }
+      }
       function getDetail() {
         http.get("/items/idol/" + starId.value, {
           fields: [
@@ -12059,48 +12072,11 @@ if (uni.restoreGlobal) {
         scrollBottom();
       }
       function getListMsg() {
-        http.get(`/items/chat/${chatId.value}`, {
-          fields: ["id", "messages.*"],
-          deep: {
-            messages: {
-              _limit: 1e3,
-              _sort: ["date_created"]
-            }
-          }
+        tim.getMessageList({
+          conversationID: `C2C${starId.value}`
         }).then((res) => {
-          const messages = res.data.messages;
-          messages.forEach((element) => {
-            element.flow = element.role === "user" ? "out" : "in";
-            if (element.content_type === "text") {
-              element.type = "TIMTextElem";
-              element.payload = {
-                text: element.text_content
-              };
-            }
-            if (element.content_type === "video") {
-              element.type = "TIMVideoFileElem";
-              element.payload = {
-                thumbHeight: 0,
-                thumbWidth: 0,
-                thumbUrl: ""
-              };
-            }
-            if (element.content_type === "image") {
-              element.type = "TIMImageElem";
-              element.payload = {
-                height: 0,
-                width: 0,
-                url: ""
-              };
-            }
-            if (element.content_type === "audio") {
-              element.type = "TIMSoundElem";
-              element.payload = {
-                url: ""
-              };
-            }
-          });
-          msgList.value = messages;
+          msgList.value = [...res.data.messageList];
+          formatAppLog("log", "at pages/chat/chat.vue:284", res.data.messageList);
           scrollBottom();
         });
       }
@@ -12141,7 +12117,7 @@ if (uni.restoreGlobal) {
           sourceType: ["album"],
           sizeType: ["original", "compressed"],
           success: (res) => {
-            formatAppLog("log", "at pages/chat/chat.vue:300", res);
+            formatAppLog("log", "at pages/chat/chat.vue:325", res);
             let message = tim.createImageMessage({
               to: starId.value,
               conversationType: "C2C",
@@ -12198,7 +12174,11 @@ if (uni.restoreGlobal) {
           url: "/pages/card/card"
         });
       }
-      const __returned__ = { recorderManager, canSendAudio, starId, chatId, msgList, inputValue, giftVisible, inputVisible, moreOpen, scrollTop, longPressing, detail, changeBottomVal, bottomHeight, scrollViewHeight, backgroundImage, getDetail, onMessageReceived, handleTouchCancel, handleTouchStart, handleTouchEnd, onTouchstartScrollView, scrollBottom, keyboardheightchange, getListMsg, inputFocus, inputVisibleClick, moreOpenClick, sendMessage, sendMsgImage, sendMsgVideo, showAudio, goBack, goVideo, goCard, get onLoad() {
+      const __returned__ = { recorderManager, get innerAudioContext() {
+        return innerAudioContext;
+      }, set innerAudioContext(v) {
+        innerAudioContext = v;
+      }, canSendAudio, starId, chatId, msgList, inputValue, giftVisible, inputVisible, moreOpen, scrollTop, longPressing, detail, changeBottomVal, bottomHeight, scrollViewHeight, backgroundImage, playAudio, getDetail, onMessageReceived, handleTouchCancel, handleTouchStart, handleTouchEnd, onTouchstartScrollView, scrollBottom, keyboardheightchange, getListMsg, inputFocus, inputVisibleClick, moreOpenClick, sendMessage, sendMsgImage, sendMsgVideo, showAudio, goBack, goVideo, goCard, get onLoad() {
         return onLoad;
       }, get onUnload() {
         return onUnload;
@@ -12279,8 +12259,10 @@ if (uni.restoreGlobal) {
                     }, null, 8, ["message"])) : vue.createCommentVNode("v-if", true),
                     item.type === "TIMSoundElem" ? (vue.openBlock(), vue.createBlock(_component_AudioMessage, {
                       key: 3,
+                      isPlaying: item.isPlaying,
+                      onPlayAudio: ($event) => $setup.playAudio(item),
                       message: item
-                    }, null, 8, ["message"])) : vue.createCommentVNode("v-if", true)
+                    }, null, 8, ["isPlaying", "onPlayAudio", "message"])) : vue.createCommentVNode("v-if", true)
                   ],
                   2
                   /* CLASS */

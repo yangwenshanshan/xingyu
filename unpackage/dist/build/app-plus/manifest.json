@@ -99,7 +99,7 @@
       "apple": {
         "privacyDescription": {
           "NSMicrophoneUsageDescription": "用于发送语音消息",
-          "NSCameraUsageDescription": "用于拍摄发送报告图片",
+          "NSCameraUsageDescription": "用于拍摄并发送图片文件",
           "NSPhotoLibraryUsageDescription": "用于发送图片文件"
         },
         "dSYMs": false

@@ -13,7 +13,7 @@
           <TextMessage v-if="item.type === 'TIMTextElem'" :message="item"></TextMessage>
           <ImageMessage v-if="item.type === 'TIMImageElem'" :message="item"></ImageMessage>
           <VideoMessage v-if="item.type === 'TIMVideoFileElem'" :message="item"></VideoMessage>
-          <AudioMessage v-if="item.type === 'TIMSoundElem'" :message="item"></AudioMessage>
+          <AudioMessage :isPlaying="item.isPlaying" @playAudio="playAudio(item)" v-if="item.type === 'TIMSoundElem'" :message="item"></AudioMessage>
         </view>
       </view>
     </scroll-view>
@@ -114,6 +114,7 @@ recorderManager.onStop((res) => {
     })
   }
 });
+let innerAudioContext = null
 const canSendAudio = ref(false)
 const starId = ref('')
 const chatId = ref('')
@@ -157,6 +158,30 @@ onLoad((option) => {
 onUnload(() => {
   tim.off(timEvent.MESSAGE_RECEIVED, onMessageReceived);
 })
+function playAudio (item) {
+  const playing = item.isPlaying
+  msgList.value.forEach(el => {
+    if (el.type === 'TIMSoundElem') {
+      el.isPlaying = false
+    }
+  })
+  if (playing) {
+    innerAudioContext.stop()
+    innerAudioContext.destroy()
+    innerAudioContext = null
+    item.isPlaying = false
+  } else {
+    innerAudioContext = uni.createInnerAudioContext()
+    innerAudioContext.onEnded(() => {
+      innerAudioContext.destroy()
+      innerAudioContext = null
+      item.isPlaying = false
+    })
+    innerAudioContext.src = item.payload.url
+    innerAudioContext.play()
+    item.isPlaying = true
+  }
+}
 function getDetail() {
 	http.get('/items/idol/' + starId.value, {
 		fields: [
@@ -208,57 +233,57 @@ function keyboardheightchange(e) {
   scrollBottom()
 }
 function getListMsg () {
-  http.get(`/items/chat/${chatId.value}`, {
-    fields: ['id', 'messages.*'],
-    deep: {
-      messages: {
-        _limit: 1000,
-        _sort: ['date_created'],
-      }
-    },
-  }).then(res => {
-    const messages = res.data.messages
-    messages.forEach(element => {
-      element.flow = element.role === 'user' ? 'out' : 'in'
-      if (element.content_type === 'text') {
-        element.type = 'TIMTextElem'
-        element.payload = {
-          text: element.text_content
-        }
-      }
-      if (element.content_type === 'video') {
-        element.type = 'TIMVideoFileElem'
-        element.payload = {
-          thumbHeight: 0,
-          thumbWidth: 0,
-          thumbUrl: '',
-        }
-      }
-      if (element.content_type === 'image') {
-        element.type = 'TIMImageElem'
-        element.payload = {
-          height: 0,
-          width: 0,
-          url: '',
-        }
-      }
-      if (element.content_type === 'audio') {
-        element.type = 'TIMSoundElem'
-        element.payload = {
-          url: '',
-        }
-      }
-    });
-    msgList.value = messages
-    scrollBottom()
-  })
-  // tim.getMessageList({
-  //   conversationID: `C2C${starId.value}`
+  // http.get(`/items/chat/${chatId.value}`, {
+  //   fields: ['id', 'messages.*'],
+  //   deep: {
+  //     messages: {
+  //       _limit: 1000,
+  //       _sort: ['date_created'],
+  //     }
+  //   },
   // }).then(res => {
-  //   msgList.value = [ ...res.data.messageList ]
-  //   console.log(res.data.messageList)
+  //   const messages = res.data.messages
+  //   messages.forEach(element => {
+  //     element.flow = element.role === 'user' ? 'out' : 'in'
+  //     if (element.content_type === 'text') {
+  //       element.type = 'TIMTextElem'
+  //       element.payload = {
+  //         text: element.text_content
+  //       }
+  //     }
+  //     if (element.content_type === 'video') {
+  //       element.type = 'TIMVideoFileElem'
+  //       element.payload = {
+  //         thumbHeight: 0,
+  //         thumbWidth: 0,
+  //         thumbUrl: '',
+  //       }
+  //     }
+  //     if (element.content_type === 'image') {
+  //       element.type = 'TIMImageElem'
+  //       element.payload = {
+  //         height: 0,
+  //         width: 0,
+  //         url: '',
+  //       }
+  //     }
+  //     if (element.content_type === 'audio') {
+  //       element.type = 'TIMSoundElem'
+  //       element.payload = {
+  //         url: '',
+  //       }
+  //     }
+  //   });
+  //   msgList.value = messages
   //   scrollBottom()
   // })
+  tim.getMessageList({
+    conversationID: `C2C${starId.value}`
+  }).then(res => {
+    msgList.value = [ ...res.data.messageList ]
+    console.log(res.data.messageList)
+    scrollBottom()
+  })
 }
 function inputFocus () {
   inputVisible.value = true
