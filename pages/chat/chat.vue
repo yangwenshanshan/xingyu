@@ -1,5 +1,5 @@
 <template>
-	<view class="chat">
+	<view class="chat" :style="`height: calc(100vh - ${changeBottomVal});`">
     <view class="status_bar"></view>
     <view class="chat-star">
       <view class="star-back" @click="goBack">
@@ -7,7 +7,7 @@
       </view>
       <StarInfo v-if="detail" :icon="detail.user.avatar" :name="detail.name " :desc="detail.desc"></StarInfo>
     </view>
-    <scroll-view class="info-list" scroll-y :style="`height: ${scrollViewHeight}`" :scroll-top="scrollTop">
+    <scroll-view @touchstart="onTouchstartScrollView" class="info-list" scroll-y :style="`height: ${scrollViewHeight}`" :scroll-top="scrollTop">
       <view id="content">
         <view class="list-item" v-for="item in msgList" :class="item.flow === 'out' ? 'self-parent' : 'star-parent'">
           <TextMessage v-if="item.type === 'TIMTextElem'" :message="item"></TextMessage>
@@ -48,13 +48,24 @@
       <view class="opt-gift" v-if="giftVisible && !longPressing" @click="giftVisible = false">
         <image src="../../static/gift.png" mode="widthFix" class="gift-image"></image>
       </view>
-      <view class="bottom-input" :class="longPressing ? 'bottom-input-pressing' : ''" :style="moreOpen ? 'bottom: 312rpx' : 'bottom: calc(80rpx)'">
+      <view class="bottom-input" :class="longPressing ? 'bottom-input-pressing' : ''" :style="moreOpen ? 'bottom: 312rpx' : 'bottom: 80rpx'">
         <template v-if="!longPressing">
           <image @click="inputVisibleClick(false)" v-if="inputVisible" class="input-image" src="../../static/chat-audio.png"></image>
           <image @click="inputVisibleClick(true)" v-else class="input-image" src="../../static/chat-input.png"></image>
         </template>
         <view class="input-main">
-          <input @keyboardheightchange="keyboardheightchange" @focus="inputFocus" v-model="inputValue" @confirm="sendMessage" :cursor-spacing="20" v-if="inputVisible" confirm-type="send" placeholder="发消息..." placeholder-style="color: #ffffff"></input>
+          <input
+            :adjust-position="false"
+            @keyboardheightchange="keyboardheightchange"
+            @focus="inputFocus"
+            v-model="inputValue"
+            @confirm="sendMessage"
+            :cursor-spacing="0"
+            v-if="inputVisible"
+            confirm-type="send"
+            placeholder="发消息..."
+            placeholder-style="color: #ffffff"
+          ></input>
           <view :class="longPressing ? 'long-pressing' : ''" @touchcancel="handleTouchCancel" @touchstart="handleTouchStart" @touchend="handleTouchEnd" class="main-speak" v-else>
             <template v-if="!longPressing">按住说话</template>
             <view v-else class="speaking">
@@ -83,25 +94,25 @@ import { computed, ref, nextTick } from 'vue'
 import { tim, timEvent } from '../../utils/tim'
 import http from '../../utils/http';
 
-const recorderManager = uni.getRecorderManager();
-recorderManager.onStop((res) => {
-  if (canSendAudio.value) {
-    let message = tim.createAudioMessage({
-      to: starId.value,
-      conversationType: 'C2C',
-      payload: {
-        file: res
-      },
-      onProgress: function(event) {
-        console.log(event)
-      }
-    })
-    tim.sendMessage(message).then(response => {
-      msgList.value.push(response.data.message)
-      scrollBottom()
-    })
-  }
-});
+// const recorderManager = uni.getRecorderManager();
+// recorderManager.onStop((res) => {
+//   if (canSendAudio.value) {
+//     let message = tim.createAudioMessage({
+//       to: starId.value,
+//       conversationType: 'C2C',
+//       payload: {
+//         file: res
+//       },
+//       onProgress: function(event) {
+//         console.log(event)
+//       }
+//     })
+//     tim.sendMessage(message).then(response => {
+//       msgList.value.push(response.data.message)
+//       scrollBottom()
+//     })
+//   }
+// });
 const canSendAudio = ref(false)
 const starId = ref('')
 const chatId = ref('')
@@ -122,7 +133,7 @@ const bottomHeight = computed(() => {
   }
 })
 const scrollViewHeight = computed(() => {
-  return `calc(100vh - ${bottomHeight.value} - 135rpx - var(--status-bar-height))`
+  return `calc(100vh - 116rpx - var(--status-bar-height) - ${changeBottomVal.value} - ${bottomHeight.value})`
 })
 
 onLoad((option) => {
@@ -154,36 +165,37 @@ function onMessageReceived (event) {
 }
 function handleTouchCancel () {
   canSendAudio.value = false
-  recorderManager.stop();
+  // recorderManager.stop();
   longPressing.value = false
 }
 function handleTouchStart() {
   canSendAudio.value = false
-  recorderManager.start();
+  // recorderManager.start();
   longPressing.value = true
 }
 function handleTouchEnd() {
   canSendAudio.value = true
-  recorderManager.stop();
+  // recorderManager.stop();
   longPressing.value = false
 }
+function onTouchstartScrollView () {
+  uni.hideKeyboard()
+}
 function scrollBottom () {
-  nextTick(() => {
-    setTimeout(() => {
-      const query = uni.createSelectorQuery()
-      query.select('#content').boundingClientRect((res) => {
-        if (scrollTop.value === res.height) {
-          scrollTop.value++
-        } else {
-          scrollTop.value = res.height
-        }
-        console.log(scrollTop.value, res.height)
-      }).exec()
-    }, 0);
-  })
+  setTimeout(() => {
+    const query = uni.createSelectorQuery()
+    query.select('#content').boundingClientRect((res) => {
+      if (scrollTop.value === res.height) {
+        scrollTop.value++
+      } else {
+        scrollTop.value = res.height
+      }
+    }).exec()
+  }, 300);
 }
 function keyboardheightchange(e) {
   changeBottomVal.value = e.detail.height + 'px'
+  scrollBottom()
 }
 function getListMsg () {
   http.get(`/items/chat/${chatId.value}`, {
@@ -335,7 +347,6 @@ function goCard () {
 <style lang="scss">
 .chat{
   width: 100vw;
-  height: 100vh;
   background-image: url('../../static/chat-bg.png');
   background-size: 100% auto;
   position: relative;
@@ -358,7 +369,7 @@ function goCard () {
 
   .info-list{
     width: 100vw;
-    transition: all 0.2s linear;
+    transition: all 0.1s linear;
     .list-item{
       display: flex;
       width: 100vw;
@@ -374,11 +385,11 @@ function goCard () {
     }
   }
   .chat-bottom{
-    position: fixed;
+    position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
-    transition: all 0.2s ease-in-out;
+    transition: all 0.1s linear;
     .bottom-tip{
       position: absolute;
       top: 0rpx;
@@ -388,7 +399,7 @@ function goCard () {
       box-sizing: border-box;
       height: 60rpx;
       display: flex;
-      transition: all 0.2s ease-in-out;
+      transition: all 0.1s linear;
       .tip-image{
         height: 50rpx;
         margin-right: 25rpx;
@@ -404,7 +415,7 @@ function goCard () {
       }
     }
     .opt-list{
-      transition: all 0.2s ease-in-out;
+      transition: all 0.1s linear;
       display: flex;
       justify-content: space-around;
       align-items: center;
@@ -438,7 +449,7 @@ function goCard () {
       }
     }
     .bottom-input{
-      transition: bottom 0.2s ease-in-out;
+      transition: bottom 0.1s linear;
       position: absolute;
       width: calc(100% - 40rpx);
       bottom: 0;
@@ -528,9 +539,6 @@ function goCard () {
     }
   }
   .chat-bottom-holder{
-    position: fixed;
-    bottom: 0;
-    left: 0;
     width: 100%;
     background: linear-gradient(2.56deg, rgba(45, 0, 27, 0.5) 47.8%, rgba(84, 29, 62, 0) 98.81%);
     backdrop-filter: blur(20px);

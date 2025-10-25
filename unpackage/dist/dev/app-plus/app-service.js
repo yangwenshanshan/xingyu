@@ -11816,25 +11816,6 @@ if (uni.restoreGlobal) {
     __name: "chat",
     setup(__props, { expose: __expose }) {
       __expose();
-      const recorderManager = uni.getRecorderManager();
-      recorderManager.onStop((res) => {
-        if (canSendAudio.value) {
-          let message = tim.createAudioMessage({
-            to: starId.value,
-            conversationType: "C2C",
-            payload: {
-              file: res
-            },
-            onProgress: function(event) {
-              formatAppLog("log", "at pages/chat/chat.vue:96", event);
-            }
-          });
-          tim.sendMessage(message).then((response) => {
-            msgList.value.push(response.data.message);
-            scrollBottom();
-          });
-        }
-      });
       const canSendAudio = vue.ref(false);
       const starId = vue.ref("");
       const chatId = vue.ref("");
@@ -11855,7 +11836,7 @@ if (uni.restoreGlobal) {
         }
       });
       const scrollViewHeight = vue.computed(() => {
-        return `calc(100vh - ${bottomHeight.value} - 135rpx - var(--status-bar-height))`;
+        return `calc(100vh - 116rpx - var(--status-bar-height) - ${changeBottomVal.value} - ${bottomHeight.value})`;
       });
       onLoad((option) => {
         starId.value = option.idol;
@@ -11886,36 +11867,34 @@ if (uni.restoreGlobal) {
       }
       function handleTouchCancel() {
         canSendAudio.value = false;
-        recorderManager.stop();
         longPressing.value = false;
       }
       function handleTouchStart() {
         canSendAudio.value = false;
-        recorderManager.start();
         longPressing.value = true;
       }
       function handleTouchEnd() {
         canSendAudio.value = true;
-        recorderManager.stop();
         longPressing.value = false;
       }
+      function onTouchstartScrollView() {
+        uni.hideKeyboard();
+      }
       function scrollBottom() {
-        vue.nextTick(() => {
-          setTimeout(() => {
-            const query = uni.createSelectorQuery();
-            query.select("#content").boundingClientRect((res) => {
-              if (scrollTop.value === res.height) {
-                scrollTop.value++;
-              } else {
-                scrollTop.value = res.height;
-              }
-              formatAppLog("log", "at pages/chat/chat.vue:180", scrollTop.value, res.height);
-            }).exec();
-          }, 0);
-        });
+        setTimeout(() => {
+          const query = uni.createSelectorQuery();
+          query.select("#content").boundingClientRect((res) => {
+            if (scrollTop.value === res.height) {
+              scrollTop.value++;
+            } else {
+              scrollTop.value = res.height;
+            }
+          }).exec();
+        }, 300);
       }
       function keyboardheightchange(e) {
         changeBottomVal.value = e.detail.height + "px";
+        scrollBottom();
       }
       function getListMsg() {
         http.get(`/items/chat/${chatId.value}`, {
@@ -12000,7 +11979,7 @@ if (uni.restoreGlobal) {
           sourceType: ["album"],
           sizeType: ["original", "compressed"],
           success: (res) => {
-            formatAppLog("log", "at pages/chat/chat.vue:278", res);
+            formatAppLog("log", "at pages/chat/chat.vue:290", res);
             let message = tim.createImageMessage({
               to: starId.value,
               conversationType: "C2C",
@@ -12057,7 +12036,7 @@ if (uni.restoreGlobal) {
           url: "/pages/card/card"
         });
       }
-      const __returned__ = { recorderManager, canSendAudio, starId, chatId, msgList, inputValue, giftVisible, inputVisible, moreOpen, scrollTop, longPressing, detail, changeBottomVal, bottomHeight, scrollViewHeight, getDetail, onMessageReceived, handleTouchCancel, handleTouchStart, handleTouchEnd, scrollBottom, keyboardheightchange, getListMsg, inputFocus, inputVisibleClick, moreOpenClick, sendMessage, sendMsgImage, sendMsgVideo, showAudio, goBack, goVideo, goCard, get onLoad() {
+      const __returned__ = { canSendAudio, starId, chatId, msgList, inputValue, giftVisible, inputVisible, moreOpen, scrollTop, longPressing, detail, changeBottomVal, bottomHeight, scrollViewHeight, getDetail, onMessageReceived, handleTouchCancel, handleTouchStart, handleTouchEnd, onTouchstartScrollView, scrollBottom, keyboardheightchange, getListMsg, inputFocus, inputVisibleClick, moreOpenClick, sendMessage, sendMsgImage, sendMsgVideo, showAudio, goBack, goVideo, goCard, get onLoad() {
         return onLoad;
       }, get onUnload() {
         return onUnload;
@@ -12078,294 +12057,305 @@ if (uni.restoreGlobal) {
     const _component_ImageMessage = resolveEasycom(vue.resolveDynamicComponent("ImageMessage"), __easycom_2);
     const _component_VideoMessage = resolveEasycom(vue.resolveDynamicComponent("VideoMessage"), __easycom_3);
     const _component_AudioMessage = resolveEasycom(vue.resolveDynamicComponent("AudioMessage"), __easycom_4);
-    return vue.openBlock(), vue.createElementBlock("view", { class: "chat" }, [
-      vue.createElementVNode("view", { class: "status_bar" }),
-      vue.createElementVNode("view", { class: "chat-star" }, [
-        vue.createElementVNode("view", {
-          class: "star-back",
-          onClick: $setup.goBack
-        }, [
-          vue.createElementVNode("image", {
-            style: { "width": "14rpx" },
-            mode: "widthFix",
-            src: _imports_0$2
-          })
-        ]),
-        $setup.detail ? (vue.openBlock(), vue.createBlock(_component_StarInfo, {
-          key: 0,
-          icon: $setup.detail.user.avatar,
-          name: $setup.detail.name,
-          desc: $setup.detail.desc
-        }, null, 8, ["icon", "name", "desc"])) : vue.createCommentVNode("v-if", true)
-      ]),
-      vue.createElementVNode("scroll-view", {
-        class: "info-list",
-        "scroll-y": "",
-        style: vue.normalizeStyle(`height: ${$setup.scrollViewHeight}`),
-        "scroll-top": $setup.scrollTop
-      }, [
-        vue.createElementVNode("view", { id: "content" }, [
-          (vue.openBlock(true), vue.createElementBlock(
-            vue.Fragment,
-            null,
-            vue.renderList($setup.msgList, (item) => {
-              return vue.openBlock(), vue.createElementBlock(
-                "view",
-                {
-                  class: vue.normalizeClass(["list-item", item.flow === "out" ? "self-parent" : "star-parent"])
-                },
-                [
-                  item.type === "TIMTextElem" ? (vue.openBlock(), vue.createBlock(_component_TextMessage, {
-                    key: 0,
-                    message: item
-                  }, null, 8, ["message"])) : vue.createCommentVNode("v-if", true),
-                  item.type === "TIMImageElem" ? (vue.openBlock(), vue.createBlock(_component_ImageMessage, {
-                    key: 1,
-                    message: item
-                  }, null, 8, ["message"])) : vue.createCommentVNode("v-if", true),
-                  item.type === "TIMVideoFileElem" ? (vue.openBlock(), vue.createBlock(_component_VideoMessage, {
-                    key: 2,
-                    message: item
-                  }, null, 8, ["message"])) : vue.createCommentVNode("v-if", true),
-                  item.type === "TIMSoundElem" ? (vue.openBlock(), vue.createBlock(_component_AudioMessage, {
-                    key: 3,
-                    message: item
-                  }, null, 8, ["message"])) : vue.createCommentVNode("v-if", true)
-                ],
-                2
-                /* CLASS */
-              );
-            }),
-            256
-            /* UNKEYED_FRAGMENT */
-          ))
-        ])
-      ], 12, ["scroll-top"]),
-      vue.createElementVNode(
-        "view",
-        {
-          class: "chat-bottom-holder",
-          style: vue.normalizeStyle($setup.longPressing ? `height: 908rpx` : `height: ${$setup.bottomHeight}`)
-        },
-        null,
-        4
-        /* STYLE */
-      ),
-      vue.createElementVNode(
-        "view",
-        {
-          class: "chat-bottom",
-          style: vue.normalizeStyle(`height: ${$setup.bottomHeight}`)
-        },
-        [
-          !$setup.longPressing ? (vue.openBlock(), vue.createElementBlock(
-            "view",
-            {
-              key: 0,
-              class: "bottom-tip",
-              style: vue.normalizeStyle($setup.moreOpen ? "top: 74rpx" : "top: 148rpx")
-            },
-            [
-              vue.createElementVNode("image", {
-                class: "tip-image",
-                src: _imports_1$3,
-                mode: "heightFix",
-                onClick: $setup.goCard
-              }),
-              vue.createElementVNode("view", { class: "image-parent" }, [
-                vue.createElementVNode("image", {
-                  class: "tip-image",
-                  src: _imports_2$2,
-                  mode: "heightFix"
-                }),
-                vue.createElementVNode("image", {
-                  class: "tip-image-tip",
-                  src: _imports_3$1,
-                  mode: "heightFix"
-                })
-              ]),
-              vue.createElementVNode("image", {
-                class: "tip-image",
-                src: _imports_4$2,
-                mode: "heightFix",
-                onClick: _cache[0] || (_cache[0] = ($event) => $setup.giftVisible = true)
-              })
-            ],
-            4
-            /* STYLE */
-          )) : vue.createCommentVNode("v-if", true),
-          $setup.moreOpen && $setup.inputVisible && !$setup.longPressing ? (vue.openBlock(), vue.createElementBlock("view", {
-            key: 1,
-            class: "opt-list"
-          }, [
-            vue.createElementVNode("view", {
-              class: "opt-item",
-              onClick: $setup.sendMsgImage
-            }, [
-              vue.createElementVNode("image", {
-                src: _imports_5$1,
-                mode: "heightFix"
-              }),
-              vue.createElementVNode("view", null, "图片")
-            ]),
-            vue.createElementVNode("view", {
-              class: "opt-item",
-              onClick: $setup.sendMsgVideo
-            }, [
-              vue.createElementVNode("image", {
-                src: _imports_6$1,
-                mode: "heightFix"
-              }),
-              vue.createElementVNode("view", null, "拍摄")
-            ]),
-            vue.createElementVNode("view", {
-              class: "opt-item",
-              onClick: $setup.showAudio
-            }, [
-              vue.createElementVNode("image", {
-                src: _imports_7$1,
-                mode: "heightFix"
-              }),
-              vue.createElementVNode("view", null, "语音")
-            ]),
-            vue.createElementVNode("view", {
-              class: "opt-item",
-              onClick: $setup.goVideo
-            }, [
-              vue.createElementVNode("image", {
-                src: _imports_8,
-                mode: "heightFix"
-              }),
-              vue.createElementVNode("view", null, "视频")
-            ])
-          ])) : vue.createCommentVNode("v-if", true),
-          $setup.giftVisible && !$setup.longPressing ? (vue.openBlock(), vue.createElementBlock("view", {
-            key: 2,
-            class: "opt-gift",
-            onClick: _cache[1] || (_cache[1] = ($event) => $setup.giftVisible = false)
+    return vue.openBlock(), vue.createElementBlock(
+      "view",
+      {
+        class: "chat",
+        style: vue.normalizeStyle(`height: calc(100vh - ${$setup.changeBottomVal});`)
+      },
+      [
+        vue.createElementVNode("view", { class: "status_bar" }),
+        vue.createElementVNode("view", { class: "chat-star" }, [
+          vue.createElementVNode("view", {
+            class: "star-back",
+            onClick: $setup.goBack
           }, [
             vue.createElementVNode("image", {
-              src: _imports_9,
+              style: { "width": "14rpx" },
               mode: "widthFix",
-              class: "gift-image"
+              src: _imports_0$2
             })
-          ])) : vue.createCommentVNode("v-if", true),
-          vue.createElementVNode(
-            "view",
-            {
-              class: vue.normalizeClass(["bottom-input", $setup.longPressing ? "bottom-input-pressing" : ""]),
-              style: vue.normalizeStyle($setup.moreOpen ? "bottom: 312rpx" : "bottom: calc(80rpx)")
-            },
-            [
-              !$setup.longPressing ? (vue.openBlock(), vue.createElementBlock(
-                vue.Fragment,
-                { key: 0 },
-                [
-                  $setup.inputVisible ? (vue.openBlock(), vue.createElementBlock("image", {
-                    key: 0,
-                    onClick: _cache[2] || (_cache[2] = ($event) => $setup.inputVisibleClick(false)),
-                    class: "input-image",
-                    src: _imports_10
-                  })) : (vue.openBlock(), vue.createElementBlock("image", {
-                    key: 1,
-                    onClick: _cache[3] || (_cache[3] = ($event) => $setup.inputVisibleClick(true)),
-                    class: "input-image",
-                    src: _imports_11
-                  }))
-                ],
-                64
-                /* STABLE_FRAGMENT */
-              )) : vue.createCommentVNode("v-if", true),
-              vue.createElementVNode("view", { class: "input-main" }, [
-                $setup.inputVisible ? vue.withDirectives((vue.openBlock(), vue.createElementBlock(
-                  "input",
-                  {
-                    key: 0,
-                    onKeyboardheightchange: $setup.keyboardheightchange,
-                    onFocus: $setup.inputFocus,
-                    "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => $setup.inputValue = $event),
-                    onConfirm: $setup.sendMessage,
-                    "cursor-spacing": 20,
-                    "confirm-type": "send",
-                    placeholder: "发消息...",
-                    "placeholder-style": "color: #ffffff"
-                  },
-                  null,
-                  544
-                  /* NEED_HYDRATION, NEED_PATCH */
-                )), [
-                  [vue.vModelText, $setup.inputValue]
-                ]) : (vue.openBlock(), vue.createElementBlock(
+          ]),
+          $setup.detail ? (vue.openBlock(), vue.createBlock(_component_StarInfo, {
+            key: 0,
+            icon: $setup.detail.user.avatar,
+            name: $setup.detail.name,
+            desc: $setup.detail.desc
+          }, null, 8, ["icon", "name", "desc"])) : vue.createCommentVNode("v-if", true)
+        ]),
+        vue.createElementVNode("scroll-view", {
+          onTouchstart: $setup.onTouchstartScrollView,
+          class: "info-list",
+          "scroll-y": "",
+          style: vue.normalizeStyle(`height: ${$setup.scrollViewHeight}`),
+          "scroll-top": $setup.scrollTop
+        }, [
+          vue.createElementVNode("view", { id: "content" }, [
+            (vue.openBlock(true), vue.createElementBlock(
+              vue.Fragment,
+              null,
+              vue.renderList($setup.msgList, (item) => {
+                return vue.openBlock(), vue.createElementBlock(
                   "view",
                   {
-                    key: 1,
-                    class: vue.normalizeClass([$setup.longPressing ? "long-pressing" : "", "main-speak"]),
-                    onTouchcancel: $setup.handleTouchCancel,
-                    onTouchstart: $setup.handleTouchStart,
-                    onTouchend: $setup.handleTouchEnd
+                    class: vue.normalizeClass(["list-item", item.flow === "out" ? "self-parent" : "star-parent"])
                   },
                   [
-                    !$setup.longPressing ? (vue.openBlock(), vue.createElementBlock(
-                      vue.Fragment,
-                      { key: 0 },
-                      [
-                        vue.createTextVNode("按住说话")
-                      ],
-                      64
-                      /* STABLE_FRAGMENT */
-                    )) : (vue.openBlock(), vue.createElementBlock("view", {
+                    item.type === "TIMTextElem" ? (vue.openBlock(), vue.createBlock(_component_TextMessage, {
+                      key: 0,
+                      message: item
+                    }, null, 8, ["message"])) : vue.createCommentVNode("v-if", true),
+                    item.type === "TIMImageElem" ? (vue.openBlock(), vue.createBlock(_component_ImageMessage, {
                       key: 1,
-                      class: "speaking"
-                    }, [
-                      vue.createElementVNode("view", { class: "speak-loading" }, [
-                        vue.createElementVNode("image", {
-                          mode: "widthFix",
-                          style: { "width": "298rpx" },
-                          src: _imports_1$2
-                        })
-                      ]),
-                      vue.createElementVNode("view", { class: "loading-text" }, "松开发送 上滑取消"),
-                      vue.createElementVNode("view", { class: "loading-bottom" }, [
-                        vue.createElementVNode("image", {
-                          style: { "width": "46rpx" },
-                          mode: "widthFix",
-                          src: _imports_13
-                        })
-                      ])
-                    ]))
+                      message: item
+                    }, null, 8, ["message"])) : vue.createCommentVNode("v-if", true),
+                    item.type === "TIMVideoFileElem" ? (vue.openBlock(), vue.createBlock(_component_VideoMessage, {
+                      key: 2,
+                      message: item
+                    }, null, 8, ["message"])) : vue.createCommentVNode("v-if", true),
+                    item.type === "TIMSoundElem" ? (vue.openBlock(), vue.createBlock(_component_AudioMessage, {
+                      key: 3,
+                      message: item
+                    }, null, 8, ["message"])) : vue.createCommentVNode("v-if", true)
                   ],
-                  34
-                  /* CLASS, NEED_HYDRATION */
-                ))
+                  2
+                  /* CLASS */
+                );
+              }),
+              256
+              /* UNKEYED_FRAGMENT */
+            ))
+          ])
+        ], 44, ["scroll-top"]),
+        vue.createElementVNode(
+          "view",
+          {
+            class: "chat-bottom-holder",
+            style: vue.normalizeStyle($setup.longPressing ? `height: 908rpx` : `height: ${$setup.bottomHeight}`)
+          },
+          null,
+          4
+          /* STYLE */
+        ),
+        vue.createElementVNode(
+          "view",
+          {
+            class: "chat-bottom",
+            style: vue.normalizeStyle(`height: ${$setup.bottomHeight}`)
+          },
+          [
+            !$setup.longPressing ? (vue.openBlock(), vue.createElementBlock(
+              "view",
+              {
+                key: 0,
+                class: "bottom-tip",
+                style: vue.normalizeStyle($setup.moreOpen ? "top: 74rpx" : "top: 148rpx")
+              },
+              [
+                vue.createElementVNode("image", {
+                  class: "tip-image",
+                  src: _imports_1$3,
+                  mode: "heightFix",
+                  onClick: $setup.goCard
+                }),
+                vue.createElementVNode("view", { class: "image-parent" }, [
+                  vue.createElementVNode("image", {
+                    class: "tip-image",
+                    src: _imports_2$2,
+                    mode: "heightFix"
+                  }),
+                  vue.createElementVNode("image", {
+                    class: "tip-image-tip",
+                    src: _imports_3$1,
+                    mode: "heightFix"
+                  })
+                ]),
+                vue.createElementVNode("image", {
+                  class: "tip-image",
+                  src: _imports_4$2,
+                  mode: "heightFix",
+                  onClick: _cache[0] || (_cache[0] = ($event) => $setup.giftVisible = true)
+                })
+              ],
+              4
+              /* STYLE */
+            )) : vue.createCommentVNode("v-if", true),
+            $setup.moreOpen && $setup.inputVisible && !$setup.longPressing ? (vue.openBlock(), vue.createElementBlock("view", {
+              key: 1,
+              class: "opt-list"
+            }, [
+              vue.createElementVNode("view", {
+                class: "opt-item",
+                onClick: $setup.sendMsgImage
+              }, [
+                vue.createElementVNode("image", {
+                  src: _imports_5$1,
+                  mode: "heightFix"
+                }),
+                vue.createElementVNode("view", null, "图片")
               ]),
-              !$setup.longPressing ? (vue.openBlock(), vue.createElementBlock(
-                vue.Fragment,
-                { key: 1 },
-                [
-                  !$setup.moreOpen ? (vue.openBlock(), vue.createElementBlock("image", {
-                    key: 0,
-                    class: "input-image",
-                    src: _imports_14,
-                    onClick: _cache[5] || (_cache[5] = ($event) => $setup.moreOpenClick(true))
-                  })) : (vue.openBlock(), vue.createElementBlock("image", {
-                    key: 1,
-                    class: "input-image",
-                    src: _imports_15,
-                    onClick: _cache[6] || (_cache[6] = ($event) => $setup.moreOpenClick(false))
-                  }))
-                ],
-                64
-                /* STABLE_FRAGMENT */
-              )) : vue.createCommentVNode("v-if", true)
-            ],
-            6
-            /* CLASS, STYLE */
-          )
-        ],
-        4
-        /* STYLE */
-      )
-    ]);
+              vue.createElementVNode("view", {
+                class: "opt-item",
+                onClick: $setup.sendMsgVideo
+              }, [
+                vue.createElementVNode("image", {
+                  src: _imports_6$1,
+                  mode: "heightFix"
+                }),
+                vue.createElementVNode("view", null, "拍摄")
+              ]),
+              vue.createElementVNode("view", {
+                class: "opt-item",
+                onClick: $setup.showAudio
+              }, [
+                vue.createElementVNode("image", {
+                  src: _imports_7$1,
+                  mode: "heightFix"
+                }),
+                vue.createElementVNode("view", null, "语音")
+              ]),
+              vue.createElementVNode("view", {
+                class: "opt-item",
+                onClick: $setup.goVideo
+              }, [
+                vue.createElementVNode("image", {
+                  src: _imports_8,
+                  mode: "heightFix"
+                }),
+                vue.createElementVNode("view", null, "视频")
+              ])
+            ])) : vue.createCommentVNode("v-if", true),
+            $setup.giftVisible && !$setup.longPressing ? (vue.openBlock(), vue.createElementBlock("view", {
+              key: 2,
+              class: "opt-gift",
+              onClick: _cache[1] || (_cache[1] = ($event) => $setup.giftVisible = false)
+            }, [
+              vue.createElementVNode("image", {
+                src: _imports_9,
+                mode: "widthFix",
+                class: "gift-image"
+              })
+            ])) : vue.createCommentVNode("v-if", true),
+            vue.createElementVNode(
+              "view",
+              {
+                class: vue.normalizeClass(["bottom-input", $setup.longPressing ? "bottom-input-pressing" : ""]),
+                style: vue.normalizeStyle($setup.moreOpen ? "bottom: 312rpx" : "bottom: 80rpx")
+              },
+              [
+                !$setup.longPressing ? (vue.openBlock(), vue.createElementBlock(
+                  vue.Fragment,
+                  { key: 0 },
+                  [
+                    $setup.inputVisible ? (vue.openBlock(), vue.createElementBlock("image", {
+                      key: 0,
+                      onClick: _cache[2] || (_cache[2] = ($event) => $setup.inputVisibleClick(false)),
+                      class: "input-image",
+                      src: _imports_10
+                    })) : (vue.openBlock(), vue.createElementBlock("image", {
+                      key: 1,
+                      onClick: _cache[3] || (_cache[3] = ($event) => $setup.inputVisibleClick(true)),
+                      class: "input-image",
+                      src: _imports_11
+                    }))
+                  ],
+                  64
+                  /* STABLE_FRAGMENT */
+                )) : vue.createCommentVNode("v-if", true),
+                vue.createElementVNode("view", { class: "input-main" }, [
+                  $setup.inputVisible ? vue.withDirectives((vue.openBlock(), vue.createElementBlock(
+                    "input",
+                    {
+                      key: 0,
+                      "adjust-position": false,
+                      onKeyboardheightchange: $setup.keyboardheightchange,
+                      onFocus: $setup.inputFocus,
+                      "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => $setup.inputValue = $event),
+                      onConfirm: $setup.sendMessage,
+                      "cursor-spacing": 0,
+                      "confirm-type": "send",
+                      placeholder: "发消息...",
+                      "placeholder-style": "color: #ffffff"
+                    },
+                    null,
+                    544
+                    /* NEED_HYDRATION, NEED_PATCH */
+                  )), [
+                    [vue.vModelText, $setup.inputValue]
+                  ]) : (vue.openBlock(), vue.createElementBlock(
+                    "view",
+                    {
+                      key: 1,
+                      class: vue.normalizeClass([$setup.longPressing ? "long-pressing" : "", "main-speak"]),
+                      onTouchcancel: $setup.handleTouchCancel,
+                      onTouchstart: $setup.handleTouchStart,
+                      onTouchend: $setup.handleTouchEnd
+                    },
+                    [
+                      !$setup.longPressing ? (vue.openBlock(), vue.createElementBlock(
+                        vue.Fragment,
+                        { key: 0 },
+                        [
+                          vue.createTextVNode("按住说话")
+                        ],
+                        64
+                        /* STABLE_FRAGMENT */
+                      )) : (vue.openBlock(), vue.createElementBlock("view", {
+                        key: 1,
+                        class: "speaking"
+                      }, [
+                        vue.createElementVNode("view", { class: "speak-loading" }, [
+                          vue.createElementVNode("image", {
+                            mode: "widthFix",
+                            style: { "width": "298rpx" },
+                            src: _imports_1$2
+                          })
+                        ]),
+                        vue.createElementVNode("view", { class: "loading-text" }, "松开发送 上滑取消"),
+                        vue.createElementVNode("view", { class: "loading-bottom" }, [
+                          vue.createElementVNode("image", {
+                            style: { "width": "46rpx" },
+                            mode: "widthFix",
+                            src: _imports_13
+                          })
+                        ])
+                      ]))
+                    ],
+                    34
+                    /* CLASS, NEED_HYDRATION */
+                  ))
+                ]),
+                !$setup.longPressing ? (vue.openBlock(), vue.createElementBlock(
+                  vue.Fragment,
+                  { key: 1 },
+                  [
+                    !$setup.moreOpen ? (vue.openBlock(), vue.createElementBlock("image", {
+                      key: 0,
+                      class: "input-image",
+                      src: _imports_14,
+                      onClick: _cache[5] || (_cache[5] = ($event) => $setup.moreOpenClick(true))
+                    })) : (vue.openBlock(), vue.createElementBlock("image", {
+                      key: 1,
+                      class: "input-image",
+                      src: _imports_15,
+                      onClick: _cache[6] || (_cache[6] = ($event) => $setup.moreOpenClick(false))
+                    }))
+                  ],
+                  64
+                  /* STABLE_FRAGMENT */
+                )) : vue.createCommentVNode("v-if", true)
+              ],
+              6
+              /* CLASS, STYLE */
+            )
+          ],
+          4
+          /* STYLE */
+        )
+      ],
+      4
+      /* STYLE */
+    );
   }
   const PagesChatChat = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["render", _sfc_render$5], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/pages/chat/chat.vue"]]);
   function getImage(id) {

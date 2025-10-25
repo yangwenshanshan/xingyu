@@ -263,7 +263,6 @@
 /* 文章场景相关 */
 .chat {
   width: 100vw;
-  height: 100vh;
   background-image: url("../../static/chat-bg.png");
   background-size: 100% auto;
   position: relative;
@@ -284,7 +283,7 @@
 }
 .chat .info-list {
   width: 100vw;
-  transition: all 0.2s linear;
+  transition: all 0.1s linear;
 }
 .chat .info-list .list-item {
   display: flex;
@@ -300,11 +299,11 @@
   justify-content: flex-end;
 }
 .chat .chat-bottom {
-  position: fixed;
+  position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.1s linear;
 }
 .chat .chat-bottom .bottom-tip {
   position: absolute;
@@ -315,7 +314,7 @@
   box-sizing: border-box;
   height: 1.875rem;
   display: flex;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.1s linear;
 }
 .chat .chat-bottom .bottom-tip .tip-image {
   height: 1.5625rem;
@@ -331,7 +330,7 @@
   left: 1.625rem;
 }
 .chat .chat-bottom .opt-list {
-  transition: all 0.2s ease-in-out;
+  transition: all 0.1s linear;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -365,7 +364,7 @@
   left: 0;
 }
 .chat .chat-bottom .bottom-input {
-  transition: bottom 0.2s ease-in-out;
+  transition: bottom 0.1s linear;
   position: absolute;
   width: calc(100% - 1.25rem);
   bottom: 0;
@@ -457,9 +456,6 @@
           backdrop-filter: blur(0);
 }
 .chat .chat-bottom-holder {
-  position: fixed;
-  bottom: 0;
-  left: 0;
   width: 100%;
   background: linear-gradient(2.56deg, rgba(45, 0, 27, 0.5) 47.8%, rgba(84, 29, 62, 0) 98.81%);
   -webkit-backdrop-filter: blur(20px);
