@@ -17,7 +17,7 @@
         </view>
       </view>
     </scroll-view>
-    <view class="chat-bottom-holder" :style="longPressing ? `height: 908rpx` : `height: ${bottomHeight}`"></view>
+    <view class="chat-bottom-holder" :class="{ 'logpress-chat-bottom-holder': longPressing }" :style="longPressing ? `height: 908rpx` : `height: ${bottomHeight}`"></view>
     <view class="chat-bottom" :style="`height: ${bottomHeight}`">
       <view v-if="!longPressing" class="bottom-tip" :style="moreOpen ? 'top: 74rpx' : 'top: 148rpx'">
         <image class="tip-image" src="../../static/card-small-1.png" mode="heightFix" @click="goCard"></image>
@@ -94,25 +94,25 @@ import { computed, ref, nextTick } from 'vue'
 import { tim, timEvent } from '../../utils/tim'
 import http from '../../utils/http';
 
-// const recorderManager = uni.getRecorderManager();
-// recorderManager.onStop((res) => {
-//   if (canSendAudio.value) {
-//     let message = tim.createAudioMessage({
-//       to: starId.value,
-//       conversationType: 'C2C',
-//       payload: {
-//         file: res
-//       },
-//       onProgress: function(event) {
-//         console.log(event)
-//       }
-//     })
-//     tim.sendMessage(message).then(response => {
-//       msgList.value.push(response.data.message)
-//       scrollBottom()
-//     })
-//   }
-// });
+const recorderManager = uni.getRecorderManager();
+recorderManager.onStop((res) => {
+  if (canSendAudio.value) {
+    let message = tim.createAudioMessage({
+      to: starId.value,
+      conversationType: 'C2C',
+      payload: {
+        file: res
+      },
+      onProgress: function(event) {
+        console.log(event)
+      }
+    })
+    tim.sendMessage(message).then(response => {
+      msgList.value.push(response.data.message)
+      scrollBottom()
+    })
+  }
+});
 const canSendAudio = ref(false)
 const starId = ref('')
 const chatId = ref('')
@@ -165,17 +165,17 @@ function onMessageReceived (event) {
 }
 function handleTouchCancel () {
   canSendAudio.value = false
-  // recorderManager.stop();
+  recorderManager.stop();
   longPressing.value = false
 }
 function handleTouchStart() {
   canSendAudio.value = false
-  // recorderManager.start();
+  recorderManager.start();
   longPressing.value = true
 }
 function handleTouchEnd() {
   canSendAudio.value = true
-  // recorderManager.stop();
+  recorderManager.stop();
   longPressing.value = false
 }
 function onTouchstartScrollView () {
@@ -545,6 +545,11 @@ function goCard () {
     mask-image: linear-gradient(to top, rgba(0,0,0,1) 80%, rgba(0,0,0,0) 100%);
     box-sizing: border-box;
     transition: all 0.1s linear;
+  }
+  .logpress-chat-bottom-holder{
+    position: fixed;
+    bottom: 0;
+    left: 0;
   }
 }
 </style>

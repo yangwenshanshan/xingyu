@@ -236,6 +236,40 @@
   -webkit-backdrop-filter: blur(0.625rem);
           backdrop-filter: blur(0.625rem);
 }
+.web_wechat_voice_playing[data-v-0f73054c] {
+  animation: voicePlaying-0f73054c 1s infinite forwards;
+}
+.voice__play__icon__container[data-v-0f73054c] {
+  background: url(https://res.wx.qq.com/t/fed_upload/7e4688e4-d39b-421b-8f04-27fdb397d4ee/icon__voice.svg) no-repeat 100%;
+  display: block;
+  flex-shrink: 0;
+  height: 22px;
+  margin-left: 4px;
+  width: 22px;
+}
+@keyframes voicePlaying-0f73054c {
+0% {
+    background-position: 0;
+}
+33% {
+    background-position: 0;
+}
+33.33% {
+    background-position: 50%;
+}
+66% {
+    background-position: 50%;
+}
+66.66% {
+    background-position: 100%;
+}
+99.99% {
+    background-position: 100%;
+}
+to {
+    background-position: 0;
+}
+}
 /**
  * 这里是uni-app内置的常用样式变量
  *
@@ -464,4 +498,9 @@
           mask-image: linear-gradient(to top, black 80%, rgba(0, 0, 0, 0) 100%);
   box-sizing: border-box;
   transition: all 0.1s linear;
+}
+.chat .logpress-chat-bottom-holder {
+  position: fixed;
+  bottom: 0;
+  left: 0;
 }

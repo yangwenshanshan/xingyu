@@ -11731,19 +11731,43 @@ if (uni.restoreGlobal) {
     },
     setup(__props, { expose: __expose }) {
       __expose();
-      const innerAudioContext = uni.createInnerAudioContext();
+      const props = __props;
+      let innerAudioContext = uni.createInnerAudioContext();
       innerAudioContext.onCanplay(() => {
         second.value = parseInt(innerAudioContext.duration);
       });
-      const props = __props;
+      vue.onMounted(() => {
+        if (props.message && props.message.payload) {
+          innerAudioContext.src = props.message.payload.url;
+        }
+      });
+      const isPlaying = vue.ref(false);
       const second = vue.ref("");
-      if (props.message && props.message.payload) {
-        innerAudioContext.src = props.message.payload.url;
-      }
       function playAudio() {
-        innerAudioContext.play();
+        if (innerAudioContext) {
+          if (!innerAudioContext.paused) {
+            innerAudioContext.stop();
+            innerAudioContext.destroy();
+            innerAudioContext = null;
+          } else {
+            innerAudioContext.stop();
+            innerAudioContext.destroy();
+            innerAudioContext = null;
+            innerAudioContext = uni.createInnerAudioContext();
+            innerAudioContext.src = props.message.payload.url;
+            innerAudioContext.play();
+          }
+        } else {
+          innerAudioContext = uni.createInnerAudioContext();
+          innerAudioContext.src = props.message.payload.url;
+          innerAudioContext.play();
+        }
       }
-      const __returned__ = { innerAudioContext, props, second, playAudio, ref: vue.ref };
+      const __returned__ = { props, get innerAudioContext() {
+        return innerAudioContext;
+      }, set innerAudioContext(v) {
+        innerAudioContext = v;
+      }, isPlaying, second, playAudio, ref: vue.ref, onMounted: vue.onMounted };
       Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
       return __returned__;
     }
@@ -11762,29 +11786,38 @@ if (uni.restoreGlobal) {
         }, [
           vue.createElementVNode(
             "view",
-            { style: { "margin-right": "20rpx", "display": "flex", "align-items": "center" } },
+            { style: { "margin-right": "10rpx", "display": "flex", "align-items": "center" } },
             vue.toDisplayString($setup.second) + "''",
             1
             /* TEXT */
           ),
-          vue.createElementVNode("image", {
-            style: { "width": "30rpx", "transform": "rotate(180deg)" },
-            mode: "widthFix",
-            src: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAAAxCAYAAAC/BXv3AAADg0lEQVR4AbSYgXnUMAyF8zFBmYBuQJmAMgEwATABMAEwATABMAEwAbBBmYAyAWUD3p+ec8qznDs+1/dZkazI0rMkJ2lvTWN/J3IPiW2PkUBeKfSfHSFLbI9RQE4V8rWoDORHZZLxUUCycnwQAACK1WMUkAuF+i6KA3CfoyLKo4AQ47Eul6I4zjShTGLrMRLIlUIBBi5xGc8lVSUaCUTxJkr0Zlr/KBH9stL2AnkqbziFS0zHO2m9X86lg8SuRw8QghcQ8CfXLtOrZwWj1bOlB4gHZudV7YkoIiOQxGWQEWhW9AD5MXvYX9La729PWVaWh1wPEDLgx5MdUrIQfxHJCLQoJJBVNjD1AOFYPpMzH6va203PCiB4tnQBIQY7fI8QiD5pZYXjzAaC+URWuoHgkCdl6pybRth9Nd3cJ4dK80KLfok4nqRRYjVw7lmhV8hMZSwFWRRbBn5Pt4BQ67cyxyGpBpSm6fiSaOedJnoHgsl5CwggSDlGhdCBvswjp/ZQ1D2MkyBz0shiUE1nGRACOoiyaCsr/lyZT0NZaNxBV6XZAoEv3pzwjNw52aOsme1vU96JGTkEgrVbzrPat4BQHvwVOilAjgFRFrVS7nXHvgXEbefSsMtWT+DMCXvXMXfn6FpU2ZKRluOWkyF6gFAvfwdsBat2szP+nw1VtgDBD6U5FgzAWeOU9UPL1oFcFiA4PQYMjv2YshbKgBybvasIBGeHwGRHlHUQ7xd4IUC0QN8tRjv+14Gg3wKzVb77LA70M8gunk3TSnWRAcEiA/NRNyiNWDUoiz9fshchC7H1HmkCYUEBQ4p5j7xE2SBs/VarjA6YdZtAMCDAbQnUH0ASq8EOvSz0BlQZS+GfB/g9CETrDg4+9QATDf1DKd5z0GS7+1MRAGQtBqKP6KeoKzLZYE2Zw+deajUrBsfQt8Ro62TxpedLuoGQCd/dVjaw9a82MkePdJUm6/4Hvt0wB3iYzuKn+apLT2n8eHK8yYjcVoNs0NTxBk26+OgBwp+cBMchnHkMFOXsX1aUZbHpAYITgvOMgTPPiA9uLyPgbxRIFjjqKAmfoVGHXJ2e3ozgtEW8Tzje8GjD8a56aSQQykVGIggAZKen6/jGAC7TE35KsGke71EZmR9SRA7EySIjQbUXRwEhIL1QIiFTqjKv+CggBKIX7kmAkCW2x0ggROWbBELepH8AAAD//xV/GygAAAAGSURBVAMANsaQY1P6nBkAAAAASUVORK5CYII="
-          })
+          vue.createElementVNode(
+            "view",
+            {
+              class: vue.normalizeClass(["voice__play__icon__container", { "web_wechat_voice_playing": $setup.isPlaying }])
+            },
+            null,
+            2
+            /* CLASS */
+          )
         ])) : vue.createCommentVNode("v-if", true),
         $props.message.flow === "in" ? (vue.openBlock(), vue.createElementBlock("view", {
           key: 1,
           class: "message-item"
         }, [
-          vue.createElementVNode("image", {
-            style: { "width": "30rpx" },
-            mode: "widthFix",
-            src: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAAAxCAYAAAC/BXv3AAADg0lEQVR4AbSYgXnUMAyF8zFBmYBuQJmAMgEwATABMAEwATABMAEwAbBBmYAyAWUD3p+ec8qznDs+1/dZkazI0rMkJ2lvTWN/J3IPiW2PkUBeKfSfHSFLbI9RQE4V8rWoDORHZZLxUUCycnwQAACK1WMUkAuF+i6KA3CfoyLKo4AQ47Eul6I4zjShTGLrMRLIlUIBBi5xGc8lVSUaCUTxJkr0Zlr/KBH9stL2AnkqbziFS0zHO2m9X86lg8SuRw8QghcQ8CfXLtOrZwWj1bOlB4gHZudV7YkoIiOQxGWQEWhW9AD5MXvYX9La729PWVaWh1wPEDLgx5MdUrIQfxHJCLQoJJBVNjD1AOFYPpMzH6va203PCiB4tnQBIQY7fI8QiD5pZYXjzAaC+URWuoHgkCdl6pybRth9Nd3cJ4dK80KLfok4nqRRYjVw7lmhV8hMZSwFWRRbBn5Pt4BQ67cyxyGpBpSm6fiSaOedJnoHgsl5CwggSDlGhdCBvswjp/ZQ1D2MkyBz0shiUE1nGRACOoiyaCsr/lyZT0NZaNxBV6XZAoEv3pzwjNw52aOsme1vU96JGTkEgrVbzrPat4BQHvwVOilAjgFRFrVS7nXHvgXEbefSsMtWT+DMCXvXMXfn6FpU2ZKRluOWkyF6gFAvfwdsBat2szP+nw1VtgDBD6U5FgzAWeOU9UPL1oFcFiA4PQYMjv2YshbKgBybvasIBGeHwGRHlHUQ7xd4IUC0QN8tRjv+14Gg3wKzVb77LA70M8gunk3TSnWRAcEiA/NRNyiNWDUoiz9fshchC7H1HmkCYUEBQ4p5j7xE2SBs/VarjA6YdZtAMCDAbQnUH0ASq8EOvSz0BlQZS+GfB/g9CETrDg4+9QATDf1DKd5z0GS7+1MRAGQtBqKP6KeoKzLZYE2Zw+deajUrBsfQt8Ro62TxpedLuoGQCd/dVjaw9a82MkePdJUm6/4Hvt0wB3iYzuKn+apLT2n8eHK8yYjcVoNs0NTxBk26+OgBwp+cBMchnHkMFOXsX1aUZbHpAYITgvOMgTPPiA9uLyPgbxRIFjjqKAmfoVGHXJ2e3ozgtEW8Tzje8GjD8a56aSQQykVGIggAZKen6/jGAC7TE35KsGke71EZmR9SRA7EySIjQbUXRwEhIL1QIiFTqjKv+CggBKIX7kmAkCW2x0ggROWbBELepH8AAAD//xV/GygAAAAGSURBVAMANsaQY1P6nBkAAAAASUVORK5CYII="
-          }),
           vue.createElementVNode(
             "view",
-            { style: { "margin-left": "20rpx", "display": "flex", "align-items": "center" } },
+            {
+              class: vue.normalizeClass(["voice__play__icon__container", { "web_wechat_voice_playing": $setup.isPlaying }]),
+              style: { "transform": "rotate(180deg)" }
+            },
+            null,
+            2
+            /* CLASS */
+          ),
+          vue.createElementVNode(
+            "view",
+            { style: { "margin-left": "10rpx", "display": "flex", "align-items": "center" } },
             vue.toDisplayString($setup.second) + "''",
             1
             /* TEXT */
@@ -11816,6 +11849,25 @@ if (uni.restoreGlobal) {
     __name: "chat",
     setup(__props, { expose: __expose }) {
       __expose();
+      const recorderManager = uni.getRecorderManager();
+      recorderManager.onStop((res) => {
+        if (canSendAudio.value) {
+          let message = tim.createAudioMessage({
+            to: starId.value,
+            conversationType: "C2C",
+            payload: {
+              file: res
+            },
+            onProgress: function(event) {
+              formatAppLog("log", "at pages/chat/chat.vue:107", event);
+            }
+          });
+          tim.sendMessage(message).then((response) => {
+            msgList.value.push(response.data.message);
+            scrollBottom();
+          });
+        }
+      });
       const canSendAudio = vue.ref(false);
       const starId = vue.ref("");
       const chatId = vue.ref("");
@@ -11867,14 +11919,17 @@ if (uni.restoreGlobal) {
       }
       function handleTouchCancel() {
         canSendAudio.value = false;
+        recorderManager.stop();
         longPressing.value = false;
       }
       function handleTouchStart() {
         canSendAudio.value = false;
+        recorderManager.start();
         longPressing.value = true;
       }
       function handleTouchEnd() {
         canSendAudio.value = true;
+        recorderManager.stop();
         longPressing.value = false;
       }
       function onTouchstartScrollView() {
@@ -12036,7 +12091,7 @@ if (uni.restoreGlobal) {
           url: "/pages/card/card"
         });
       }
-      const __returned__ = { canSendAudio, starId, chatId, msgList, inputValue, giftVisible, inputVisible, moreOpen, scrollTop, longPressing, detail, changeBottomVal, bottomHeight, scrollViewHeight, getDetail, onMessageReceived, handleTouchCancel, handleTouchStart, handleTouchEnd, onTouchstartScrollView, scrollBottom, keyboardheightchange, getListMsg, inputFocus, inputVisibleClick, moreOpenClick, sendMessage, sendMsgImage, sendMsgVideo, showAudio, goBack, goVideo, goCard, get onLoad() {
+      const __returned__ = { recorderManager, canSendAudio, starId, chatId, msgList, inputValue, giftVisible, inputVisible, moreOpen, scrollTop, longPressing, detail, changeBottomVal, bottomHeight, scrollViewHeight, getDetail, onMessageReceived, handleTouchCancel, handleTouchStart, handleTouchEnd, onTouchstartScrollView, scrollBottom, keyboardheightchange, getListMsg, inputFocus, inputVisibleClick, moreOpenClick, sendMessage, sendMsgImage, sendMsgVideo, showAudio, goBack, goVideo, goCard, get onLoad() {
         return onLoad;
       }, get onUnload() {
         return onUnload;
@@ -12130,12 +12185,12 @@ if (uni.restoreGlobal) {
         vue.createElementVNode(
           "view",
           {
-            class: "chat-bottom-holder",
+            class: vue.normalizeClass(["chat-bottom-holder", { "logpress-chat-bottom-holder": $setup.longPressing }]),
             style: vue.normalizeStyle($setup.longPressing ? `height: 908rpx` : `height: ${$setup.bottomHeight}`)
           },
           null,
-          4
-          /* STYLE */
+          6
+          /* CLASS, STYLE */
         ),
         vue.createElementVNode(
           "view",
