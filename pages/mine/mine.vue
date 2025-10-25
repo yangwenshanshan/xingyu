@@ -5,7 +5,7 @@
 				<image @click="goBack" style="width: 14rpx;" src="../../static/bar-back.png" mode="widthFix"></image>
 				<p></p>
 			</view>
-			<view class="mine-top">
+			<view class="mine-top" @click="goPeopleChoose">
 				<image class="top-avatar" :src="avatar" mode="widthFix" />
         <view class="top-name">
           <view class="name-info">
@@ -26,6 +26,7 @@
 import { onLoad } from '@dcloudio/uni-app'
 import { computed, ref } from 'vue'
 import { getImage } from '../../utils/util'
+import { logoutMethod, tim, timEvent } from '../../utils/tim'
 
 const userInfo = ref(null)
 onLoad(() => {
@@ -47,6 +48,13 @@ const avatar = computed(() => {
 })
 function goBack () {
 	uni.navigateBack()
+}
+function goPeopleChoose () {
+  tim.off(timEvent.SDK_NOT_READY, logoutMethod)
+  tim.logout()
+  uni.reLaunch({
+    url: '/pages/home/home'
+  })
 }
 </script>
 

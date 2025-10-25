@@ -65,6 +65,25 @@ if (uni.restoreGlobal) {
     2
     /* HookFlags.PAGE */
   );
+  const _export_sfc = (sfc, props) => {
+    const target = sfc.__vccOpts || sfc;
+    for (const [key, val] of props) {
+      target[key] = val;
+    }
+    return target;
+  };
+  const _sfc_main$h = {};
+  function _sfc_render$g(_ctx, _cache, $props, $setup, $data, $options) {
+    return vue.openBlock(), vue.createElementBlock("view", { class: "base-page" }, [
+      vue.createElementVNode("view", { class: "page-top-left" }),
+      vue.createElementVNode("view", { class: "page-top-right" }),
+      vue.createElementVNode("view", { class: "status_bar" }),
+      vue.createElementVNode("view", { class: "content-main" }, [
+        vue.renderSlot(_ctx.$slots, "default", {}, void 0, true)
+      ])
+    ]);
+  }
+  const __easycom_0$1 = /* @__PURE__ */ _export_sfc(_sfc_main$h, [["render", _sfc_render$g], ["__scopeId", "data-v-34ef6681"], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/components/BasePage/BasePage.vue"]]);
   var commonjsGlobal = typeof globalThis !== "undefined" ? globalThis : typeof window !== "undefined" ? window : typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : {};
   function getDefaultExportFromCjs(x) {
     return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, "default") ? x["default"] : x;
@@ -11078,11 +11097,29 @@ if (uni.restoreGlobal) {
   const chat = TencentCloudChat.create(options);
   chat.setLogLevel(0);
   chat.registerPlugin({ "tim-upload-plugin": TIMUploadPlugin });
+  chat.on(TencentCloudChat.EVENT.SDK_NOT_READY, logoutFn);
+  function logoutFn() {
+    uni.showModal({
+      title: "提示",
+      content: "用户登出",
+      showCancel: false,
+      success: () => {
+        uni.redirectTo({
+          url: "/pages/home/home"
+        });
+      }
+    });
+  }
+  const logoutMethod = logoutFn;
   const tim = chat;
   const timEvent = TencentCloudChat.EVENT;
   const baseURL = "https://xingmi.app.canglandata.com";
+  let token = "";
   function getToken() {
-    return "Tx24NJznrt8ka1leJvx2Re3-ZgEDSolD";
+    return token;
+  }
+  function setToken(value) {
+    token = value;
   }
   function getUserInfo() {
     const userInfo = uni.getStorageSync("userInfo");
@@ -11110,26 +11147,32 @@ if (uni.restoreGlobal) {
     get: (url, params) => request(url, "get", params),
     post: (url, data) => request(url, "post", data)
   };
-  const _export_sfc = (sfc, props) => {
-    const target = sfc.__vccOpts || sfc;
-    for (const [key, val] of props) {
-      target[key] = val;
-    }
-    return target;
-  };
-  const email = "yangwenshan@canglandata.com";
-  const password = "oSt9cpvtUz41I43k";
-  const _sfc_main$h = {
+  const _sfc_main$g = {
     __name: "home",
     setup(__props, { expose: __expose }) {
       __expose();
-      onLoad(() => {
+      const userList = vue.ref([
+        {
+          name: "石文涛",
+          token: "R7wqiuNarHCUWwX3r-PXMdPU5wPI4xn3"
+        },
+        {
+          name: "杨德升",
+          token: "wvIWg0FaJmNxC340c9xnBvhJ3TwTIMOE"
+        },
+        {
+          name: "杨温珊",
+          token: "Tx24NJznrt8ka1leJvx2Re3-ZgEDSolD"
+        }
+      ]);
+      function chooseItem(item) {
+        setToken(item.token);
         uni.showLoading({
           mask: true
         });
         getUserInfo2().then((res) => {
           if (res.tencent_im_usersig) {
-            imLogin(res.id, res.tencent_im_usersig + "1").catch(() => {
+            imLogin(res.id, res.tencent_im_usersig).catch(() => {
               updateUserSig().then(() => {
                 getUserInfo2().then((response) => {
                   if (response.tencent_im_usersig) {
@@ -11148,7 +11191,7 @@ if (uni.restoreGlobal) {
             });
           }
         });
-      });
+      }
       function getUserInfo2() {
         return new Promise((resolve, reject) => {
           http.get("/users/me").then((res) => {
@@ -11160,10 +11203,10 @@ if (uni.restoreGlobal) {
         });
       }
       function imLogin(userID, userSig) {
-        formatAppLog("log", "at pages/home/home.vue:53", "userID", userID, userSig);
+        formatAppLog("log", "at pages/home/home.vue:73", "userID", userID, userSig);
         return new Promise((resolve, reject) => {
           tim.login({ userID, userSig }).then((imResponse) => {
-            formatAppLog("log", "at pages/home/home.vue:56", "登录成功", imResponse);
+            formatAppLog("log", "at pages/home/home.vue:76", "登录成功", imResponse);
             uni.hideLoading();
             tim.on(timEvent.SDK_READY, (event) => {
               uni.redirectTo({
@@ -11179,25 +11222,55 @@ if (uni.restoreGlobal) {
       function updateUserSig() {
         return http.post("/http-service/im/usersig/update");
       }
-      const __returned__ = { email, password, getUserInfo: getUserInfo2, imLogin, updateUserSig, get onLoad() {
-        return onLoad;
-      }, get tim() {
+      const __returned__ = { userList, chooseItem, getUserInfo: getUserInfo2, imLogin, updateUserSig, get tim() {
         return tim;
       }, get timEvent() {
         return timEvent;
       }, get http() {
         return http;
+      }, ref: vue.ref, get setToken() {
+        return setToken;
       } };
       Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
       return __returned__;
     }
   };
-  function _sfc_render$g(_ctx, _cache, $props, $setup, $data, $options) {
-    return vue.openBlock(), vue.createElementBlock("view", { class: "home" });
+  function _sfc_render$f(_ctx, _cache, $props, $setup, $data, $options) {
+    const _component_BasePage = resolveEasycom(vue.resolveDynamicComponent("BasePage"), __easycom_0$1);
+    return vue.openBlock(), vue.createBlock(_component_BasePage, null, {
+      default: vue.withCtx(() => [
+        vue.createElementVNode("view", { class: "home-index-title" }, [
+          vue.createElementVNode("p", null, "请选择需要测试的用户")
+        ]),
+        (vue.openBlock(true), vue.createElementBlock(
+          vue.Fragment,
+          null,
+          vue.renderList($setup.userList, (item, index) => {
+            return vue.openBlock(), vue.createElementBlock("view", {
+              class: "user-item",
+              key: index,
+              onClick: ($event) => $setup.chooseItem(item)
+            }, [
+              vue.createElementVNode(
+                "view",
+                { class: "item-name" },
+                vue.toDisplayString(item.name),
+                1
+                /* TEXT */
+              )
+            ], 8, ["onClick"]);
+          }),
+          128
+          /* KEYED_FRAGMENT */
+        ))
+      ]),
+      _: 1
+      /* STABLE */
+    });
   }
-  const PagesHomeHome = /* @__PURE__ */ _export_sfc(_sfc_main$h, [["render", _sfc_render$g], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/pages/home/home.vue"]]);
+  const PagesHomeHome = /* @__PURE__ */ _export_sfc(_sfc_main$g, [["render", _sfc_render$f], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/pages/home/home.vue"]]);
   const _imports_0$5 = "/static/avatar-level.png";
-  const _sfc_main$g = {
+  const _sfc_main$f = {
     __name: "StarInfo",
     props: {
       name: {
@@ -11228,7 +11301,7 @@ if (uni.restoreGlobal) {
       return __returned__;
     }
   };
-  function _sfc_render$f(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$e(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "star-info" }, [
       vue.createElementVNode("view", { class: "info-avatar" }, [
         vue.createElementVNode("image", {
@@ -11262,19 +11335,7 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const __easycom_0$1 = /* @__PURE__ */ _export_sfc(_sfc_main$g, [["render", _sfc_render$f], ["__scopeId", "data-v-6c8a81d8"], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/components/StarInfo/StarInfo.vue"]]);
-  const _sfc_main$f = {};
-  function _sfc_render$e(_ctx, _cache, $props, $setup, $data, $options) {
-    return vue.openBlock(), vue.createElementBlock("view", { class: "base-page" }, [
-      vue.createElementVNode("view", { class: "page-top-left" }),
-      vue.createElementVNode("view", { class: "page-top-right" }),
-      vue.createElementVNode("view", { class: "status_bar" }),
-      vue.createElementVNode("view", { class: "content-main" }, [
-        vue.renderSlot(_ctx.$slots, "default", {}, void 0, true)
-      ])
-    ]);
-  }
-  const __easycom_0 = /* @__PURE__ */ _export_sfc(_sfc_main$f, [["render", _sfc_render$e], ["__scopeId", "data-v-34ef6681"], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/components/BasePage/BasePage.vue"]]);
+  const __easycom_0 = /* @__PURE__ */ _export_sfc(_sfc_main$f, [["render", _sfc_render$e], ["__scopeId", "data-v-6c8a81d8"], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/components/StarInfo/StarInfo.vue"]]);
   const _imports_0$4 = "/static/bar-home-active.png";
   const _imports_1$7 = "/static/bar-home.png";
   const _imports_2$5 = "/static/bar-serve-active.png";
@@ -11524,8 +11585,8 @@ if (uni.restoreGlobal) {
     }
   };
   function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
-    const _component_StarInfo = resolveEasycom(vue.resolveDynamicComponent("StarInfo"), __easycom_0$1);
-    const _component_BasePage = resolveEasycom(vue.resolveDynamicComponent("BasePage"), __easycom_0);
+    const _component_StarInfo = resolveEasycom(vue.resolveDynamicComponent("StarInfo"), __easycom_0);
+    const _component_BasePage = resolveEasycom(vue.resolveDynamicComponent("BasePage"), __easycom_0$1);
     const _component_Bar = resolveEasycom(vue.resolveDynamicComponent("Bar"), __easycom_1$1);
     return vue.openBlock(), vue.createElementBlock("view", { class: "home" }, [
       vue.createVNode(_component_BasePage, null, {
@@ -12155,7 +12216,7 @@ if (uni.restoreGlobal) {
     }
   };
   function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
-    const _component_StarInfo = resolveEasycom(vue.resolveDynamicComponent("StarInfo"), __easycom_0$1);
+    const _component_StarInfo = resolveEasycom(vue.resolveDynamicComponent("StarInfo"), __easycom_0);
     const _component_TextMessage = resolveEasycom(vue.resolveDynamicComponent("TextMessage"), __easycom_1);
     const _component_ImageMessage = resolveEasycom(vue.resolveDynamicComponent("ImageMessage"), __easycom_2);
     const _component_VideoMessage = resolveEasycom(vue.resolveDynamicComponent("VideoMessage"), __easycom_3);
@@ -12511,7 +12572,7 @@ if (uni.restoreGlobal) {
     }
   };
   function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
-    const _component_BasePage = resolveEasycom(vue.resolveDynamicComponent("BasePage"), __easycom_0);
+    const _component_BasePage = resolveEasycom(vue.resolveDynamicComponent("BasePage"), __easycom_0$1);
     const _component_Bar = resolveEasycom(vue.resolveDynamicComponent("Bar"), __easycom_1$1);
     return $setup.detail ? (vue.openBlock(), vue.createElementBlock("view", {
       key: 0,
@@ -12706,7 +12767,7 @@ if (uni.restoreGlobal) {
     }
   };
   function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
-    const _component_BasePage = resolveEasycom(vue.resolveDynamicComponent("BasePage"), __easycom_0);
+    const _component_BasePage = resolveEasycom(vue.resolveDynamicComponent("BasePage"), __easycom_0$1);
     const _component_Bar = resolveEasycom(vue.resolveDynamicComponent("Bar"), __easycom_1$1);
     return vue.openBlock(), vue.createElementBlock("view", { class: "chat-list" }, [
       vue.createVNode(_component_BasePage, null, {
@@ -12944,7 +13005,7 @@ if (uni.restoreGlobal) {
     }
   };
   function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
-    const _component_BasePage = resolveEasycom(vue.resolveDynamicComponent("BasePage"), __easycom_0);
+    const _component_BasePage = resolveEasycom(vue.resolveDynamicComponent("BasePage"), __easycom_0$1);
     const _component_Bar = resolveEasycom(vue.resolveDynamicComponent("Bar"), __easycom_1$1);
     return vue.openBlock(), vue.createElementBlock("view", { class: "chat-list" }, [
       vue.createVNode(_component_BasePage, null, {
@@ -13015,17 +13076,30 @@ if (uni.restoreGlobal) {
       function goBack() {
         uni.navigateBack();
       }
-      const __returned__ = { userInfo, name, avatar, goBack, get onLoad() {
+      function goPeopleChoose() {
+        tim.off(timEvent.SDK_NOT_READY, logoutMethod);
+        tim.logout();
+        uni.reLaunch({
+          url: "/pages/home/home"
+        });
+      }
+      const __returned__ = { userInfo, name, avatar, goBack, goPeopleChoose, get onLoad() {
         return onLoad;
       }, computed: vue.computed, ref: vue.ref, get getImage() {
         return getImage;
+      }, get logoutMethod() {
+        return logoutMethod;
+      }, get tim() {
+        return tim;
+      }, get timEvent() {
+        return timEvent;
       } };
       Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
       return __returned__;
     }
   };
   function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
-    const _component_BasePage = resolveEasycom(vue.resolveDynamicComponent("BasePage"), __easycom_0);
+    const _component_BasePage = resolveEasycom(vue.resolveDynamicComponent("BasePage"), __easycom_0$1);
     const _component_Bar = resolveEasycom(vue.resolveDynamicComponent("Bar"), __easycom_1$1);
     return vue.openBlock(), vue.createElementBlock("view", { class: "chat-list" }, [
       vue.createVNode(_component_BasePage, null, {
@@ -13039,7 +13113,10 @@ if (uni.restoreGlobal) {
             }),
             vue.createElementVNode("p")
           ]),
-          vue.createElementVNode("view", { class: "mine-top" }, [
+          vue.createElementVNode("view", {
+            class: "mine-top",
+            onClick: $setup.goPeopleChoose
+          }, [
             vue.createElementVNode("image", {
               class: "top-avatar",
               src: $setup.avatar,

@@ -11,5 +11,20 @@ chat.setLogLevel(0);
 // chat.setLogLevel(1); // release 级别，SDK 输出关键信息，生产环境时建议使用
 chat.registerPlugin({'tim-upload-plugin': TIMUploadPlugin});
 
+chat.on(TencentCloudChat.EVENT.SDK_NOT_READY, logoutFn);
+
+function logoutFn () {
+  uni.showModal({
+    title: '提示',
+    content: '用户登出',
+    showCancel: false,
+    success: () => {
+      uni.redirectTo({
+        url: '/pages/home/home'
+      })
+    }
+  })
+}
+export const logoutMethod = logoutFn
 export const tim = chat
 export const timEvent = TencentCloudChat.EVENT
