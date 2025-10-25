@@ -11119,7 +11119,7 @@ if (uni.restoreGlobal) {
   };
   const email = "yangwenshan@canglandata.com";
   const password = "oSt9cpvtUz41I43k";
-  const _sfc_main$f = {
+  const _sfc_main$h = {
     __name: "home",
     setup(__props, { expose: __expose }) {
       __expose();
@@ -11192,12 +11192,12 @@ if (uni.restoreGlobal) {
       return __returned__;
     }
   };
-  function _sfc_render$e(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$g(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "home" });
   }
-  const PagesHomeHome = /* @__PURE__ */ _export_sfc(_sfc_main$f, [["render", _sfc_render$e], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/pages/home/home.vue"]]);
+  const PagesHomeHome = /* @__PURE__ */ _export_sfc(_sfc_main$h, [["render", _sfc_render$g], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/pages/home/home.vue"]]);
   const _imports_0$5 = "/static/avatar-level.png";
-  const _sfc_main$e = {
+  const _sfc_main$g = {
     __name: "StarInfo",
     props: {
       name: {
@@ -11228,7 +11228,7 @@ if (uni.restoreGlobal) {
       return __returned__;
     }
   };
-  function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$f(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "star-info" }, [
       vue.createElementVNode("view", { class: "info-avatar" }, [
         vue.createElementVNode("image", {
@@ -11262,9 +11262,9 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const __easycom_0$1 = /* @__PURE__ */ _export_sfc(_sfc_main$e, [["render", _sfc_render$d], ["__scopeId", "data-v-6c8a81d8"], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/components/StarInfo/StarInfo.vue"]]);
-  const _sfc_main$d = {};
-  function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
+  const __easycom_0$1 = /* @__PURE__ */ _export_sfc(_sfc_main$g, [["render", _sfc_render$f], ["__scopeId", "data-v-6c8a81d8"], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/components/StarInfo/StarInfo.vue"]]);
+  const _sfc_main$f = {};
+  function _sfc_render$e(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "base-page" }, [
       vue.createElementVNode("view", { class: "page-top-left" }),
       vue.createElementVNode("view", { class: "page-top-right" }),
@@ -11274,14 +11274,16 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const __easycom_0 = /* @__PURE__ */ _export_sfc(_sfc_main$d, [["render", _sfc_render$c], ["__scopeId", "data-v-34ef6681"], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/components/BasePage/BasePage.vue"]]);
+  const __easycom_0 = /* @__PURE__ */ _export_sfc(_sfc_main$f, [["render", _sfc_render$e], ["__scopeId", "data-v-34ef6681"], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/components/BasePage/BasePage.vue"]]);
   const _imports_0$4 = "/static/bar-home-active.png";
-  const _imports_1$5 = "/static/bar-home.png";
-  const _imports_2$4 = "/static/bar-serve-active.png";
-  const _imports_2$3 = "/static/bar-serve.png";
-  const _imports_4$3 = "/static/bar-shop.png";
-  const _imports_5$2 = "/static/bar-me.png";
-  const _sfc_main$c = {
+  const _imports_1$7 = "/static/bar-home.png";
+  const _imports_2$5 = "/static/bar-serve-active.png";
+  const _imports_2$4 = "/static/bar-serve.png";
+  const _imports_4$3 = "/static/bar-shop-active.png";
+  const _imports_5$2 = "/static/bar-shop.png";
+  const _imports_6$2 = "/static/bar-me-active.png";
+  const _imports_7$2 = "/static/bar-me.png";
+  const _sfc_main$e = {
     __name: "Bar",
     props: {
       actived: {
@@ -11297,9 +11299,6 @@ if (uni.restoreGlobal) {
         if (index === activeIndex.value) {
           return;
         }
-        if (index === 3 || index === 4) {
-          return;
-        }
         if (index === 1) {
           uni.redirectTo({
             url: "/pages/index/index"
@@ -11310,13 +11309,23 @@ if (uni.restoreGlobal) {
             url: "/pages/chatList/chatList"
           });
         }
+        if (index === 3) {
+          uni.redirectTo({
+            url: "/pages/shopping/shopping"
+          });
+        }
+        if (index === 4) {
+          uni.redirectTo({
+            url: "/pages/mine/mine"
+          });
+        }
       }
       const __returned__ = { props, activeIndex, goPage, ref: vue.ref };
       Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
       return __returned__;
     }
   };
-  function _sfc_render$b(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "bar" }, [
       vue.createElementVNode(
         "view",
@@ -11334,7 +11343,7 @@ if (uni.restoreGlobal) {
           $setup.activeIndex !== 1 ? (vue.openBlock(), vue.createElementBlock("image", {
             key: 1,
             style: { "width": "35rpx" },
-            src: _imports_1$5,
+            src: _imports_1$7,
             mode: "widthFix"
           })) : vue.createCommentVNode("v-if", true)
         ],
@@ -11351,13 +11360,13 @@ if (uni.restoreGlobal) {
           $setup.activeIndex === 2 ? (vue.openBlock(), vue.createElementBlock("image", {
             key: 0,
             style: { "width": "35rpx" },
-            src: _imports_2$4,
+            src: _imports_2$5,
             mode: "widthFix"
           })) : vue.createCommentVNode("v-if", true),
           $setup.activeIndex !== 2 ? (vue.openBlock(), vue.createElementBlock("image", {
             key: 1,
             style: { "width": "35rpx" },
-            src: _imports_2$3,
+            src: _imports_2$4,
             mode: "widthFix"
           })) : vue.createCommentVNode("v-if", true)
         ],
@@ -11371,11 +11380,18 @@ if (uni.restoreGlobal) {
           class: vue.normalizeClass(["bar-item", { "acitve": $setup.activeIndex === 3 }])
         },
         [
-          vue.createElementVNode("image", {
+          $setup.activeIndex === 3 ? (vue.openBlock(), vue.createElementBlock("image", {
+            key: 0,
             style: { "width": "44rpx" },
             src: _imports_4$3,
             mode: "widthFix"
-          })
+          })) : vue.createCommentVNode("v-if", true),
+          $setup.activeIndex !== 3 ? (vue.openBlock(), vue.createElementBlock("image", {
+            key: 1,
+            style: { "width": "44rpx" },
+            src: _imports_5$2,
+            mode: "widthFix"
+          })) : vue.createCommentVNode("v-if", true)
         ],
         2
         /* CLASS */
@@ -11387,22 +11403,32 @@ if (uni.restoreGlobal) {
           class: vue.normalizeClass(["bar-item", { "acitve": $setup.activeIndex === 4 }])
         },
         [
-          vue.createElementVNode("image", {
+          $setup.activeIndex === 4 ? (vue.openBlock(), vue.createElementBlock("image", {
+            key: 0,
             style: { "width": "34rpx" },
-            src: _imports_5$2,
+            src: _imports_6$2,
             mode: "widthFix"
-          })
+          })) : vue.createCommentVNode("v-if", true),
+          $setup.activeIndex !== 4 ? (vue.openBlock(), vue.createElementBlock("image", {
+            key: 1,
+            style: { "width": "34rpx" },
+            src: _imports_7$2,
+            mode: "widthFix"
+          })) : vue.createCommentVNode("v-if", true)
         ],
         2
         /* CLASS */
       )
     ]);
   }
-  const __easycom_1$1 = /* @__PURE__ */ _export_sfc(_sfc_main$c, [["render", _sfc_render$b], ["__scopeId", "data-v-0f74e904"], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/components/Bar/Bar.vue"]]);
+  const __easycom_1$1 = /* @__PURE__ */ _export_sfc(_sfc_main$e, [["render", _sfc_render$d], ["__scopeId", "data-v-0f74e904"], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/components/Bar/Bar.vue"]]);
+  function getImage(id) {
+    return `${baseURL}/assets/${id}?access_token=${getToken()}`;
+  }
   const _imports_0$3 = "/static/home-left.png";
-  const _imports_1$4 = "/static/home-search.png";
-  const _imports_3$2 = "/static/item-like.png";
-  const _sfc_main$b = {
+  const _imports_1$6 = "/static/home-search.png";
+  const _imports_3$3 = "/static/item-like.png";
+  const _sfc_main$d = {
     __name: "index",
     setup(__props, { expose: __expose }) {
       __expose();
@@ -11418,7 +11444,8 @@ if (uni.restoreGlobal) {
             "status",
             "user.first_name",
             "user.last_name",
-            "user.avatar"
+            "user.avatar",
+            "cover_images.*"
           ],
           filter: {
             status: {
@@ -11428,10 +11455,18 @@ if (uni.restoreGlobal) {
           sort: "sort",
           page: 1
         }).then((res) => {
-          formatAppLog("log", "at pages/index/index.vue:69", res);
+          formatAppLog("log", "at pages/index/index.vue:71", res);
           list.value = res.data;
         });
       });
+      function getCoverImage(item) {
+        if (item.cover_images && item.cover_images.length) {
+          const id = item.cover_images[0].directus_files_id;
+          return getImage(id);
+        } else {
+          return "";
+        }
+      }
       function goChat(item) {
         uni.showLoading({
           mask: true
@@ -11475,18 +11510,20 @@ if (uni.restoreGlobal) {
           url: "/pages/detail/detail?idol=" + item.id
         });
       }
-      const __returned__ = { list, goChat, goDetail, get onLoad() {
+      const __returned__ = { list, getCoverImage, goChat, goDetail, get onLoad() {
         return onLoad;
       }, get http() {
         return http;
       }, ref: vue.ref, get getUserInfo() {
         return getUserInfo;
+      }, get getImage() {
+        return getImage;
       } };
       Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
       return __returned__;
     }
   };
-  function _sfc_render$a(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_StarInfo = resolveEasycom(vue.resolveDynamicComponent("StarInfo"), __easycom_0$1);
     const _component_BasePage = resolveEasycom(vue.resolveDynamicComponent("BasePage"), __easycom_0);
     const _component_Bar = resolveEasycom(vue.resolveDynamicComponent("Bar"), __easycom_1$1);
@@ -11502,7 +11539,7 @@ if (uni.restoreGlobal) {
           ]),
           vue.createElementVNode("view", { class: "home-search" }, [
             vue.createElementVNode("image", {
-              src: _imports_1$4,
+              src: _imports_1$6,
               alt: ""
             })
           ]),
@@ -11521,7 +11558,7 @@ if (uni.restoreGlobal) {
                   vue.createElementVNode("view", {
                     class: "item-content",
                     onClick: ($event) => $setup.goDetail(item),
-                    style: vue.normalizeStyle(item.bg ? `background: url(${item.bg}) center top no-repeat;` : "")
+                    style: vue.normalizeStyle(item.cover_images && item.cover_images.length ? `background-image: url(${$setup.getCoverImage(item)});` : "")
                   }, [
                     vue.createElementVNode("view", { class: "content-top" }, [
                       vue.createVNode(_component_StarInfo, {
@@ -11535,7 +11572,7 @@ if (uni.restoreGlobal) {
                       }, [
                         vue.createElementVNode("image", {
                           style: { "width": "32rpx" },
-                          src: _imports_2$3,
+                          src: _imports_2$4,
                           mode: "widthFix"
                         })
                       ], 8, ["onClick"])
@@ -11545,7 +11582,7 @@ if (uni.restoreGlobal) {
                         vue.createElementVNode("view", { class: "opt-item" }, [
                           vue.createElementVNode("image", {
                             style: { "width": "24rpx" },
-                            src: _imports_3$2,
+                            src: _imports_3$3,
                             mode: "widthFix"
                           }),
                           vue.createElementVNode("text", { class: "item-text" }, "345K")
@@ -11553,7 +11590,7 @@ if (uni.restoreGlobal) {
                         vue.createElementVNode("view", { class: "opt-item" }, [
                           vue.createElementVNode("image", {
                             style: { "width": "24rpx" },
-                            src: _imports_2$3,
+                            src: _imports_2$4,
                             mode: "widthFix"
                           }),
                           vue.createElementVNode("text", { class: "item-text" }, "1293")
@@ -11575,8 +11612,8 @@ if (uni.restoreGlobal) {
       vue.createVNode(_component_Bar, { actived: 1 })
     ]);
   }
-  const PagesIndexIndex = /* @__PURE__ */ _export_sfc(_sfc_main$b, [["render", _sfc_render$a], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/pages/index/index.vue"]]);
-  const _sfc_main$a = {
+  const PagesIndexIndex = /* @__PURE__ */ _export_sfc(_sfc_main$d, [["render", _sfc_render$c], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/pages/index/index.vue"]]);
+  const _sfc_main$c = {
     __name: "TextMessage",
     props: {
       message: {
@@ -11606,7 +11643,7 @@ if (uni.restoreGlobal) {
       return __returned__;
     }
   };
-  function _sfc_render$9(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$b(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock(
       "view",
       {
@@ -11617,8 +11654,8 @@ if (uni.restoreGlobal) {
       /* TEXT, CLASS */
     );
   }
-  const __easycom_1 = /* @__PURE__ */ _export_sfc(_sfc_main$a, [["render", _sfc_render$9], ["__scopeId", "data-v-e05b611f"], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/components/TextMessage/TextMessage.vue"]]);
-  const _sfc_main$9 = {
+  const __easycom_1 = /* @__PURE__ */ _export_sfc(_sfc_main$c, [["render", _sfc_render$b], ["__scopeId", "data-v-e05b611f"], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/components/TextMessage/TextMessage.vue"]]);
+  const _sfc_main$b = {
     __name: "ImageMessage",
     props: {
       message: {
@@ -11651,7 +11688,7 @@ if (uni.restoreGlobal) {
       return __returned__;
     }
   };
-  function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$a(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", {
       class: "TUI-ImageMessage",
       onClick: $setup.previewImage
@@ -11664,8 +11701,8 @@ if (uni.restoreGlobal) {
       }, null, 12, ["src"])
     ]);
   }
-  const __easycom_2 = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["render", _sfc_render$8], ["__scopeId", "data-v-4c2aa605"], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/components/ImageMessage/ImageMessage.vue"]]);
-  const _sfc_main$8 = {
+  const __easycom_2 = /* @__PURE__ */ _export_sfc(_sfc_main$b, [["render", _sfc_render$a], ["__scopeId", "data-v-4c2aa605"], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/components/ImageMessage/ImageMessage.vue"]]);
+  const _sfc_main$a = {
     __name: "VideoMessage",
     props: {
       message: {
@@ -11698,7 +11735,7 @@ if (uni.restoreGlobal) {
       return __returned__;
     }
   };
-  function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$9(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", {
       class: "video-message",
       onClick: $setup.goVideoPlay
@@ -11719,8 +11756,8 @@ if (uni.restoreGlobal) {
       })
     ]);
   }
-  const __easycom_3 = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["render", _sfc_render$7], ["__scopeId", "data-v-4c9132f1"], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/components/VideoMessage/VideoMessage.vue"]]);
-  const _sfc_main$7 = {
+  const __easycom_3 = /* @__PURE__ */ _export_sfc(_sfc_main$a, [["render", _sfc_render$9], ["__scopeId", "data-v-4c9132f1"], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/components/VideoMessage/VideoMessage.vue"]]);
+  const _sfc_main$9 = {
     __name: "AudioMessage",
     props: {
       message: {
@@ -11772,7 +11809,7 @@ if (uni.restoreGlobal) {
       return __returned__;
     }
   };
-  function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock(
       "view",
       {
@@ -11828,11 +11865,11 @@ if (uni.restoreGlobal) {
       /* CLASS */
     );
   }
-  const __easycom_4 = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["render", _sfc_render$6], ["__scopeId", "data-v-0f73054c"], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/components/AudioMessage/AudioMessage.vue"]]);
+  const __easycom_4 = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["render", _sfc_render$8], ["__scopeId", "data-v-0f73054c"], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/components/AudioMessage/AudioMessage.vue"]]);
   const _imports_0$2 = "/static/bar-back.png";
-  const _imports_1$3 = "/static/card-small-1.png";
-  const _imports_2$2 = "/static/card-small-2.png";
-  const _imports_3$1 = "/static/expectations.png";
+  const _imports_1$5 = "/static/card-small-1.png";
+  const _imports_2$3 = "/static/card-small-2.png";
+  const _imports_3$2 = "/static/expectations.png";
   const _imports_4$2 = "/static/card-small-3.png";
   const _imports_5$1 = "/static/card-pic.png";
   const _imports_6$1 = "/static/card-photo.png";
@@ -11841,11 +11878,11 @@ if (uni.restoreGlobal) {
   const _imports_9 = "/static/gift.png";
   const _imports_10 = "/static/chat-audio.png";
   const _imports_11 = "/static/chat-input.png";
-  const _imports_1$2 = "/static/chat-calling.gif";
+  const _imports_1$4 = "/static/chat-calling.gif";
   const _imports_13 = "/static/chat-speaking.png";
   const _imports_14 = "/static/chat-more.png";
   const _imports_15 = "/static/chat-more-open.png";
-  const _sfc_main$6 = {
+  const _sfc_main$8 = {
     __name: "chat",
     setup(__props, { expose: __expose }) {
       __expose();
@@ -11859,7 +11896,7 @@ if (uni.restoreGlobal) {
               file: res
             },
             onProgress: function(event) {
-              formatAppLog("log", "at pages/chat/chat.vue:107", event);
+              formatAppLog("log", "at pages/chat/chat.vue:108", event);
             }
           });
           tim.sendMessage(message).then((response) => {
@@ -11890,6 +11927,14 @@ if (uni.restoreGlobal) {
       const scrollViewHeight = vue.computed(() => {
         return `calc(100vh - 116rpx - var(--status-bar-height) - ${changeBottomVal.value} - ${bottomHeight.value})`;
       });
+      const backgroundImage = vue.computed(() => {
+        if (detail.value && detail.value.background_images && detail.value.background_images.length) {
+          const id = detail.value.background_images[0].directus_files_id;
+          return getImage(id);
+        } else {
+          return "";
+        }
+      });
       onLoad((option) => {
         starId.value = option.idol;
         chatId.value = option.chat;
@@ -11906,7 +11951,8 @@ if (uni.restoreGlobal) {
         http.get("/items/idol/" + starId.value, {
           fields: [
             "*",
-            "user.avatar"
+            "user.avatar",
+            "background_images.*"
           ]
         }).then((res) => {
           detail.value = res.data;
@@ -12034,7 +12080,7 @@ if (uni.restoreGlobal) {
           sourceType: ["album"],
           sizeType: ["original", "compressed"],
           success: (res) => {
-            formatAppLog("log", "at pages/chat/chat.vue:290", res);
+            formatAppLog("log", "at pages/chat/chat.vue:300", res);
             let message = tim.createImageMessage({
               to: starId.value,
               conversationType: "C2C",
@@ -12091,7 +12137,7 @@ if (uni.restoreGlobal) {
           url: "/pages/card/card"
         });
       }
-      const __returned__ = { recorderManager, canSendAudio, starId, chatId, msgList, inputValue, giftVisible, inputVisible, moreOpen, scrollTop, longPressing, detail, changeBottomVal, bottomHeight, scrollViewHeight, getDetail, onMessageReceived, handleTouchCancel, handleTouchStart, handleTouchEnd, onTouchstartScrollView, scrollBottom, keyboardheightchange, getListMsg, inputFocus, inputVisibleClick, moreOpenClick, sendMessage, sendMsgImage, sendMsgVideo, showAudio, goBack, goVideo, goCard, get onLoad() {
+      const __returned__ = { recorderManager, canSendAudio, starId, chatId, msgList, inputValue, giftVisible, inputVisible, moreOpen, scrollTop, longPressing, detail, changeBottomVal, bottomHeight, scrollViewHeight, backgroundImage, getDetail, onMessageReceived, handleTouchCancel, handleTouchStart, handleTouchEnd, onTouchstartScrollView, scrollBottom, keyboardheightchange, getListMsg, inputFocus, inputVisibleClick, moreOpenClick, sendMessage, sendMsgImage, sendMsgVideo, showAudio, goBack, goVideo, goCard, get onLoad() {
         return onLoad;
       }, get onUnload() {
         return onUnload;
@@ -12101,12 +12147,14 @@ if (uni.restoreGlobal) {
         return timEvent;
       }, get http() {
         return http;
+      }, get getImage() {
+        return getImage;
       } };
       Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
       return __returned__;
     }
   };
-  function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_StarInfo = resolveEasycom(vue.resolveDynamicComponent("StarInfo"), __easycom_0$1);
     const _component_TextMessage = resolveEasycom(vue.resolveDynamicComponent("TextMessage"), __easycom_1);
     const _component_ImageMessage = resolveEasycom(vue.resolveDynamicComponent("ImageMessage"), __easycom_2);
@@ -12116,7 +12164,7 @@ if (uni.restoreGlobal) {
       "view",
       {
         class: "chat",
-        style: vue.normalizeStyle(`height: calc(100vh - ${$setup.changeBottomVal});`)
+        style: vue.normalizeStyle(`height: calc(100vh - ${$setup.changeBottomVal});${$setup.backgroundImage ? `background-image: url(${$setup.backgroundImage});` : ""}`)
       },
       [
         vue.createElementVNode("view", { class: "status_bar" }),
@@ -12209,19 +12257,19 @@ if (uni.restoreGlobal) {
               [
                 vue.createElementVNode("image", {
                   class: "tip-image",
-                  src: _imports_1$3,
+                  src: _imports_1$5,
                   mode: "heightFix",
                   onClick: $setup.goCard
                 }),
                 vue.createElementVNode("view", { class: "image-parent" }, [
                   vue.createElementVNode("image", {
                     class: "tip-image",
-                    src: _imports_2$2,
+                    src: _imports_2$3,
                     mode: "heightFix"
                   }),
                   vue.createElementVNode("image", {
                     class: "tip-image-tip",
-                    src: _imports_3$1,
+                    src: _imports_3$2,
                     mode: "heightFix"
                   })
                 ]),
@@ -12363,7 +12411,7 @@ if (uni.restoreGlobal) {
                           vue.createElementVNode("image", {
                             mode: "widthFix",
                             style: { "width": "298rpx" },
-                            src: _imports_1$2
+                            src: _imports_1$4
                           })
                         ]),
                         vue.createElementVNode("view", { class: "loading-text" }, "松开发送 上滑取消"),
@@ -12412,18 +12460,15 @@ if (uni.restoreGlobal) {
       /* STYLE */
     );
   }
-  const PagesChatChat = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["render", _sfc_render$5], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/pages/chat/chat.vue"]]);
-  function getImage(id) {
-    return `${baseURL}/assets/${id}?access_token=${getToken()}`;
-  }
-  const _imports_1$1 = "/static/detail-friend.png";
-  const _imports_2$1 = "/static/detail-more.png";
+  const PagesChatChat = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["render", _sfc_render$7], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/pages/chat/chat.vue"]]);
+  const _imports_1$3 = "/static/detail-friend.png";
+  const _imports_2$2 = "/static/detail-more.png";
   const _imports_0$1 = "/static/default-icon.png";
   const _imports_4$1 = "/static/detail-type.png";
   const _imports_5 = "/static/detail-line.png";
   const _imports_6 = "/static/detail-holder-1.png";
   const _imports_7 = "/static/detail-holder-2.png";
-  const _sfc_main$5 = {
+  const _sfc_main$7 = {
     __name: "detail",
     setup(__props, { expose: __expose }) {
       __expose();
@@ -12465,7 +12510,7 @@ if (uni.restoreGlobal) {
       return __returned__;
     }
   };
-  function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_BasePage = resolveEasycom(vue.resolveDynamicComponent("BasePage"), __easycom_0);
     const _component_Bar = resolveEasycom(vue.resolveDynamicComponent("Bar"), __easycom_1$1);
     return $setup.detail ? (vue.openBlock(), vue.createElementBlock("view", {
@@ -12489,12 +12534,12 @@ if (uni.restoreGlobal) {
               vue.createElementVNode("image", {
                 style: { "width": "98rpx", "margin-right": "25rpx" },
                 mode: "widthFix",
-                src: _imports_1$1
+                src: _imports_1$3
               }),
               vue.createElementVNode("image", {
                 style: { "width": "20rpx" },
                 mode: "widthFix",
-                src: _imports_2$1
+                src: _imports_2$2
               })
             ])
           ]),
@@ -12572,9 +12617,9 @@ if (uni.restoreGlobal) {
       vue.createVNode(_component_Bar, { actived: 1 })
     ])) : vue.createCommentVNode("v-if", true);
   }
-  const PagesDetailDetail = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["render", _sfc_render$4], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/pages/detail/detail.vue"]]);
-  const _imports_1 = "/static/chat-list-title.png";
-  const _sfc_main$4 = {
+  const PagesDetailDetail = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["render", _sfc_render$6], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/pages/detail/detail.vue"]]);
+  const _imports_1$2 = "/static/chat-list-title.png";
+  const _sfc_main$6 = {
     __name: "chatList",
     setup(__props, { expose: __expose }) {
       __expose();
@@ -12660,7 +12705,7 @@ if (uni.restoreGlobal) {
       return __returned__;
     }
   };
-  function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_BasePage = resolveEasycom(vue.resolveDynamicComponent("BasePage"), __easycom_0);
     const _component_Bar = resolveEasycom(vue.resolveDynamicComponent("Bar"), __easycom_1$1);
     return vue.openBlock(), vue.createElementBlock("view", { class: "chat-list" }, [
@@ -12677,7 +12722,7 @@ if (uni.restoreGlobal) {
           ]),
           vue.createElementVNode("view", { class: "home-search" }, [
             vue.createElementVNode("image", {
-              src: _imports_1,
+              src: _imports_1$2,
               mode: "widthFix"
             })
           ]),
@@ -12749,9 +12794,9 @@ if (uni.restoreGlobal) {
       vue.createVNode(_component_Bar, { actived: 2 })
     ]);
   }
-  const PagesChatListChatList = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["render", _sfc_render$3], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/pages/chatList/chatList.vue"]]);
+  const PagesChatListChatList = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["render", _sfc_render$5], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/pages/chatList/chatList.vue"]]);
   const _imports_0 = "/static/card-bg.png";
-  const _sfc_main$3 = {
+  const _sfc_main$5 = {
     __name: "card",
     setup(__props, { expose: __expose }) {
       __expose();
@@ -12763,7 +12808,7 @@ if (uni.restoreGlobal) {
       return __returned__;
     }
   };
-  function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "card" }, [
       vue.createElementVNode("view", { class: "status_bar" }),
       vue.createElementVNode("view", { class: "home-title" }, [
@@ -12782,11 +12827,11 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const PagesCardCard = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$2], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/pages/card/card.vue"]]);
-  const _imports_2 = "/static/chat-microphone.png";
-  const _imports_3 = "/static/chat-hangUp.png";
+  const PagesCardCard = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["render", _sfc_render$4], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/pages/card/card.vue"]]);
+  const _imports_2$1 = "/static/chat-microphone.png";
+  const _imports_3$1 = "/static/chat-hangUp.png";
   const _imports_4 = "/static/chat-speaker.png";
-  const _sfc_main$2 = {
+  const _sfc_main$4 = {
     __name: "calling",
     setup(__props, { expose: __expose }) {
       __expose();
@@ -12803,7 +12848,7 @@ if (uni.restoreGlobal) {
       return __returned__;
     }
   };
-  function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "calling" }, [
       vue.createElementVNode("view", { class: "calling-avatar" }, [
         vue.createElementVNode("image", {
@@ -12819,7 +12864,7 @@ if (uni.restoreGlobal) {
       }, [
         vue.createElementVNode("image", {
           style: { "width": "298rpx" },
-          src: _imports_1$2,
+          src: _imports_1$4,
           mode: "widthFix"
         })
       ])) : (vue.openBlock(), vue.createElementBlock("view", {
@@ -12830,7 +12875,7 @@ if (uni.restoreGlobal) {
         vue.createElementVNode("view", { class: "opt-item" }, [
           vue.createElementVNode("image", {
             style: { "width": "122rpx" },
-            src: _imports_2,
+            src: _imports_2$1,
             mode: "widthFix"
           }),
           vue.createElementVNode("view", null, "麦克风已开")
@@ -12841,7 +12886,7 @@ if (uni.restoreGlobal) {
         }, [
           vue.createElementVNode("image", {
             style: { "width": "122rpx" },
-            src: _imports_3,
+            src: _imports_3$1,
             mode: "widthFix"
           }),
           vue.createElementVNode("view", null, "挂断")
@@ -12857,8 +12902,8 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const PagesCallingCalling = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$1], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/pages/calling/calling.vue"]]);
-  const _sfc_main$1 = {
+  const PagesCallingCalling = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["render", _sfc_render$3], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/pages/calling/calling.vue"]]);
+  const _sfc_main$3 = {
     __name: "videoPlay",
     setup(__props, { expose: __expose }) {
       __expose();
@@ -12874,7 +12919,7 @@ if (uni.restoreGlobal) {
       return __returned__;
     }
   };
-  function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "videoplay" }, [
       vue.createElementVNode("video", {
         src: $setup.url,
@@ -12882,7 +12927,151 @@ if (uni.restoreGlobal) {
       }, null, 8, ["src"])
     ]);
   }
-  const PagesVideoPlayVideoPlay = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/pages/videoPlay/videoPlay.vue"]]);
+  const PagesVideoPlayVideoPlay = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$2], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/pages/videoPlay/videoPlay.vue"]]);
+  const _imports_1$1 = "/static/shopping-search.png";
+  const _imports_2 = "/static/shopping-tab.png";
+  const _imports_3 = "/static/shopping-list.png";
+  const _sfc_main$2 = {
+    __name: "shopping",
+    setup(__props, { expose: __expose }) {
+      __expose();
+      function goBack() {
+        uni.navigateBack();
+      }
+      const __returned__ = { goBack };
+      Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+      return __returned__;
+    }
+  };
+  function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
+    const _component_BasePage = resolveEasycom(vue.resolveDynamicComponent("BasePage"), __easycom_0);
+    const _component_Bar = resolveEasycom(vue.resolveDynamicComponent("Bar"), __easycom_1$1);
+    return vue.openBlock(), vue.createElementBlock("view", { class: "chat-list" }, [
+      vue.createVNode(_component_BasePage, null, {
+        default: vue.withCtx(() => [
+          vue.createElementVNode("view", { class: "home-title" }, [
+            vue.createElementVNode("image", {
+              onClick: $setup.goBack,
+              style: { "width": "14rpx" },
+              src: _imports_0$2,
+              mode: "widthFix"
+            }),
+            vue.createElementVNode("p", null, "Starrice")
+          ]),
+          vue.createElementVNode("view", { class: "home-search" }, [
+            vue.createElementVNode("image", {
+              src: _imports_1$1,
+              mode: "widthFix"
+            })
+          ]),
+          vue.createElementVNode("view", { class: "home-tab" }, [
+            vue.createElementVNode("image", {
+              src: _imports_2,
+              mode: "widthFix"
+            })
+          ]),
+          vue.createElementVNode("scroll-view", {
+            class: "shopping-list",
+            "scroll-y": ""
+          }, [
+            vue.createElementVNode("view", { class: "shopping-item" }, [
+              vue.createElementVNode("image", {
+                src: _imports_3,
+                mode: "widthFix"
+              })
+            ])
+          ])
+        ]),
+        _: 1
+        /* STABLE */
+      }),
+      vue.createVNode(_component_Bar, { actived: 3 })
+    ]);
+  }
+  const PagesShoppingShopping = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$1], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/pages/shopping/shopping.vue"]]);
+  const _imports_1 = "/static/mine-star.png";
+  const _sfc_main$1 = {
+    __name: "mine",
+    setup(__props, { expose: __expose }) {
+      __expose();
+      const userInfo = vue.ref(null);
+      onLoad(() => {
+        userInfo.value = uni.getStorageSync("userInfo");
+      });
+      const name = vue.computed(() => {
+        if (userInfo.value) {
+          return `${userInfo.value.last_name}${userInfo.value.first_name}`;
+        } else {
+          return "";
+        }
+      });
+      const avatar = vue.computed(() => {
+        if (userInfo.value) {
+          return getImage(userInfo.value.avatar);
+        } else {
+          return "";
+        }
+      });
+      function goBack() {
+        uni.navigateBack();
+      }
+      const __returned__ = { userInfo, name, avatar, goBack, get onLoad() {
+        return onLoad;
+      }, computed: vue.computed, ref: vue.ref, get getImage() {
+        return getImage;
+      } };
+      Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+      return __returned__;
+    }
+  };
+  function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
+    const _component_BasePage = resolveEasycom(vue.resolveDynamicComponent("BasePage"), __easycom_0);
+    const _component_Bar = resolveEasycom(vue.resolveDynamicComponent("Bar"), __easycom_1$1);
+    return vue.openBlock(), vue.createElementBlock("view", { class: "chat-list" }, [
+      vue.createVNode(_component_BasePage, null, {
+        default: vue.withCtx(() => [
+          vue.createElementVNode("view", { class: "home-title" }, [
+            vue.createElementVNode("image", {
+              onClick: $setup.goBack,
+              style: { "width": "14rpx" },
+              src: _imports_0$2,
+              mode: "widthFix"
+            }),
+            vue.createElementVNode("p")
+          ]),
+          vue.createElementVNode("view", { class: "mine-top" }, [
+            vue.createElementVNode("image", {
+              class: "top-avatar",
+              src: $setup.avatar,
+              mode: "widthFix"
+            }, null, 8, ["src"]),
+            vue.createElementVNode("view", { class: "top-name" }, [
+              vue.createElementVNode("view", { class: "name-info" }, [
+                vue.createElementVNode(
+                  "view",
+                  { class: "info-text" },
+                  vue.toDisplayString($setup.name),
+                  1
+                  /* TEXT */
+                ),
+                vue.createElementVNode("view", { class: "info-bg" })
+              ]),
+              vue.createElementVNode("view", { class: "start-info" }, [
+                vue.createElementVNode("image", {
+                  src: _imports_1,
+                  mode: "widthFix"
+                })
+              ])
+            ])
+          ])
+        ]),
+        _: 1
+        /* STABLE */
+      }),
+      vue.createVNode(_component_Bar, { actived: 4 })
+    ]);
+  }
+  const PagesMineMine = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render], ["__file", "D:/Code/yds/xingmi-uniapp/xingyu/pages/mine/mine.vue"]]);
   __definePage("pages/home/home", PagesHomeHome);
   __definePage("pages/index/index", PagesIndexIndex);
   __definePage("pages/chat/chat", PagesChatChat);
@@ -12891,6 +13080,8 @@ if (uni.restoreGlobal) {
   __definePage("pages/card/card", PagesCardCard);
   __definePage("pages/calling/calling", PagesCallingCalling);
   __definePage("pages/videoPlay/videoPlay", PagesVideoPlayVideoPlay);
+  __definePage("pages/shopping/shopping", PagesShoppingShopping);
+  __definePage("pages/mine/mine", PagesMineMine);
   const _sfc_main = {
     onLaunch: function() {
       formatAppLog("log", "at App.vue:4", "App onLaunch");

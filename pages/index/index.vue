@@ -10,7 +10,7 @@
 			</view>
 			<scroll-view class="people-list" scroll-y>
 				<view class="people-item" v-for="item in list" :key="item.id">
-					<view class="item-content" @click="goDetail(item)" :style="item.bg ? `background: url(${item.bg}) center top no-repeat;` : ''">
+					<view class="item-content" @click="goDetail(item)" :style="item.cover_images && item.cover_images.length ? `background-image: url(${getCoverImage(item)});` : ''">
 						<view class="content-top">
 							<StarInfo :icon="item.user.avatar" :name="item.name" :desc="item.desc"></StarInfo>
 							<view class="top-right" @click.stop="goChat(item)">
@@ -43,6 +43,7 @@ import { onLoad } from '@dcloudio/uni-app'
 import http from '../../utils/http'
 import { ref } from 'vue'
 import { getUserInfo } from '../../utils/config'
+import { getImage } from '../../utils/util'
 
 const list = ref([])
 onLoad(() => {
@@ -57,6 +58,7 @@ onLoad(() => {
 			'user.first_name',
 			'user.last_name',
 			'user.avatar',
+			'cover_images.*'
 		],
 		filter: {
 			status: {
@@ -71,6 +73,14 @@ onLoad(() => {
 	})
 })
 
+function getCoverImage (item) {
+	if (item.cover_images && item.cover_images.length) {
+		const id = item.cover_images[0].directus_files_id
+		return getImage(id)
+	} else {
+		return ''
+	}
+}
 function goChat (item) {
 	uni.showLoading({
 		mask:true

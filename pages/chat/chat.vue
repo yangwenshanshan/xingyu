@@ -1,5 +1,5 @@
 <template>
-	<view class="chat" :style="`height: calc(100vh - ${changeBottomVal});`">
+	<view class="chat" :style="`height: calc(100vh - ${changeBottomVal});${backgroundImage ? `background-image: url(${backgroundImage});` : ''}`">
     <view class="status_bar"></view>
     <view class="chat-star">
       <view class="star-back" @click="goBack">
@@ -93,6 +93,7 @@ import { onLoad, onUnload } from '@dcloudio/uni-app'
 import { computed, ref, nextTick } from 'vue'
 import { tim, timEvent } from '../../utils/tim'
 import http from '../../utils/http';
+import { getImage } from '../../utils/util';
 
 const recorderManager = uni.getRecorderManager();
 recorderManager.onStop((res) => {
@@ -135,6 +136,14 @@ const bottomHeight = computed(() => {
 const scrollViewHeight = computed(() => {
   return `calc(100vh - 116rpx - var(--status-bar-height) - ${changeBottomVal.value} - ${bottomHeight.value})`
 })
+const backgroundImage = computed(() => {
+  if (detail.value && detail.value.background_images && detail.value.background_images.length) {
+    const id = detail.value.background_images[0].directus_files_id
+    return getImage(id)
+  } else {
+    return ''
+  }
+})
 
 onLoad((option) => {
   starId.value = option.idol
@@ -152,7 +161,8 @@ function getDetail() {
 	http.get('/items/idol/' + starId.value, {
 		fields: [
 			'*',
-			'user.avatar'
+			'user.avatar',
+      'background_images.*'
 		]
 	}).then(res => {
 		detail.value = res.data

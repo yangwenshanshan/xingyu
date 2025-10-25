@@ -9,10 +9,12 @@
       <image v-if="activeIndex !== 2" style="width: 35rpx;" src="../../static/bar-serve.png" mode="widthFix"></image>
     </view>
     <view @click="goPage(3)" class="bar-item" :class="{ 'acitve': activeIndex === 3 }">
-      <image style="width: 44rpx;" src="../../static/bar-shop.png" mode="widthFix"></image>
+      <image v-if="activeIndex === 3" style="width: 44rpx;" src="../../static/bar-shop-active.png" mode="widthFix"></image>
+      <image v-if="activeIndex !== 3" style="width: 44rpx;" src="../../static/bar-shop.png" mode="widthFix"></image>
     </view>
     <view @click="goPage(4)" class="bar-item" :class="{ 'acitve': activeIndex === 4 }">
-      <image style="width: 34rpx;" src="../../static/bar-me.png" mode="widthFix"></image>
+      <image v-if="activeIndex === 4" style="width: 34rpx;" src="../../static/bar-me-active.png" mode="widthFix"></image>
+      <image v-if="activeIndex !== 4" style="width: 34rpx;" src="../../static/bar-me.png" mode="widthFix"></image>
     </view>
   </view>
 </template>
@@ -30,9 +32,6 @@ function goPage (index) {
   if (index === activeIndex.value) {
     return
   }
-  if (index === 3 || index === 4) {
-    return
-  }
   if (index === 1) {
     uni.redirectTo({
       url: '/pages/index/index'
@@ -41,6 +40,16 @@ function goPage (index) {
   if (index === 2) {
     uni.redirectTo({
       url: '/pages/chatList/chatList'
+    })
+  }
+  if (index === 3) {
+    uni.redirectTo({
+      url: '/pages/shopping/shopping'
+    })
+  }
+  if (index === 4) {
+    uni.redirectTo({
+      url: '/pages/mine/mine'
     })
   }
 }
